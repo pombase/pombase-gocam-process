@@ -86,6 +86,8 @@ impl Display for GoCamNode {
             self.occurs_in.iter().map(|l| l.label_or_id()).collect::<Vec<_>>().join(",");
         if occurs_in_string.len() > 0 {
             write!(f, "{}\t", occurs_in_string)?
+        } else {
+            write!(f, "\t")?;
         }
         let located_in_string =
             self.located_in.iter().map(|l| l.label_or_id()).collect::<Vec<_>>().join(",");
