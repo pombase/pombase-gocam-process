@@ -384,7 +384,7 @@ pub fn print_tuples(model: &GoCamModel) {
         let subject = model.fact_subject(fact);
         let object = model.fact_object(fact);
         let Some(subject_type) = subject.types.get(0)
-        aelse {
+        else {
             continue;
         };
         let Some(object_type) = object.types.get(0)
