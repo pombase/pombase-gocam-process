@@ -20,7 +20,7 @@ pub type GoCamInput = IndividualType;
 pub type GoCamOutput = IndividualType;
 
 #[derive(Clone, Debug)]
-enum GoCamActivity {
+pub enum GoCamActivity {
     Complex(GoCamComplex),
     Gene(GoCamGene),
     Chemical(GoCamChemical),
