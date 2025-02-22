@@ -472,7 +472,7 @@ struct CytoscapeEdge {
     data: CytoscapeEdgeData
 }
 
-fn model_to_cytoscape(model: &GoCamModel) -> String {
+pub fn model_to_cytoscape(model: &GoCamModel) -> String {
     let mut seen_nodes = HashSet::new();
 
     let edges: Vec<_> = model.facts()
@@ -523,7 +523,7 @@ fn model_to_cytoscape(model: &GoCamModel) -> String {
      format!("nodes: {},\nedges: {}", nodes_string, edges_string)
 }
 
-fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
+pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
      let edges: Vec<_> = graph.edge_references()
          .map(|edge_ref| {
              let edge = edge_ref.weight();
