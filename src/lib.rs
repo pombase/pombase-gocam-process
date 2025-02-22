@@ -312,12 +312,7 @@ fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
     node_map
 }
 
-fn make_graph(model: &GoCamModel) -> GoCamGraph {
-/*
-    let model_id = model.id();
-    let model_title = model.title();
-    let model_taxon = model.taxon();
-*/
+pub fn make_graph(model: &GoCamModel) -> GoCamGraph {
     let mut graph = GoCamGraph::new();
 
     let temp_nodes = make_nodes(model);
