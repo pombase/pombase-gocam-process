@@ -103,7 +103,7 @@ dependencies = [
 [[package]]
 name = "pombase-gocam"
 version = "0.12.0"
-source = "git+https://github.com/pombase/pombase-gocam.git#3a7652586b16a5238efcd10645224b14057ee841"
+source = "git+https://github.com/pombase/pombase-gocam.git#eb76c35fc609342bdd4f6a78451f122aefb88367"
 dependencies = [
  "anyhow",
  "phf",

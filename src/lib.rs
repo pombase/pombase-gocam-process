@@ -63,7 +63,6 @@ impl Display for GoCamNode {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}\t", self.id)?;
         write!(f, "{}\t", self.label)?;
-        write!(f, "{}\t", self.enabler_label())?;
         if let Some(ref part_of_process) = self.part_of_process {
             write!(f, "{}\t", part_of_process.label_or_id())?;
         } else {
@@ -95,6 +94,7 @@ impl Display for GoCamNode {
         } else {
             write!(f, "\t")?;
         }
+        write!(f, "{}\t", self.enabler_label())?;
         Ok(())
     }
 }
