@@ -6,7 +6,7 @@ extern crate serde_json;
 use petgraph::{dot::Config, graph::NodeIndex, visit::{EdgeRef, IntoNodeReferences, NodeRef}, Graph, Undirected};
 use petgraph::visit::Bfs;
 
-use pombase_gocam::{FactId, GoCamModel, Individual, IndividualId, IndividualType};
+use pombase_gocam::{FactId, GoCamModel, Individual, IndividualId, IndividualType, ModelId};
 
 pub type GoCamGraph = Graph::<GoCamNode, GoCamEdge>;
 
@@ -373,7 +373,14 @@ let dag_graphviz = Dot::with_attr_getters(
     graph
 }
 
-pub fn print_stats(model: &GoCamModel) {
+pub struct GoCamStats {
+    pub id: ModelId,
+    pub total_genes: usize,
+    pub max_connected_genes: usize,
+    pub total_connected_genes: usize,
+}
+
+pub fn get_stats(model: &GoCamModel) -> GoCamStats {
     let graph = &make_graph(&model).into_edge_type::<Undirected>() ;
 
     let mut seen_idxs = HashSet::new();
@@ -414,10 +421,15 @@ pub fn print_stats(model: &GoCamModel) {
 
             total_connected_genes += connected_genes;
         }
+
     }
 
-    println!("{}\t{}\t{}\t{}\t{}", model.id(), model.taxon(),
-             total_genes, max_connected_genes, total_connected_genes);
+    GoCamStats {
+        id: model.id().to_owned(),
+        total_genes,
+        max_connected_genes,
+        total_connected_genes,
+    }
 }
 
 type CytoscapeId = String;
