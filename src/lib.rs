@@ -3,7 +3,7 @@ use std::{collections::{HashMap, HashSet}, fmt::{self, Display}};
 extern crate serde_json;
 #[macro_use] extern crate serde_derive;
 
-use petgraph::{dot::Config, graph::NodeIndex, visit::{EdgeRef, IntoNodeReferences, NodeRef}, Graph, Undirected};
+use petgraph::{graph::NodeIndex, visit::{EdgeRef, IntoNodeReferences}, Graph, Undirected};
 use petgraph::visit::Bfs;
 
 use pombase_gocam::{FactId, GoCamModel, Individual, IndividualId, IndividualType, ModelId};
@@ -341,34 +341,8 @@ pub fn make_graph(model: &GoCamModel) -> GoCamGraph {
             };
 
             graph.add_edge(*subject_idx, *object_idx, edge);
-
-            /*
-            println!("{}: {} ({}) <- {} -> {} ({})",
-                     model.id(),
-                     subject_node.label, subject_node.id,
-                     fact.property_label,
-                     object_node.label, object_node.id);
-            */
         }
     }
-    use petgraph::dot::Dot;
-
-let dag_graphviz = Dot::with_attr_getters(
-    &graph,
-    &[Config::NodeNoLabel, Config::EdgeNoLabel],
-    &|_, edge| format!("label = \"{}\"", edge.weight().label),
-    &|_, node| {
-        let enabler_label = node.weight().enabler_label();
-        if enabler_label.len() > 0 {
-            format!("label = \"{}\"", enabler_label)
-        } else {
-            format!("label = \"{}\"", node.weight().label)
-        }
-    },
-);
-
-//    println!("{}", Dot::new(&graph));
-//    println!("{}", dag_graphviz);
 
     graph
 }
