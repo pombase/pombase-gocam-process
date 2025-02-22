@@ -1,70 +1,23 @@
-use std::{collections::{HashMap, HashSet}, fmt::{self, Display}, fs::File, path::PathBuf};
+use std::{collections::{HashMap, HashSet}, fmt::{self, Display}};
 
-use clap::{Parser, Subcommand};
 extern crate serde_json;
 #[macro_use] extern crate serde_derive;
 
 use petgraph::{dot::Config, graph::NodeIndex, visit::{EdgeRef, IntoNodeReferences, NodeRef}, Graph, Undirected};
 use petgraph::visit::Bfs;
 
-use pombase_gocam::{gocam_parse, FactId, GoCamModel, Individual, IndividualId, IndividualType};
+use pombase_gocam::{FactId, GoCamModel, Individual, IndividualId, IndividualType};
 
-#[derive(Parser)]
-#[command(version, about, long_about = None)]
-struct Args {
-    #[command(subcommand)]
-    action: Action,
-}
+pub type GoCamGraph = Graph::<GoCamNode, GoCamEdge>;
 
-#[derive(Subcommand)]
-enum Action {
-    #[command(arg_required_else_help = true)]
-    Stats {
-        #[arg(required = true)]
-        paths: Vec<PathBuf>,
-    },
-    #[command(arg_required_else_help = true)]
-    PrintTuples {
-        #[arg(required = true)]
-        paths: Vec<PathBuf>,
-    },
-    #[command(arg_required_else_help = true)]
-    GraphTest {
-        #[arg(required = true)]
-        paths: Vec<PathBuf>,
-    },
-    #[command(arg_required_else_help = true)]
-    FindHoles {
-        #[arg(required = true)]
-        paths: Vec<PathBuf>,
-    },
-    #[command(arg_required_else_help = true)]
-    Cytoscape {
-        #[arg(required = true)]
-        path: PathBuf,
-    },
-    #[command(arg_required_else_help = true)]
-    CytoscapeSimple {
-        #[arg(required = true)]
-        path: PathBuf,
-    },
-}
-
-type GoCamGraph = Graph::<GoCamNode, GoCamEdge>;
-
-struct GoCamGraphModel {
-    pub title: String,
-    pub graph: GoCamGraph,
-}
-
-type GoCamComplex = IndividualType;
-type GoCamGene = IndividualType;
-type GoCamChemical = IndividualType;
-type GoCamModifiedProtein = IndividualType;
-type GoCamComponent = IndividualType;
-type GoCamProcess = IndividualType;
-type GoCamInput = IndividualType;
-type GoCamOutput = IndividualType;
+pub type GoCamComplex = IndividualType;
+pub type GoCamGene = IndividualType;
+pub type GoCamChemical = IndividualType;
+pub type GoCamModifiedProtein = IndividualType;
+pub type GoCamComponent = IndividualType;
+pub type GoCamProcess = IndividualType;
+pub type GoCamInput = IndividualType;
+pub type GoCamOutput = IndividualType;
 
 #[derive(Clone, Debug)]
 enum GoCamActivity {
@@ -87,14 +40,14 @@ impl GoCamActivity {
 }
 
 #[derive(Clone, Debug)]
-enum GoCamNodeType {
+pub enum GoCamNodeType {
     Unknown,
     Chemical,
     Activity(GoCamActivity),
 }
 
 #[derive(Clone, Debug)]
-struct GoCamNode {
+pub struct GoCamNode {
     pub individual_gocam_id: IndividualId,
     pub id: String,
     pub label: String,
@@ -170,7 +123,7 @@ impl GoCamNode {
 }
 
 #[derive(Clone, Debug)]
-struct GoCamEdge {
+pub struct GoCamEdge {
     pub fact_gocam_id: FactId,
     pub id: String,
     pub label: String,
@@ -184,9 +137,11 @@ impl Display for GoCamEdge {
 }
 
 const MOLECULAR_FUNCTION_ID: &str = "GO:0003674";
+/*
 const CELLULAR_COMPONENT_ID: &str = "GO:0032991";
 const BIOLOGICAL_PROCESS_ID: &str = "GO:0008150";
 const PROTEIN_CONTAINING_COMPLEX_ID: &str = "GO:0032991";
+*/
 const CHEBI_PROTEIN_ID: &str = "CHEBI:36080";
 const CHEBI_CHEMICAL_ENTITY_ID: &str = "CHEBI:24431";
 
@@ -378,10 +333,7 @@ fn make_graph(model: &GoCamModel) -> GoCamGraph {
         let subject_id = &fact.subject;
         let object_id = &fact.object;
 
-        let subject_node = temp_nodes.get(subject_id);
-        let object_node = temp_nodes.get(object_id);
-
-        if let (Some(subject_node), Some(object_node)) =
+        if let (Some(__), Some(_)) =
               (temp_nodes.get(subject_id), temp_nodes.get(object_id))
         {
             let subject_idx = id_map.get(subject_id).unwrap();
@@ -426,13 +378,13 @@ let dag_graphviz = Dot::with_attr_getters(
     graph
 }
 
-fn print_tuples(model: &GoCamModel) {
+pub fn print_tuples(model: &GoCamModel) {
     let empty = &"".to_owned();
     for fact in model.facts() {
         let subject = model.fact_subject(fact);
         let object = model.fact_object(fact);
         let Some(subject_type) = subject.types.get(0)
-        else {
+        aelse {
             continue;
         };
         let Some(object_type) = object.types.get(0)
@@ -450,7 +402,7 @@ fn print_tuples(model: &GoCamModel) {
     }
 }
 
-fn print_stats(model: &GoCamModel) {
+pub fn print_stats(model: &GoCamModel) {
     let graph = &make_graph(&model).into_edge_type::<Undirected>() ;
 
     let mut seen_idxs = HashSet::new();
@@ -617,7 +569,7 @@ fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
      format!("nodes: {},\nedges: {}", nodes_string, edges_string)
 }
 
-fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
+pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
     let node_map = make_nodes(model);
     node_map.into_values().filter_map(|node| {
         if node.enabler_label() == "protein" {
@@ -627,78 +579,4 @@ fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
         }
     })
     .collect()
-}
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let args = Args::parse();
-
-    match args.action {
-        Action::Stats { paths } => {
-            for path in paths {
-                let mut source = File::open(path).unwrap();
-                let model = gocam_parse(&mut source)?;
-
-                print_stats(&model);
-            }
-        }
-        Action::PrintTuples { paths } => {
-            for path in paths {
-                let mut source = File::open(path).unwrap();
-                let model = gocam_parse(&mut source)?;
-                print_tuples(&model);
-            }
-        },
-        Action::GraphTest { paths } => {
-            for path in paths {
-                let mut source = File::open(path).unwrap();
-                let model = gocam_parse(&mut source)?;
-                let graph = make_graph(&model);
-
-                let first_index = graph.node_indices().next().unwrap();
-
-                let mut bfs = Bfs::new(&graph, first_index);
-                while let Some(_) = bfs.next(&graph) {
-                   //  println!("{}", model.id());
-                }
-            }
-        },
-        Action::FindHoles { paths } => {
-            println!("model_id\tmodel_title\ttaxon\tactivity_id\tactivity_label\ttype\tprocess\tinput\toutput\toccurs_in\tlocated_in");
-            for path in paths {
-                let mut source = File::open(path).unwrap();
-                let model = gocam_parse(&mut source)?;
-
-                let model_id = model.id();
-                let model_title = model.title();
-                let model_taxon = model.taxon();
-
-                let hole_nodes = find_holes(&model);
-
-                for hole_node in hole_nodes {
-                    println!("{}\t{}\t{}\t{}", model_id, model_title, model_taxon,
-                             hole_node);
-
-                }
-            }
-        },
-        Action::Cytoscape { path } => {
-            let mut source = File::open(path).unwrap();
-            let model = gocam_parse(&mut source)?;
-
-            let cytoscape_text = model_to_cytoscape(&model);
-
-            println!("{}", cytoscape_text);
-        }
-        Action::CytoscapeSimple { path } => {
-            let mut source = File::open(path).unwrap();
-            let model = gocam_parse(&mut source)?;
-            let graph = make_graph(&model);
-
-            let cytoscape_text = model_to_cytoscape_simple(&graph);
-
-            println!("{}", cytoscape_text);
-        }
-    }
-
-    Ok(())
 }
