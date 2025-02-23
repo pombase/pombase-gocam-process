@@ -354,9 +354,12 @@ pub struct GoCamStats {
     pub total_genes: usize,
     pub max_connected_genes: usize,
     pub total_connected_genes: usize,
+    pub number_of_holes: usize,
 }
 
 pub fn get_stats(model: &GoCamModel) -> GoCamStats {
+    let number_of_holes = find_holes(model).len();
+
     let graph = &make_graph(&model).into_edge_type::<Undirected>() ;
 
     let mut seen_idxs = HashSet::new();
@@ -405,6 +408,7 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
         total_genes,
         max_connected_genes,
         total_connected_genes,
+        number_of_holes,
     }
 }
 
