@@ -28,6 +28,16 @@ pub enum GoCamActivity {
 }
 
 impl GoCamActivity {
+    pub fn id(&self) -> &str {
+        let maybe_id = match self {
+            GoCamActivity::Complex(complex) => &complex.id,
+            GoCamActivity::Gene(gene) => &gene.id,
+            GoCamActivity::Chemical(chemical) => &chemical.id,
+            GoCamActivity::ModifiedProtein(modified_protein) => &modified_protein.id,
+        };
+        maybe_id.as_ref().map(|s| s.as_str()).unwrap_or("UNKNOWN")
+    }
+
     pub fn label(&self) -> &str {
         let maybe_label = match self {
             GoCamActivity::Complex(complex) => &complex.label,
@@ -118,6 +128,14 @@ impl GoCamNode {
     pub fn enabler_label(&self) -> &str {
         if let GoCamNodeType::Activity(ref enabler) = self.node_type {
             enabler.label()
+        } else {
+            ""
+        }
+    }
+
+    pub fn enabler_id(&self) -> &str {
+        if let GoCamNodeType::Activity(ref enabler) = self.node_type {
+            enabler.id()
         } else {
             ""
         }
@@ -417,6 +435,7 @@ type CytoscapeId = String;
 #[derive(Deserialize, Serialize, Debug, Clone)]
 struct CytoscapeNodeData {
     id: CytoscapeId,
+    db_id: String,
     label: String,
     #[serde(rename = "type")]
     type_string: String,
@@ -428,6 +447,7 @@ struct CytoscapeEdgeData {
     label: String,
     source: CytoscapeId,
     target: CytoscapeId,
+    weight: i32,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
@@ -454,6 +474,7 @@ pub fn model_to_cytoscape(model: &GoCamModel) -> String {
                     label: fact.property_label.clone(),
                     source: fact.subject.clone(),
                     target: fact.object.clone(),
+                    weight: 0,
                 }
             }
         }).collect();
@@ -479,6 +500,7 @@ pub fn model_to_cytoscape(model: &GoCamModel) -> String {
             Some(CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: individual.id.clone(),
+                    db_id: id.clone(),
                     type_string: "node".to_owned(),
                     label,
                 }
@@ -489,6 +511,13 @@ pub fn model_to_cytoscape(model: &GoCamModel) -> String {
     let edges_string = serde_json::to_string(&edges).unwrap();
 
     format!("nodes: {},\nedges: {}", nodes_string, edges_string)
+}
+
+fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
+    match s.strip_suffix(suffix) {
+        Some(s) => s,
+        None => s
+    }
 }
 
 pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
@@ -515,6 +544,7 @@ pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
                     label,
                     source,
                     target,
+                    weight: 0,
                 }
             }
         }).collect();
@@ -524,13 +554,14 @@ pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
             let enabler_label = node.enabler_label();
             let label =
                 if enabler_label.len() > 0 {
-                    enabler_label.to_owned()
+                    remove_suffix(enabler_label, " Spom").to_owned()
                 } else {
                     format!("{} ({})", node.label, node.id)
                 };
             Some(CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
+                    db_id: node.enabler_id().to_owned(),
                     type_string: node.type_string().to_owned(),
                     label,
                 }
