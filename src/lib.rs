@@ -440,92 +440,92 @@ pub fn model_to_cytoscape(model: &GoCamModel) -> String {
     let mut seen_nodes = HashSet::new();
 
     let edges: Vec<_> = model.facts()
-    .map(|fact| {
-        seen_nodes.insert(fact.subject.clone());
-        seen_nodes.insert(fact.object.clone());
+        .map(|fact| {
+            seen_nodes.insert(fact.subject.clone());
+            seen_nodes.insert(fact.object.clone());
 
-        CytoscapeEdge {
-            data: CytoscapeEdgeData {
-                id: fact.id(),
-                label: fact.property_label.clone(),
-                source: fact.subject.clone(),
-                target: fact.object.clone(),
+            CytoscapeEdge {
+                data: CytoscapeEdgeData {
+                    id: fact.id(),
+                    label: fact.property_label.clone(),
+                    source: fact.subject.clone(),
+                    target: fact.object.clone(),
+                }
             }
-        }
-    }).collect();
+        }).collect();
 
     let nodes: Vec<_> = model.individuals()
-    .filter_map(|individual| {
-        if !seen_nodes.contains(&individual.id) {
-            return None;
-        }
-
-        let Some(individual_type) = individual.types.get(0)
-        else {
-            return None;
-        };
-
-        let individual_type = individual_type.to_owned();
-
-        let (Some(ref label), Some(ref id)) = (individual_type.label, individual_type.id)
-        else {
-            return None;
-        };
-        let label = format!("{} ({})", label, id);
-        Some(CytoscapeNode {
-            data: CytoscapeNodeData {
-                id: individual.id.clone(),
-                type_string: "node".to_owned(),
-                label,
+        .filter_map(|individual| {
+            if !seen_nodes.contains(&individual.id) {
+                return None;
             }
-        })
-     }).collect();
 
-     let nodes_string = serde_json::to_string(&nodes).unwrap();
-     let edges_string = serde_json::to_string(&edges).unwrap();
+            let Some(individual_type) = individual.types.get(0)
+            else {
+                return None;
+            };
 
-     format!("nodes: {},\nedges: {}", nodes_string, edges_string)
+            let individual_type = individual_type.to_owned();
+
+            let (Some(ref label), Some(ref id)) = (individual_type.label, individual_type.id)
+            else {
+                return None;
+            };
+            let label = format!("{} ({})", label, id);
+            Some(CytoscapeNode {
+                data: CytoscapeNodeData {
+                    id: individual.id.clone(),
+                    type_string: "node".to_owned(),
+                    label,
+                }
+            })
+        }).collect();
+
+    let nodes_string = serde_json::to_string(&nodes).unwrap();
+    let edges_string = serde_json::to_string(&edges).unwrap();
+
+    format!("nodes: {},\nedges: {}", nodes_string, edges_string)
 }
 
 pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
-     let edges: Vec<_> = graph.edge_references()
-         .map(|edge_ref| {
-             let edge = edge_ref.weight();
-             let subject_node = graph.node_weight(edge_ref.source()).unwrap();
-             let object_node = graph.node_weight(edge_ref.target()).unwrap();
+    let edges: Vec<_> = graph.edge_references()
+        .map(|edge_ref| {
+            let edge = edge_ref.weight();
+            let subject_node = graph.node_weight(edge_ref.source()).unwrap();
+            let object_node = graph.node_weight(edge_ref.target()).unwrap();
 
-             CytoscapeEdge {
-                 data: CytoscapeEdgeData {
-                     id: edge.fact_gocam_id.clone(),
-                     label: edge.label.clone(),
-                     source: subject_node.individual_gocam_id.clone(),
-                     target: object_node.individual_gocam_id.clone(),
-                 }
-             }
-         }).collect();
+            CytoscapeEdge {
+                data: CytoscapeEdgeData {
+                    id: edge.fact_gocam_id.clone(),
+                    label: edge.label.clone(),
+                    source: subject_node.individual_gocam_id.clone(),
+                    target: object_node.individual_gocam_id.clone(),
+                }
+            }
+        }).collect();
 
-     let nodes: Vec<_> = graph.node_references()
-         .map(|(_, node)| {
-             let enabler_label = node.enabler_label();
-             let label =
-                 if enabler_label.len() > 0 {
-                     enabler_label.to_owned()
-                 } else {
-                     format!("{} ({})", node.label, node.id)
-                 };
-             Some(CytoscapeNode {
-                 data: CytoscapeNodeData {
-                     id: node.individual_gocam_id.clone(),
-                     type_string: node.type_string().to_owned(),
-                     label,
-                 }
-             })
-         }).collect();
+    let nodes: Vec<_> = graph.node_references()
+        .map(|(_, node)| {
+            let enabler_label = node.enabler_label();
+            let label =
+                if enabler_label.len() > 0 {
+                    enabler_label.to_owned()
+                } else {
+                    format!("{} ({})", node.label, node.id)
+                };
+            Some(CytoscapeNode {
+                data: CytoscapeNodeData {
+                    id: node.individual_gocam_id.clone(),
+                    type_string: node.type_string().to_owned(),
+                    label,
+                }
+            })
+        }).collect();
 
-     let nodes_string = serde_json::to_string(&nodes).unwrap();
-     let edges_string = serde_json::to_string(&edges).unwrap();
+    let nodes_string = serde_json::to_string(&nodes).unwrap();
+    let edges_string = serde_json::to_string(&edges).unwrap();
 
-     format!("nodes: {},\nedges: {}", nodes_string, edges_string)
+    format!("nodes: {},\nedges: {}", nodes_string, edges_string)
 }
 
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
@@ -536,6 +536,5 @@ pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
         } else {
             None
         }
-    })
-    .collect()
+    }).collect()
 }
