@@ -498,12 +498,23 @@ pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
             let subject_node = graph.node_weight(edge_ref.source()).unwrap();
             let object_node = graph.node_weight(edge_ref.target()).unwrap();
 
+            let (label, source, target) =
+                if edge.label == "has input" {
+                    ("input of".into(),
+                     object_node.individual_gocam_id.clone(),
+                     subject_node.individual_gocam_id.clone())
+                } else {
+                    (edge.label.to_owned(),
+                     subject_node.individual_gocam_id.clone(),
+                     object_node.individual_gocam_id.clone())
+                };
+
             CytoscapeEdge {
                 data: CytoscapeEdgeData {
                     id: edge.fact_gocam_id.clone(),
-                    label: edge.label.clone(),
-                    source: subject_node.individual_gocam_id.clone(),
-                    target: object_node.individual_gocam_id.clone(),
+                    label,
+                    source,
+                    target,
                 }
             }
         }).collect();
