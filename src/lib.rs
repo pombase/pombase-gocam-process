@@ -378,8 +378,9 @@ pub fn make_graph(model: &GoCamModel) -> GoCamGraph {
 pub struct GoCamStats {
     pub id: ModelId,
     pub total_genes: usize,
-    pub max_connected_genes: usize,
-    pub total_connected_genes: usize,
+    pub total_complexes: usize,
+    pub max_connected_activities: usize,
+    pub total_connected_activities: usize,
     pub number_of_holes: usize,
 }
 
@@ -391,15 +392,16 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
     let mut seen_idxs = HashSet::new();
 
     let mut total_genes = 0;
-    let mut max_connected_genes = 0;
-    let mut total_connected_genes = 0;
+    let mut total_complexes = 0;
+    let mut max_connected_activities = 0;
+    let mut total_connected_activities = 0;
 
     for idx in graph.node_indices() {
         if seen_idxs.contains(&idx) {
             continue;
         }
 
-        let mut connected_genes = 0;
+        let mut connected_activities = 0;
 
         seen_idxs.insert(idx);
 
@@ -408,9 +410,17 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
         let mut inc_counts = |nx: NodeIndex| {
             let gocam_node = graph.node_weight(nx).unwrap();
             let ntype = gocam_node.type_string();
-            if ntype.starts_with("enabled_by") {
-                total_genes += 1;
-                connected_genes += 1;
+            if let GoCamNodeType::Activity(_) = gocam_node.node_type {
+                connected_activities += 1;
+            }
+            match ntype {
+                "enabled_by_gene" => {
+                    total_genes += 1;
+                },
+                "enabled_by_complex" => {
+                    total_complexes += 1;
+                }
+                _ => (),
             }
         };
 
@@ -419,12 +429,12 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
             inc_counts(nx);
         }
 
-        if connected_genes > 1 {
-            if connected_genes > max_connected_genes {
-                max_connected_genes = connected_genes;
+        if connected_activities > 1 {
+            if connected_activities > max_connected_activities {
+                max_connected_activities = connected_activities;
             }
 
-            total_connected_genes += connected_genes;
+            total_connected_activities += connected_activities;
         }
 
     }
@@ -432,8 +442,9 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
     GoCamStats {
         id: model.id().to_owned(),
         total_genes,
-        max_connected_genes,
-        total_connected_genes,
+        total_complexes,
+        max_connected_activities,
+        total_connected_activities,
         number_of_holes,
     }
 }
