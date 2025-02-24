@@ -140,6 +140,14 @@ impl GoCamNode {
             ""
         }
     }
+
+    pub fn db_id(&self) -> &str {
+        if let GoCamNodeType::Activity(ref enabler) = self.node_type {
+            enabler.id()
+        } else {
+            &self.id
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -496,13 +504,13 @@ pub fn model_to_cytoscape(model: &GoCamModel) -> String {
             else {
                 return None;
             };
-            let label = format!("{} ({})", label, id);
+
             Some(CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: individual.id.clone(),
                     db_id: id.clone(),
                     type_string: "node".to_owned(),
-                    label,
+                    label: label.to_owned(),
                 }
             })
         }).collect();
@@ -556,12 +564,13 @@ pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
                 if enabler_label.len() > 0 {
                     remove_suffix(enabler_label, " Spom").to_owned()
                 } else {
-                    format!("{} ({})", node.label, node.id)
+                    node.label.to_owned()
                 };
+            let db_id = node.db_id().to_owned();
             Some(CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
-                    db_id: node.enabler_id().to_owned(),
+                    db_id,
                     type_string: node.type_string().to_owned(),
                     label,
                 }
