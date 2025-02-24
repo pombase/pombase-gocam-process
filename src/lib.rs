@@ -247,7 +247,7 @@ fn is_gene_id(identifier: &str) -> bool {
         .iter().any(|s| identifier.starts_with(*s))
 }
 
-fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
+pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
     let mut node_map = HashMap::new();
 
     for individual in model.individuals() {
