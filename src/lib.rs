@@ -74,17 +74,17 @@ impl Display for GoCamNode {
         write!(f, "{}\t", self.id)?;
         write!(f, "{}\t", self.label)?;
 
-        let (enabled_by_id, enabled_by_label) = match &self.node_type {
-            GoCamNodeType::Unknown => ("unknown", "unknown"),
-            GoCamNodeType::Chemical => ("", ""),
+        let (enable_by_type, enabled_by_id, enabled_by_label) = match &self.node_type {
+            GoCamNodeType::Unknown => ("known", "unknown", "unknown"),
+            GoCamNodeType::Chemical => ("", "", ""),
             GoCamNodeType::Activity(enabled_by) => match enabled_by {
-                GoCamEnabledBy::Chemical(chem) => (chem.id(), chem.label()),
-                GoCamEnabledBy::Gene(gene) => (gene.id(), gene.label()),
-                GoCamEnabledBy::ModifiedProtein(prot) => (prot.id(), prot.label()),
-                GoCamEnabledBy::Complex(complex) => (complex.id(), complex.label()),
+                GoCamEnabledBy::Chemical(chem) => ("chemical", chem.id(), chem.label()),
+                GoCamEnabledBy::Gene(gene) => ("gene", gene.id(), gene.label()),
+                GoCamEnabledBy::ModifiedProtein(prot) => ("modified_protein", prot.id(), prot.label()),
+                GoCamEnabledBy::Complex(complex) => ("complex", complex.id(), complex.label()),
             }
         };
-        write!(f, "{}\t{}\t", enabled_by_id, enabled_by_label)?;
+        write!(f, "{}\t{}\t{}\t", enable_by_type, enabled_by_id, enabled_by_label)?;
 
         if let Some(ref part_of_process) = self.part_of_process {
             write!(f, "{}\t", part_of_process.label_or_id())?;
