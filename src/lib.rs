@@ -62,6 +62,8 @@ pub struct GoCamNode {
     pub id: String,
     pub label: String,
     pub node_type: GoCamNodeType,
+    pub next_nodes: Vec<String>,
+    pub previous_nodes: Vec<String>,
     pub has_input: Vec<GoCamInput>,
     pub has_output: Vec<GoCamOutput>,
     pub located_in: Vec<GoCamComponent>,
@@ -85,6 +87,9 @@ impl Display for GoCamNode {
             }
         };
         write!(f, "{}\t{}\t{}\t{}\t", node_type, enabled_by_type, enabled_by_id, enabled_by_label)?;
+
+        write!(f, "{}\t", self.previous_nodes.join(","))?;
+        write!(f, "{}\t", self.next_nodes.join(","))?;
 
         if let Some(ref part_of_process) = self.part_of_process {
             write!(f, "{}\t", part_of_process.label_or_id())?;
@@ -258,6 +263,23 @@ fn is_gene_id(identifier: &str) -> bool {
         .iter().any(|s| identifier.starts_with(*s))
 }
 
+fn is_connecting_fact(rel_name: &str) -> bool {
+    ["causally upstream of, negative effect",
+     "causally upstream of, positive effect",
+     "provides input for",
+     "removes input for",
+     "constitutively upstream of",
+     "directly negatively regulates",
+     "directly positively regulates",
+     "indirectly negatively regulates",
+     "indirectly positively regulates",
+     "has small molecular activator",
+     "has small molecular inhibitor",
+     "is small molecule activator of",
+     "is small molecule inhibitor of"]
+    .iter().any(|s| rel_name == *s)
+}
+
 pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
     let mut node_map = HashMap::new();
 
@@ -280,6 +302,8 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
                 id: individual_type.id.clone().unwrap_or_else(|| "NO_ID".to_owned()),
                 label: individual_type.label.clone().unwrap_or_else(|| "NO_LABEL".to_owned()),
                 node_type: detail,
+                next_nodes: vec![],
+                previous_nodes: vec![],
                 has_input: vec![],
                 has_output: vec![],
                 located_in: vec![],
@@ -290,6 +314,8 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
             node_map.insert(individual.id.clone(), gocam_node);
         }
     }
+
+    let mut connectons = vec![];
 
     for fact in model.facts() {
         let Some(subject_node) = node_map.get_mut(&fact.subject)
@@ -344,8 +370,42 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
             },
             &_ => {
                 // eprintln!("ignoring rel from fact: {} {}", fact.property_label, fact.id());
+                if is_connecting_fact(fact.property_label.as_str()) {
+                    let connection = (fact.subject.clone(), fact.property_label.clone(),
+                                      fact.object.clone());
+                    connectons.push(connection);
+                }
             }
         }
+    }
+
+    for connection in connectons.into_iter() {
+        let (subject, rel_name, object) = connection;
+
+        let (subject_desc, object_desc) = {
+            let Some(subject_node) = node_map.get(&subject)
+            else {
+                continue;
+            };
+            let Some(object_node) = node_map.get(&object)
+            else {
+                continue;
+            };
+
+            (format!("{} enabled by {}", subject_node.label, subject_node.enabler_label()),
+             format!("{} enabled by {}", object_node.label, object_node.enabler_label()))
+        };
+
+        if let Some(subject_node) = node_map.get_mut(&subject) {
+            let next_label = format!("{} {}", rel_name, object_desc);
+            subject_node.next_nodes.push(next_label);
+        }
+
+        if let Some(object_node) = node_map.get_mut(&object) {
+            let previous_label = format!("{} {}", subject_desc, rel_name);
+            object_node.previous_nodes.push(previous_label);
+        }
+
     }
 
     node_map
