@@ -6,11 +6,10 @@ extern crate serde_json;
 use petgraph::{graph::NodeIndex, visit::{EdgeRef, IntoNodeReferences}, Graph, Undirected};
 use petgraph::visit::Bfs;
 
-use pombase_gocam::{FactId, GoCamModel, Individual, IndividualId, IndividualType, ModelId};
+use pombase_gocam::{FactId, GoCamRawModel, Individual, IndividualId, IndividualType, ModelId};
 
 pub type GoCamGraph = Graph::<GoCamNode, GoCamEdge>;
 
-pub type GoCamComplex = IndividualType;
 pub type GoCamGene = IndividualType;
 pub type GoCamChemical = IndividualType;
 pub type GoCamModifiedProtein = IndividualType;
@@ -18,6 +17,24 @@ pub type GoCamComponent = IndividualType;
 pub type GoCamProcess = IndividualType;
 pub type GoCamInput = IndividualType;
 pub type GoCamOutput = IndividualType;
+pub type GoCamGeneIdentifier = String;
+
+#[derive(Clone, Debug)]
+pub struct GoCamComplex {
+    pub id: Option<String>,
+    pub label: Option<String>,
+    pub has_part_genes: Vec<GoCamGeneIdentifier>,
+}
+
+impl GoCamComplex {
+    pub fn id(&self) -> &str {
+        self.id.as_ref().map(|s| s.as_str()).unwrap_or("UNKNOWN_ID")
+    }
+
+    pub fn label(&self) -> &str {
+        self.label.as_ref().map(|s| s.as_str()).unwrap_or("UNKNOWN_LABEL")
+    }
+}
 
 #[derive(Clone, Debug)]
 pub enum GoCamEnabledBy {
@@ -141,6 +158,14 @@ impl GoCamNode {
         }
     }
 
+    pub fn description(&self) -> String {
+        if let GoCamNodeType::Activity(ref enabler) = self.node_type {
+            format!("{} [enabled by] {}", self.label, enabler.label())
+        } else {
+            self.label.to_owned()
+        }
+    }
+
     pub fn enabler_label(&self) -> &str {
         if let GoCamNodeType::Activity(ref enabler) = self.node_type {
             enabler.label()
@@ -184,8 +209,9 @@ const MOLECULAR_FUNCTION_ID: &str = "GO:0003674";
 /*
 const CELLULAR_COMPONENT_ID: &str = "GO:0032991";
 const BIOLOGICAL_PROCESS_ID: &str = "GO:0008150";
-const PROTEIN_CONTAINING_COMPLEX_ID: &str = "GO:0032991";
 */
+const PROTEIN_CONTAINING_COMPLEX_ID: &str = "GO:0032991";
+
 const CHEBI_PROTEIN_ID: &str = "CHEBI:36080";
 const CHEBI_CHEMICAL_ENTITY_ID: &str = "CHEBI:24431";
 
@@ -213,11 +239,34 @@ fn individual_is_component(individual: &Individual) -> bool {
 fn individual_is_process(individual: &Individual) -> bool {
     has_root_term(individual, BIOLOGICAL_PROCESS_ID)
 }
+*/
 
 fn individual_is_complex(individual: &Individual) -> bool {
     has_root_term(individual, PROTEIN_CONTAINING_COMPLEX_ID)
 }
-*/
+
+fn individual_is_gene(individual: &Individual) -> bool {
+    if !has_root_term(individual, CHEBI_CHEMICAL_ENTITY_ID) {
+        return false;
+    }
+
+    if has_root_term(individual, CHEBI_PROTEIN_ID) {
+        return false;
+    }
+
+    let Some(individual_type) = get_individual_type(individual)
+    else {
+        return false;
+    };
+
+    if let Some(ref id) = individual_type.id {
+        if id.starts_with("CHEBI:") {
+            return false;
+        }
+    }
+
+    true
+}
 
 fn individual_is_chemical(individual: &Individual) -> bool {
     if !has_root_term(individual, CHEBI_CHEMICAL_ENTITY_ID) {
@@ -267,6 +316,7 @@ fn is_connecting_fact(rel_name: &str) -> bool {
     ["causally upstream of, negative effect",
      "causally upstream of, positive effect",
      "provides input for",
+     "directly provides input for",
      "removes input for",
      "constitutively upstream of",
      "directly negatively regulates",
@@ -276,27 +326,30 @@ fn is_connecting_fact(rel_name: &str) -> bool {
      "has small molecular activator",
      "has small molecular inhibitor",
      "is small molecule activator of",
-     "is small molecule inhibitor of"]
+     "is small molecule inhibitor of",
+     "input of",
+     "has output"]
     .iter().any(|s| rel_name == *s)
 }
 
-pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
+pub fn make_nodes(model: &GoCamRawModel) -> HashMap<IndividualId, GoCamNode> {
     let mut node_map = HashMap::new();
 
     for individual in model.individuals() {
         if individual_is_activity(individual) ||
-        individual_is_chemical(individual) &&
-        !individual_is_unknown_protein(individual) {
+            individual_is_chemical(individual) &&
+            !individual_is_unknown_protein(individual)
+        {
             let Some(individual_type) = get_individual_type(individual)
             else {
                 continue;
             };
             let detail =
-            if individual_is_chemical(individual) {
-                GoCamNodeType::Chemical
-            } else {
-                GoCamNodeType::Unknown
-            };
+                if individual_is_chemical(individual) {
+                    GoCamNodeType::Chemical
+                } else {
+                    GoCamNodeType::Unknown
+                };
             let gocam_node = GoCamNode {
                 individual_gocam_id: individual.id.clone(),
                 id: individual_type.id.clone().unwrap_or_else(|| "NO_ID".to_owned()),
@@ -315,7 +368,44 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
         }
     }
 
-    let mut connectons = vec![];
+    let mut complex_map = HashMap::new();
+
+    for individual in model.individuals() {
+        if individual_is_complex(individual) {
+            let Some(complex_type) = individual.types.get(0)
+            else {
+                continue;
+            };
+
+            let complex = GoCamComplex {
+                id: complex_type.id.clone(),
+                label: complex_type.label.clone(),
+                has_part_genes: vec![],
+            };
+
+            complex_map.insert(individual.id.clone(), complex);
+        }
+    }
+
+    for fact in model.facts() {
+        if fact.property_label == "has part" {
+            let Some(complex) = complex_map.get_mut(&fact.subject)
+            else {
+                continue;
+            };
+
+            let object_individual = model.fact_object(fact);
+
+            let Some(complex_part_type) = object_individual.types.get(0)
+            else {
+                continue;
+            };
+
+            let complex_gene = complex_part_type.id().to_owned();
+//            eprintln!("{}", complex_gene);
+            complex.has_part_genes.push(complex_gene);
+        }
+    }
 
     for fact in model.facts() {
         let Some(subject_node) = node_map.get_mut(&fact.subject)
@@ -341,7 +431,10 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
                         subject_node.node_type = GoCamNodeType::Activity(chemical_enabler);
                     }
                     else if object_type_id.starts_with("GO:") || object_type_id.starts_with("ComplexPortal:") {
-                        let complex_enabler = GoCamEnabledBy::Complex(object_type.clone());
+                        let complex = complex_map.get(&fact.object)
+                            .expect(&format!("expected complex {}", fact.object))
+                            .to_owned();
+                        let complex_enabler = GoCamEnabledBy::Complex(complex);
                         subject_node.node_type = GoCamNodeType::Activity(complex_enabler);
                     }
                     else if object_type_id.starts_with("PR:") {
@@ -370,12 +463,17 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
             },
             &_ => {
                 // eprintln!("ignoring rel from fact: {} {}", fact.property_label, fact.id());
-                if is_connecting_fact(fact.property_label.as_str()) {
-                    let connection = (fact.subject.clone(), fact.property_label.clone(),
-                                      fact.object.clone());
-                    connectons.push(connection);
-                }
             }
+        }
+    }
+
+    let mut connectons = vec![];
+
+    for fact in model.facts() {
+        if is_connecting_fact(fact.property_label.as_str()) {
+            let connection = (fact.subject.clone(), fact.property_label.clone(),
+                              fact.object.clone());
+            connectons.push(connection);
         }
     }
 
@@ -392,17 +490,16 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
                 continue;
             };
 
-            (format!("{} enabled by {}", subject_node.label, subject_node.enabler_label()),
-             format!("{} enabled by {}", object_node.label, object_node.enabler_label()))
+            (subject_node.description(), object_node.description())
         };
 
         if let Some(subject_node) = node_map.get_mut(&subject) {
-            let next_label = format!("{} {}", rel_name, object_desc);
+            let next_label = format!("[{}] {}", rel_name, object_desc);
             subject_node.next_nodes.push(next_label);
         }
 
         if let Some(object_node) = node_map.get_mut(&object) {
-            let previous_label = format!("{} {}", subject_desc, rel_name);
+            let previous_label = format!("{} [{}]", subject_desc, rel_name);
             object_node.previous_nodes.push(previous_label);
         }
 
@@ -411,7 +508,7 @@ pub fn make_nodes(model: &GoCamModel) -> HashMap<IndividualId, GoCamNode> {
     node_map
 }
 
-pub fn make_graph(model: &GoCamModel) -> GoCamGraph {
+pub fn make_graph(model: &GoCamRawModel) -> GoCamGraph {
     let mut graph = GoCamGraph::new();
 
     let temp_nodes = make_nodes(model);
@@ -455,7 +552,7 @@ pub struct GoCamStats {
     pub number_of_holes: usize,
 }
 
-pub fn get_stats(model: &GoCamModel) -> GoCamStats {
+pub fn get_stats(model: &GoCamRawModel) -> GoCamStats {
     let number_of_holes = find_holes(model).len();
 
     let graph = &make_graph(&model).into_edge_type::<Undirected>() ;
@@ -520,6 +617,56 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
     }
 }
 
+pub fn get_connected_genes(model: &GoCamRawModel, min_connected_count: usize) -> HashSet<(String, String)> {
+    let mut ret = HashSet::new();
+
+    let graph = &make_graph(&model).into_edge_type::<Undirected>() ;
+
+    let mut seen_idxs = HashSet::new();
+
+    for idx in graph.node_indices() {
+        if seen_idxs.contains(&idx) {
+            continue;
+        }
+
+        seen_idxs.insert(idx);
+
+        let mut connected_genes: Vec<String> = vec![];
+
+        let mut bfs = Bfs::new(&graph, idx);
+
+        while let Some(nx) = bfs.next(&graph) {
+            seen_idxs.insert(nx);
+
+            let gocam_node = graph.node_weight(nx).unwrap();
+
+            if let GoCamNodeType::Activity(ref enabler) = gocam_node.node_type {
+                match enabler {
+                    GoCamEnabledBy::Gene(gene) => {
+                        connected_genes.push(gene.id().to_owned());
+                    },
+                    GoCamEnabledBy::ModifiedProtein(modified_protein) => {
+                        connected_genes.push(modified_protein.id().to_owned());
+                    },
+                    GoCamEnabledBy::Complex(complex) => {
+                        connected_genes.extend_from_slice(&complex.has_part_genes);
+                    },
+                    _ => (),
+                }
+            }
+        }
+
+        if connected_genes.len() >= min_connected_count  {
+            for gene in connected_genes {
+//                println!("{}", gene);
+                ret.insert((model.taxon(), gene.to_owned()));
+            }
+        }
+    }
+
+    ret
+}
+
 type CytoscapeId = String;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
@@ -550,7 +697,7 @@ struct CytoscapeEdge {
     data: CytoscapeEdgeData
 }
 
-pub fn model_to_cytoscape(model: &GoCamModel) -> String {
+pub fn model_to_cytoscape(model: &GoCamRawModel) -> String {
     let mut seen_nodes = HashSet::new();
 
     let edges: Vec<_> = model.facts()
@@ -665,7 +812,7 @@ pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
     format!("nodes: {},\nedges: {}", nodes_string, edges_string)
 }
 
-pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
+pub fn find_holes(model: &GoCamRawModel) -> Vec<GoCamNode> {
     let node_map = make_nodes(model);
     node_map.into_values().filter_map(|node| {
         if node.enabler_label() == "protein" {
@@ -674,4 +821,25 @@ pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
             None
         }
     }).collect()
+}
+
+pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<IndividualType> {
+    let mut gene_map = HashMap::new();
+
+    for individual in model.individuals() {
+        let Some(individual_type) = get_individual_type(individual)
+        else {
+            continue;
+        };
+
+        if individual_is_gene(individual) {
+            gene_map.insert(individual.id.clone(), individual_type);
+        }
+    }
+
+    for fact in model.facts() {
+        gene_map.remove(&fact.object);
+    }
+
+    gene_map.values().map(|&g| g.to_owned()).collect()
 }
