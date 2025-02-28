@@ -839,6 +839,7 @@ pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<(String, String, String
 
     for fact in model.facts() {
         gene_map.remove(&fact.object);
+        gene_map.remove(&fact.subject);
     }
 
     gene_map.iter().map(|(k, v)| { (k.to_owned(), v.id().to_owned(), v.label().to_owned()) }).collect()
