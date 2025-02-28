@@ -823,7 +823,7 @@ pub fn find_holes(model: &GoCamRawModel) -> Vec<GoCamNode> {
     }).collect()
 }
 
-pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<IndividualType> {
+pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<(String, String, String)> {
     let mut gene_map = HashMap::new();
 
     for individual in model.individuals() {
@@ -841,5 +841,5 @@ pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<IndividualType> {
         gene_map.remove(&fact.object);
     }
 
-    gene_map.values().map(|&g| g.to_owned()).collect()
+    gene_map.iter().map(|(k, v)| { (k.to_owned(), v.id().to_owned(), v.label().to_owned()) }).collect()
 }
