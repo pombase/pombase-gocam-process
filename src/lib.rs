@@ -631,7 +631,7 @@ pub fn get_connected_genes(model: &GoCamRawModel, min_connected_count: usize) ->
 
         seen_idxs.insert(idx);
 
-        let mut connected_genes: Vec<String> = vec![];
+        let mut connected_genes: HashSet<String> = HashSet::new();
 
         let mut bfs = Bfs::new(&graph, idx);
 
@@ -643,13 +643,13 @@ pub fn get_connected_genes(model: &GoCamRawModel, min_connected_count: usize) ->
             if let GoCamNodeType::Activity(ref enabler) = gocam_node.node_type {
                 match enabler {
                     GoCamEnabledBy::Gene(gene) => {
-                        connected_genes.push(gene.id().to_owned());
+                        connected_genes.insert(gene.id().to_owned());
                     },
                     GoCamEnabledBy::ModifiedProtein(modified_protein) => {
-                        connected_genes.push(modified_protein.id().to_owned());
+                        connected_genes.insert(modified_protein.id().to_owned());
                     },
                     GoCamEnabledBy::Complex(complex) => {
-                        connected_genes.extend_from_slice(&complex.has_part_genes);
+                        connected_genes.extend(complex.has_part_genes.clone());
                     },
                     _ => (),
                 }
