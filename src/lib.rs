@@ -668,7 +668,9 @@ type CytoscapeId = String;
 struct CytoscapeNodeData {
     id: CytoscapeId,
     db_id: String,
+    display_label: String,
     label: String,
+    enabler_label: String,
     #[serde(rename = "type")]
     type_string: String,
 }
@@ -734,7 +736,9 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> String {
                     id: individual.id.clone(),
                     db_id: id.clone(),
                     type_string: "node".to_owned(),
+                    display_label: label.to_owned(),
                     label: label.to_owned(),
+                    enabler_label: "".to_owned(),
                 }
             })
         }).collect();
@@ -783,20 +787,28 @@ pub fn model_to_cytoscape_simple(graph: &GoCamGraph) -> String {
 
     let nodes: Vec<_> = graph.node_references()
         .map(|(_, node)| {
+            let label = remove_suffix(&node.label, " Spom").to_owned();
             let enabler_label = node.enabler_label();
-            let label =
+            let enabler_label =
                 if enabler_label.len() > 0 {
                     remove_suffix(enabler_label, " Spom").to_owned()
                 } else {
-                    node.label.to_owned()
+                    "".to_owned()
                 };
+            let display_label = if enabler_label.len() > 0 {
+                enabler_label.clone()
+            } else {
+                label.clone()
+            };
             let db_id = node.db_id().to_owned();
             Some(CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
                     db_id,
                     type_string: node.type_string().to_owned(),
+                    display_label,
                     label,
+                    enabler_label,
                 }
             })
         }).collect();
