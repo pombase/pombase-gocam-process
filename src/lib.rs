@@ -70,6 +70,8 @@ impl GoCamEnabledBy {
 pub enum GoCamNodeType {
     Unknown,
     Chemical,
+    Gene(GoCamGene),
+    ModifiedProtein(GoCamModifiedProtein),
     Activity(GoCamEnabledBy),
 }
 
@@ -96,6 +98,8 @@ impl Display for GoCamNode {
         let (node_type, enabled_by_type, enabled_by_id, enabled_by_label) = match &self.node_type {
             GoCamNodeType::Unknown => ("unknown", "unknown", "unknown", "unknown"),
             GoCamNodeType::Chemical => ("chemical", "", "", ""),
+            GoCamNodeType::Gene(_) => ("gene", "", "", ""),
+            GoCamNodeType::ModifiedProtein(_) => ("modified_protein", "", "", ""),
             GoCamNodeType::Activity(enabled_by) => match enabled_by {
                 GoCamEnabledBy::Chemical(chem) => ("activity", "chemical", chem.id(), chem.label()),
                 GoCamEnabledBy::Gene(gene) => ("activity", "gene", gene.id(), gene.label()),
@@ -149,6 +153,8 @@ impl GoCamNode {
         match &self.node_type {
             GoCamNodeType::Unknown => "unknown",
             GoCamNodeType::Chemical => "chemical",
+            GoCamNodeType::Gene(_) => "gene",
+            GoCamNodeType::ModifiedProtein(_) => "modified_protein",
             GoCamNodeType::Activity(activity) => match activity {
                 GoCamEnabledBy::Chemical(_) => "enabled_by_chemical",
                 GoCamEnabledBy::Gene(_) => "enabled_by_gene",
@@ -333,10 +339,21 @@ fn is_connecting_fact(rel_name: &str) -> bool {
 }
 
 pub fn make_nodes(model: &GoCamRawModel) -> HashMap<IndividualId, GoCamNode> {
+    // genes that are the object of a has_input or has_output relation
+    let mut bare_genes_and_modified_proteins = HashSet::new();
+
+    for fact in model.facts() {
+        if fact.property_label == "has input" ||
+            fact.property_label == "has output" {
+                bare_genes_and_modified_proteins.insert(fact.object.clone());
+           }
+    }
+
     let mut node_map = HashMap::new();
 
     for individual in model.individuals() {
         if individual_is_activity(individual) ||
+            bare_genes_and_modified_proteins.contains(&individual.id) ||
             individual_is_chemical(individual) &&
             !individual_is_unknown_protein(individual)
         {
@@ -348,15 +365,21 @@ pub fn make_nodes(model: &GoCamRawModel) -> HashMap<IndividualId, GoCamNode> {
                 if individual_is_chemical(individual) {
                     GoCamNodeType::Chemical
                 } else {
-                    GoCamNodeType::Unknown
+                    if bare_genes_and_modified_proteins.contains(&individual.id) {
+                        if individual_type.id().starts_with("PR:") {
+                            GoCamNodeType::ModifiedProtein(individual_type.clone())
+                        } else {
+                            GoCamNodeType::Gene(individual_type.clone())
+                        }
+                    } else {
+                        GoCamNodeType::Unknown
+                    }
                 };
             let gocam_node = GoCamNode {
                 individual_gocam_id: individual.id.clone(),
                 id: individual_type.id.clone().unwrap_or_else(|| "NO_ID".to_owned()),
                 label: individual_type.label.clone().unwrap_or_else(|| "NO_LABEL".to_owned()),
                 node_type: detail,
-                next_nodes: vec![],
-                previous_nodes: vec![],
                 has_input: vec![],
                 has_output: vec![],
                 located_in: vec![],
@@ -582,7 +605,7 @@ pub fn get_stats(model: &GoCamRawModel) -> GoCamStats {
                 connected_activities += 1;
             }
             match ntype {
-                "enabled_by_gene" => {
+                "gene"|"enabled_by_gene" => {
                     total_genes += 1;
                 },
                 "enabled_by_complex" => {
@@ -640,7 +663,11 @@ pub fn get_connected_genes(model: &GoCamRawModel, min_connected_count: usize) ->
 
             let gocam_node = graph.node_weight(nx).unwrap();
 
-            if let GoCamNodeType::Activity(ref enabler) = gocam_node.node_type {
+            match gocam_node.node_type {
+                GoCamNodeType::Gene(ref gene) => {
+                    connected_genes.insert(gene.id().to_owned());
+                },
+                GoCamNodeType::Activity(ref enabler) => 
                 match enabler {
                     GoCamEnabledBy::Gene(gene) => {
                         connected_genes.insert(gene.id().to_owned());
@@ -652,7 +679,8 @@ pub fn get_connected_genes(model: &GoCamRawModel, min_connected_count: usize) ->
                         connected_genes.extend(complex.has_part_genes.clone());
                     },
                     _ => (),
-                }
+                },
+                _ => (),
             }
         }
 
