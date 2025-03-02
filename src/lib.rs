@@ -81,8 +81,6 @@ pub struct GoCamNode {
     pub id: String,
     pub label: String,
     pub node_type: GoCamNodeType,
-    pub next_nodes: Vec<String>,
-    pub previous_nodes: Vec<String>,
     pub has_input: Vec<GoCamInput>,
     pub has_output: Vec<GoCamOutput>,
     pub located_in: Vec<GoCamComponent>,
@@ -108,9 +106,6 @@ impl Display for GoCamNode {
             }
         };
         write!(f, "{}\t{}\t{}\t{}\t", node_type, enabled_by_type, enabled_by_id, enabled_by_label)?;
-
-        write!(f, "{}\t", self.previous_nodes.join(","))?;
-        write!(f, "{}\t", self.next_nodes.join(","))?;
 
         if let Some(ref part_of_process) = self.part_of_process {
             write!(f, "{}\t", part_of_process.label_or_id())?;
@@ -498,34 +493,6 @@ pub fn make_nodes(model: &GoCamRawModel) -> HashMap<IndividualId, GoCamNode> {
                               fact.object.clone());
             connectons.push(connection);
         }
-    }
-
-    for connection in connectons.into_iter() {
-        let (subject, rel_name, object) = connection;
-
-        let (subject_desc, object_desc) = {
-            let Some(subject_node) = node_map.get(&subject)
-            else {
-                continue;
-            };
-            let Some(object_node) = node_map.get(&object)
-            else {
-                continue;
-            };
-
-            (subject_node.description(), object_node.description())
-        };
-
-        if let Some(subject_node) = node_map.get_mut(&subject) {
-            let next_label = format!("[{}] {}", rel_name, object_desc);
-            subject_node.next_nodes.push(next_label);
-        }
-
-        if let Some(object_node) = node_map.get_mut(&object) {
-            let previous_label = format!("{} [{}]", subject_desc, rel_name);
-            object_node.previous_nodes.push(previous_label);
-        }
-
     }
 
     node_map
