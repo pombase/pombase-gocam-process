@@ -711,36 +711,42 @@ pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> Ha
 type CytoscapeId = String;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
-struct CytoscapeNodeData {
-    id: CytoscapeId,
-    db_id: String,
-    display_label: String,
-    label: String,
-    enabler_label: String,
+pub struct CytoscapeNodeData {
+    pub id: CytoscapeId,
+    pub db_id: String,
+    pub display_label: String,
+    pub label: String,
+    pub enabler_label: String,
     #[serde(rename = "type")]
-    type_string: String,
+    pub type_string: String,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
-struct CytoscapeEdgeData {
-    id: CytoscapeId,
-    label: String,
-    source: CytoscapeId,
-    target: CytoscapeId,
-    weight: i32,
+pub struct CytoscapeEdgeData {
+    pub id: CytoscapeId,
+    pub label: String,
+    pub source: CytoscapeId,
+    pub target: CytoscapeId,
+    pub weight: i32,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
-struct CytoscapeNode {
-    data: CytoscapeNodeData,
+pub struct CytoscapeNode {
+    pub data: CytoscapeNodeData,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
-struct CytoscapeEdge {
-    data: CytoscapeEdgeData
+pub struct CytoscapeEdge {
+    pub data: CytoscapeEdgeData
 }
 
-pub fn model_to_cytoscape(model: &GoCamRawModel) -> String {
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct CytoscapeElements {
+    pub nodes: Vec<CytoscapeNode>,
+    pub edges: Vec<CytoscapeEdge>,
+}
+
+pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
     let mut seen_nodes = HashSet::new();
 
     let edges: Vec<_> = model.facts()
@@ -789,10 +795,12 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> String {
             })
         }).collect();
 
-    let nodes_string = serde_json::to_string(&nodes).unwrap();
-    let edges_string = serde_json::to_string(&edges).unwrap();
+    let elements = CytoscapeElements {
+        nodes,
+        edges,
+    };
 
-    format!("nodes: {},\nedges: {}", nodes_string, edges_string)
+     elements
 }
 
 fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
@@ -802,7 +810,7 @@ fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
     }
 }
 
-pub fn model_to_cytoscape_simple(model: &GoCamModel) -> String {
+pub fn model_to_cytoscape_simple(model: &GoCamModel) -> CytoscapeElements {
     let edges: Vec<_> = model.graph().edge_references()
         .map(|edge_ref| {
             let edge = edge_ref.weight();
@@ -847,7 +855,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel) -> String {
                 label.clone()
             };
             let db_id = node.db_id().to_owned();
-            Some(CytoscapeNode {
+            CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
                     db_id,
@@ -856,13 +864,15 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel) -> String {
                     label,
                     enabler_label,
                 }
-            })
+            }
         }).collect();
 
-    let nodes_string = serde_json::to_string(&nodes).unwrap();
-    let edges_string = serde_json::to_string(&edges).unwrap();
+    let elements = CytoscapeElements {
+        nodes,
+        edges,
+    };
 
-    format!("nodes: {},\nedges: {}", nodes_string, edges_string)
+    elements
 }
 
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
