@@ -10,8 +10,6 @@ use petgraph::visit::Bfs;
 
 use pombase_gocam::{FactId, GoCamRawModel, Individual, IndividualId, IndividualType, ModelId, gocam_parse};
 
-use bon::Builder;
-
 pub type GoCamGraph = Graph::<GoCamNode, GoCamEdge>;
 
 pub type GoCamGene = IndividualType;
@@ -25,7 +23,7 @@ pub type GoCamGeneIdentifier = String;
 
 pub type GoCamNodeMap = HashMap<IndividualId, GoCamNode>;
 
-#[derive(Builder, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct GoCamModel {
     raw_model: GoCamRawModel,
     graph: GoCamGraph,
@@ -33,6 +31,16 @@ pub struct GoCamModel {
 }
 
 impl GoCamModel {
+    pub fn new(raw_model: GoCamRawModel) -> GoCamModel {
+        let (graph, node_map) = make_graph(&raw_model);
+
+        GoCamModel {
+            raw_model,
+            graph,
+            node_map,
+        }
+    }
+
     pub fn graph(&self) -> &GoCamGraph {
         &self.graph
     }
@@ -535,12 +543,9 @@ pub fn make_nodes(model: &GoCamRawModel) -> GoCamNodeMap {
 
 pub fn make_gocam_model(source: &mut dyn Read) -> Result<GoCamModel> {
     let raw_model = gocam_parse(source)?;
-    let (graph, node_map) = make_graph(&raw_model);
-    let model = GoCamModel::builder()
-      .graph(graph)
-      .node_map(node_map)
-      .raw_model(raw_model)
-      .build();
+
+    let model = GoCamModel::new(raw_model);
+
     Ok(model)
 }
 
