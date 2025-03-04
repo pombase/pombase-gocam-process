@@ -23,7 +23,7 @@ pub type GoCamGeneIdentifier = String;
 
 pub type GoCamNodeMap = HashMap<IndividualId, GoCamNode>;
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct GoCamModel {
     id: String,
     title: String,
