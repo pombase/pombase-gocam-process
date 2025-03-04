@@ -5,7 +5,7 @@ extern crate serde_json;
 
 use anyhow::Result;
 
-use petgraph::{graph::NodeIndex, visit::{EdgeRef, IntoNodeReferences}, Graph, Undirected};
+use petgraph::{graph::{NodeIndex, NodeReferences}, visit::{EdgeRef, IntoNodeReferences}, Graph, Undirected};
 use petgraph::visit::Bfs;
 
 use pombase_gocam::{FactId, GoCamRawModel, Individual, IndividualId, IndividualType, ModelId, gocam_parse};
@@ -25,19 +25,21 @@ pub type GoCamNodeMap = HashMap<IndividualId, GoCamNode>;
 
 #[derive(Clone, Debug)]
 pub struct GoCamModel {
-    raw_model: GoCamRawModel,
+    id: String,
+    title: String,
+    taxon: String,
     graph: GoCamGraph,
-    node_map: GoCamNodeMap,
 }
 
 impl GoCamModel {
     pub fn new(raw_model: GoCamRawModel) -> GoCamModel {
-        let (graph, node_map) = make_graph(&raw_model);
+        let graph = make_graph(&raw_model);
 
         GoCamModel {
-            raw_model,
+            id: raw_model.id().to_owned(),
+            title: raw_model.id().to_owned(),
+            taxon: raw_model.taxon().to_owned(),
             graph,
-            node_map,
         }
     }
 
@@ -45,24 +47,38 @@ impl GoCamModel {
         &self.graph
     }
 
-    pub fn node_map(&self) -> &GoCamNodeMap {
-        &self.node_map
+    pub fn node_iterator(&self) -> NodeIterator {
+        NodeIterator {
+            node_refs: self.graph().node_references(),
+        }
     }
 
-    pub fn id(&self) -> &IndividualId {
-        self.raw_model.id()
+    pub fn id(&self) -> &str {
+        &self.id
     }
 
-    pub fn title(&self) -> String {
-        self.raw_model.title()
+    pub fn title(&self) -> &str {
+        &self.title
     }
 
-    pub fn taxon(&self) -> String {
-        self.raw_model.taxon()
+    pub fn taxon(&self) -> &str {
+        &self.taxon
     }
 }
 
-#[derive(Clone, Debug)]
+pub struct NodeIterator<'a> {
+    node_refs: NodeReferences<'a, GoCamNode>,
+}
+
+impl<'a> Iterator for NodeIterator<'a> {
+    type Item = &'a GoCamNode;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.node_refs.next().map(|(_, node)| node)
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct GoCamComplex {
     pub id: Option<String>,
     pub label: Option<String>,
@@ -79,7 +95,7 @@ impl GoCamComplex {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum GoCamEnabledBy {
     Complex(GoCamComplex),
     Gene(GoCamGene),
@@ -109,7 +125,7 @@ impl GoCamEnabledBy {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum GoCamNodeType {
     Unknown,
     Chemical,
@@ -118,7 +134,7 @@ pub enum GoCamNodeType {
     Activity(GoCamEnabledBy),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct GoCamNode {
     pub individual_gocam_id: IndividualId,
     pub id: String,
@@ -235,7 +251,7 @@ impl GoCamNode {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct GoCamEdge {
     pub fact_gocam_id: FactId,
     pub id: String,
@@ -376,7 +392,7 @@ fn is_connecting_fact(rel_name: &str) -> bool {
     .iter().any(|s| rel_name == *s)
 }
 
-pub fn make_nodes(model: &GoCamRawModel) -> GoCamNodeMap {
+fn make_nodes(model: &GoCamRawModel) -> GoCamNodeMap {
     // genes that are the object of a has_input or has_output relation
     let mut bare_genes_and_modified_proteins = HashSet::new();
 
@@ -549,7 +565,7 @@ pub fn make_gocam_model(source: &mut dyn Read) -> Result<GoCamModel> {
     Ok(model)
 }
 
-fn make_graph(model: &GoCamRawModel) -> (GoCamGraph, GoCamNodeMap) {
+fn make_graph(model: &GoCamRawModel) -> GoCamGraph {
     let mut graph = GoCamGraph::new();
 
     let node_map = make_nodes(model);
@@ -581,7 +597,7 @@ fn make_graph(model: &GoCamRawModel) -> (GoCamGraph, GoCamNodeMap) {
         }
     }
 
-    (graph, node_map)
+    graph
 }
 
 pub struct GoCamStats {
@@ -705,7 +721,7 @@ pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> Ha
         if connected_genes.len() >= min_connected_count  {
             for gene in connected_genes {
 //                println!("{}", gene);
-                ret.insert((model.taxon(), gene.to_owned()));
+                ret.insert((model.taxon().to_owned(), gene.to_owned()));
             }
         }
     }
@@ -844,8 +860,8 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel) -> CytoscapeElements {
             }
         }).collect();
 
-    let nodes: Vec<_> = model.graph().node_references()
-        .map(|(_, node)| {
+    let nodes: Vec<_> = model.node_iterator()
+        .map(|node| {
             let label = remove_suffix(&node.label, " Spom").to_owned();
             let enabler_label = node.enabler_label();
             let enabler_label =
@@ -881,8 +897,8 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel) -> CytoscapeElements {
 }
 
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
-    let node_map = model.node_map();
-    node_map.values().filter_map(|node| {
+    let node_iter = model.node_iterator();
+    node_iter.filter_map(|node| {
         if node.enabler_label() == "protein" {
             Some(node.clone())
         } else {
