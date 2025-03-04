@@ -1,4 +1,4 @@
-use std::{collections::{HashMap, HashSet}, fmt::{self, Display}, io::Read};
+use std::{collections::{BTreeMap, HashMap, HashSet}, fmt::{self, Display}, io::Read};
 
 extern crate serde_json;
 #[macro_use] extern crate serde_derive;
@@ -21,7 +21,7 @@ pub type GoCamInput = IndividualType;
 pub type GoCamOutput = IndividualType;
 pub type GoCamGeneIdentifier = String;
 
-pub type GoCamNodeMap = HashMap<IndividualId, GoCamNode>;
+pub type GoCamNodeMap = BTreeMap<IndividualId, GoCamNode>;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct GoCamModel {
@@ -37,7 +37,7 @@ impl GoCamModel {
 
         GoCamModel {
             id: raw_model.id().to_owned(),
-            title: raw_model.id().to_owned(),
+            title: raw_model.title().to_owned(),
             taxon: raw_model.taxon().to_owned(),
             graph,
         }
@@ -403,7 +403,7 @@ fn make_nodes(model: &GoCamRawModel) -> GoCamNodeMap {
            }
     }
 
-    let mut node_map = HashMap::new();
+    let mut node_map = BTreeMap::new();
 
     for individual in model.individuals() {
         if individual_is_activity(individual) ||
@@ -927,4 +927,25 @@ pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<(String, String, String
     }
 
     gene_map.iter().map(|(k, v)| { (k.to_owned(), v.id().to_owned(), v.label().to_owned()) }).collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use std::fs::File;
+
+    use super::*;
+
+    #[test]
+    fn parse_test() {
+        let mut source = File::open("tests/data/gomodel:66187e4700001744.json").unwrap();
+        let model = make_gocam_model(&mut source).unwrap();
+        assert_eq!(model.id(), "gomodel:66187e4700001744");
+
+        assert_eq!(model.title(), "meiotic cohesion protection in anaphase I (GO:1990813)");
+        assert_eq!(model.taxon(), "NCBITaxon:4896");
+
+        let first_node = model.node_iterator().next().unwrap();
+
+        assert_eq!(first_node.id, "GO:0140483");
+    }
 }
