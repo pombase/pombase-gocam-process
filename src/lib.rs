@@ -3,6 +3,8 @@ use std::collections::{HashMap, HashSet};
 extern crate serde_json;
 #[macro_use] extern crate serde_derive;
 
+use itertools::Itertools;
+
 use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
@@ -304,6 +306,66 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel) -> CytoscapeElements {
 
     elements
 }
+
+pub fn model_pathways_to_cytoscope(models: &[&GoCamModel]) -> CytoscapeElements {
+    let mut model_map = HashMap::new();
+
+    for model in models.iter() {
+        model_map.insert(model.id().to_owned(), model);
+    }
+
+    let overlaps = GoCamModel::find_activity_overlaps(&models);
+
+    let mut edges = vec![];
+
+    let mut models_in_overlaps = HashSet::new();
+
+    for overlap in &overlaps {
+        let iter = overlap.model_ids.iter()
+            .cartesian_product(overlap.model_ids.iter());
+
+        for (first, second) in iter.into_iter() {
+            if first >= second {
+                continue;
+            }
+            models_in_overlaps.insert(first.to_owned());
+            models_in_overlaps.insert(second.to_owned());
+            let edge = CytoscapeEdge {
+                data: CytoscapeEdgeData {
+                    id: format!("{}-{}", first, second),
+                    label: overlap.node_description.to_owned(),
+                    source: first.to_owned(),
+                    target: second.to_owned(),
+                    weight: 0,
+                }
+            };
+            edges.push(edge);
+        }
+    }
+
+    let nodes: Vec<_> = models_in_overlaps.iter()
+        .map(|model_id| {
+            let model = model_map.get(model_id).unwrap();
+
+            CytoscapeNode {
+                data: CytoscapeNodeData {
+                    id: model.id().to_owned(),
+                    label: model.title().to_owned(),
+                    db_id: "".to_owned(),
+                    display_label: "".to_owned(),
+                    type_string: "".to_owned(),
+                    enabler_label: "".to_owned(),
+                }
+            }
+        })
+        .collect();
+
+    CytoscapeElements {
+        nodes,
+        edges,
+    }
+}
+
 
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
     let node_iter = model.node_iterator();
