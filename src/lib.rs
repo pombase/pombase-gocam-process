@@ -1,7 +1,9 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
 extern crate serde_json;
 #[macro_use] extern crate serde_derive;
+
+#[macro_use] extern crate lazy_static;
 
 use itertools::Itertools;
 
@@ -9,7 +11,8 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamEnabledBy, GoCamModel, GoCamNode, GoCamNodeType, GoCamRawModel, ModelId};
+use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel, GoCamNode, GoCamNodeType, GoCamRawModel, ModelId};
+use regex::Regex;
 
 pub struct GoCamStats {
     pub id: ModelId,
@@ -397,4 +400,117 @@ pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<(String, String, String
     }
 
     gene_map.iter().map(|(k, v)| { (k.to_owned(), v.id().to_owned(), v.label().to_owned()) }).collect()
+}
+
+
+pub type ChadoData = BTreeMap<ModelId, ChadoModelData>;
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct ChadoModelData {
+    pub complex_terms: BTreeSet<String>,
+    pub contributors: BTreeSet<String>,
+    pub date: String,
+    pub genes: BTreeSet<String>,
+    pub modified_gene_pro_terms: BTreeSet<String>,
+    pub process_terms: BTreeSet<String>,
+    pub occurs_in_terms: BTreeSet<String>,
+    pub located_in_terms: BTreeSet<String>,
+    pub title: String,
+    pub title_terms: BTreeSet<String>,
+}
+
+lazy_static! {
+    static ref TERM_IN_TITLE_RE: Regex = Regex::new(r"\((GO:\d\d\d\d+)\)").unwrap();
+}
+
+fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
+    let mut complex_terms = BTreeSet::new();
+    let mut occurs_in_terms = BTreeSet::new();
+    let mut located_in_terms = BTreeSet::new();
+    let mut genes = BTreeSet::new();
+    let mut modified_gene_pro_terms = BTreeSet::new();
+    let mut process_terms = BTreeSet::new();
+
+    let mut add_gene = |g: &str| genes.insert(g.replace("PomBase:", ""));
+
+    for node in model.node_iterator() {
+        let process_termids = node.part_of_process.iter()
+            .map(|i| i.id().to_owned());
+        process_terms.extend(process_termids);
+
+        if let Some(ref occurs_in) = node.occurs_in {
+            occurs_in_terms.insert(occurs_in.id().to_owned());
+            if let GoCamComponent::ComplexComponent(it) = occurs_in {
+                complex_terms.insert(it.id().to_owned());
+            }
+        }
+
+        if let Some(ref located_in) = node.located_in {
+            located_in_terms.insert(located_in.id().to_owned());
+            if let GoCamComponent::ComplexComponent(it) = located_in {
+                complex_terms.insert(it.id().to_owned());
+            }
+        }
+
+        match &node.node_type {
+            GoCamNodeType::Unknown => (),
+            GoCamNodeType::Chemical => (),
+            GoCamNodeType::Gene(gene) => {
+                add_gene(gene.id());
+            },
+            GoCamNodeType::ModifiedProtein(modified_protein_termid) => {
+                modified_gene_pro_terms.insert(modified_protein_termid.id().to_owned());
+            },
+            GoCamNodeType::Activity(enabled_by) => match enabled_by {
+                GoCamEnabledBy::Chemical(_) => (),
+                GoCamEnabledBy::Gene(gene) => {
+                    add_gene(gene.id());
+                },
+                GoCamEnabledBy::ModifiedProtein(modified_protein_termid) => {
+                    modified_gene_pro_terms.insert(modified_protein_termid.id().to_owned());
+                },
+                GoCamEnabledBy::Complex(complex) => {
+                    complex_terms.insert(complex.id().to_owned());
+                    for gene in &complex.has_part_genes {
+                        add_gene(&gene);
+                    }
+                },
+            }
+        }
+    }
+
+    let title = model.title().to_owned();
+    let mut title_terms = BTreeSet::new();
+
+    for (_, [title_termid]) in TERM_IN_TITLE_RE.captures_iter(&title).map(|c| c.extract()) {
+        title_terms.insert(title_termid.to_owned());
+        process_terms.insert(title_termid.to_owned());
+    }
+
+    let contributors = model.contributors().iter()
+        .map(|c| c.replace("https://orcid.org/", "")).collect();
+
+    ChadoModelData {
+        title,
+        title_terms,
+        date: model.date().to_owned(),
+        contributors,
+        complex_terms,
+        occurs_in_terms,
+        located_in_terms,
+        genes,
+        modified_gene_pro_terms,
+        process_terms,
+    }
+}
+
+pub fn make_chado_data(models: &[&GoCamModel]) -> ChadoData {
+    let mut ret = BTreeMap::new();
+
+    for model in models {
+        let id = model.id().replace("gomodel:", "");
+        ret.insert(id, chado_data_helper(model));
+    }
+
+    ret
 }
