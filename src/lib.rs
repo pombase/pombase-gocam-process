@@ -85,7 +85,7 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
     }
 }
 
-pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> HashSet<(String, String)> {
+pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> HashSet<String> {
     let mut ret = HashSet::new();
 
     let graph = &model.graph().clone().into_edge_type::<Undirected>();
@@ -131,8 +131,7 @@ pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> Ha
 
         if connected_genes.len() >= min_connected_count  {
             for gene in connected_genes {
-//                println!("{}", gene);
-                ret.insert((model.taxon().to_owned(), gene.to_owned()));
+                ret.insert(gene.to_owned());
             }
         }
     }
