@@ -335,7 +335,7 @@ pub fn model_pathways_to_cytoscope(models: &[&GoCamModel]) -> CytoscapeElements 
             let edge = CytoscapeEdge {
                 data: CytoscapeEdgeData {
                     id: format!("{}-{}", first, second),
-                    label: overlap.node_description.to_owned(),
+                    label: overlap.node_label.to_owned(),
                     source: first.to_owned(),
                     target: second.to_owned(),
                     weight: 0,
