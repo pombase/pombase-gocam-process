@@ -316,7 +316,7 @@ pub fn model_pathways_to_cytoscope(models: &[&GoCamModel]) -> CytoscapeElements 
         model_map.insert(model.id().to_owned(), model);
     }
 
-    let overlaps = GoCamModel::find_activity_overlaps(&models);
+    let overlaps = GoCamModel::find_overlaps(&models);
 
     let mut edges = vec![];
 
