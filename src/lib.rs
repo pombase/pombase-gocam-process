@@ -455,6 +455,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         match &node.node_type {
             GoCamNodeType::Unknown => (),
             GoCamNodeType::Chemical => (),
+            GoCamNodeType::UnknownMRNA => (),
             GoCamNodeType::Gene(gene) => {
                 add_gene(gene.id());
             },
