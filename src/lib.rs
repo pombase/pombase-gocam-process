@@ -88,8 +88,12 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
     }
 }
 
-pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> HashSet<String> {
-    let mut ret = HashSet::new();
+pub type GoCamConnectedByCount = HashMap<usize, HashSet<String>>;
+
+pub fn get_connected_genes(model: &GoCamModel)
+ -> GoCamConnectedByCount
+{
+    let mut ret = GoCamConnectedByCount::new();
 
     let graph = &model.graph().clone().into_edge_type::<Undirected>();
 
@@ -102,7 +106,8 @@ pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> Ha
 
         seen_idxs.insert(idx);
 
-        let mut connected_genes: HashSet<String> = HashSet::new();
+        let mut connected_genes = HashSet::new();
+        let mut seen_activities = HashSet::new();
 
         let mut bfs = Bfs::new(&graph, idx);
 
@@ -115,8 +120,9 @@ pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> Ha
                 GoCamNodeType::Gene(ref gene) => {
                     connected_genes.insert(gene.id().to_owned());
                 },
-                GoCamNodeType::Activity(ref enabler) =>
-                match enabler {
+                GoCamNodeType::Activity(ref enabler) => {
+                    seen_activities.insert(gocam_node.individual_gocam_id.clone());
+                    match enabler {
                     GoCamEnabledBy::Gene(gene) => {
                         connected_genes.insert(gene.id().to_owned());
                     },
@@ -127,15 +133,16 @@ pub fn get_connected_genes(model: &GoCamModel, min_connected_count: usize) -> Ha
                         connected_genes.extend(complex.has_part_genes.clone());
                     },
                     _ => (),
+                    }
                 },
                 _ => (),
             }
         }
 
-        if connected_genes.len() >= min_connected_count  {
-            for gene in connected_genes {
-                ret.insert(gene.to_owned());
-            }
+        for count in 0..=seen_activities.len() {
+            ret.entry(count)
+               .or_insert_with(HashSet::new)
+               .extend(connected_genes.iter().cloned());
         }
     }
 
@@ -368,6 +375,75 @@ pub fn model_pathways_to_cytoscope(models: &[&GoCamModel]) -> CytoscapeElements 
     }
 }
 
+pub fn model_pathways_to_cytoscope_test(models: &[&GoCamModel]) -> CytoscapeElements {
+    let mut model_map = HashMap::new();
+
+    for model in models.iter() {
+        model_map.insert(model.id().to_owned(), model);
+    }
+
+    let overlaps = GoCamModel::find_overlaps(&models);
+
+    let mut edges = vec![];
+    let mut nodes = vec![];
+
+    let mut models_in_overlaps = HashSet::new();
+
+    for overlap in &overlaps {
+        let overlap_id = overlap.id();
+
+        let overlap_node =
+                CytoscapeNode {
+                    data: CytoscapeNodeData {
+                        id: overlap_id.clone(),
+                        label: overlap.node_label.to_owned(),
+                        db_id: overlap.node_id.to_owned(),
+                        display_label: "".to_owned(),
+                        type_string: "".to_owned(),
+                        enabler_label: "".to_owned(),
+                    }
+                };
+
+        nodes.push(overlap_node);
+
+        for overlap_model_id in overlap.model_ids.iter() {
+
+            models_in_overlaps.insert(overlap_model_id.to_owned());
+
+            let edge = CytoscapeEdge {
+                data: CytoscapeEdgeData {
+                    id: format!("{}-{}", overlap_model_id, overlap_id),
+                    label: overlap.node_label.to_owned(),
+                    source: overlap_model_id.to_owned(),
+                    target: overlap_id.to_owned(),
+                    weight: 0,
+                }
+            };
+            edges.push(edge);
+        }
+    }
+
+    nodes.extend(models_in_overlaps.iter()
+        .map(|model_id| {
+            let model = model_map.get(model_id).unwrap();
+
+            CytoscapeNode {
+                data: CytoscapeNodeData {
+                    id: model.id().to_owned(),
+                    label: model.title().to_owned(),
+                    db_id: "".to_owned(),
+                    display_label: "".to_owned(),
+                    type_string: "".to_owned(),
+                    enabler_label: "".to_owned(),
+                }
+            }
+        }));
+
+    CytoscapeElements {
+        nodes,
+        edges,
+    }
+}
 
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
     let node_iter = model.node_iterator();
