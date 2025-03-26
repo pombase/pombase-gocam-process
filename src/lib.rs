@@ -11,7 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel, GoCamNode, GoCamNodeType, GoCamRawModel, ModelId};
+use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel, GoCamNode, GoCamNodeOverlap, GoCamNodeType, GoCamRawModel, ModelId};
 use regex::Regex;
 
 pub struct GoCamStats {
@@ -158,6 +158,8 @@ pub struct CytoscapeNodeData {
     pub display_label: String,
     pub label: String,
     pub enabler_label: String,
+    // this node is in more than one model
+    pub is_connecting_node: bool,
     #[serde(rename = "type")]
     pub type_string: String,
 }
@@ -232,6 +234,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     display_label: label.to_owned(),
                     label: label.to_owned(),
                     enabler_label: "".to_owned(),
+                    is_connecting_node: false,
                 }
             })
         }).collect();
@@ -251,7 +254,13 @@ fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
     }
 }
 
-pub fn model_to_cytoscape_simple(model: &GoCamModel) -> CytoscapeElements {
+pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOverlap>) -> CytoscapeElements {
+    let mut overlap_set = HashSet::new();
+
+    for overlap in overlaps {
+        overlap_set.extend(overlap.overlapping_individual_ids.iter());
+    }
+
     let edges: Vec<_> = model.graph().edge_references()
         .map(|edge_ref| {
             let edge = edge_ref.weight();
@@ -304,6 +313,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel) -> CytoscapeElements {
                     display_label,
                     label,
                     enabler_label,
+                    is_connecting_node: overlap_set.contains(&node.individual_gocam_id),
                 }
             }
         }).collect();
@@ -364,6 +374,7 @@ pub fn model_pathways_to_cytoscope(models: &[GoCamModel]) -> CytoscapeElements {
                     display_label: "".to_owned(),
                     type_string: "".to_owned(),
                     enabler_label: "".to_owned(),
+                    is_connecting_node: false,
                 }
             }
         })
@@ -403,6 +414,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
                         display_label: "".to_owned(),
                         type_string: "".to_owned(),
                         enabler_label: "".to_owned(),
+                        is_connecting_node: false,
                     }
                 };
 
@@ -437,6 +449,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
                     display_label: "".to_owned(),
                     type_string: "".to_owned(),
                     enabler_label: "".to_owned(),
+                    is_connecting_node: false,
                 }
             }
         }));
