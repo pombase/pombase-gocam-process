@@ -316,7 +316,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel) -> CytoscapeElements {
     elements
 }
 
-pub fn model_pathways_to_cytoscope(models: &[&GoCamModel]) -> CytoscapeElements {
+pub fn model_pathways_to_cytoscope(models: &[GoCamModel]) -> CytoscapeElements {
     let mut model_map = HashMap::new();
 
     for model in models.iter() {
@@ -375,7 +375,9 @@ pub fn model_pathways_to_cytoscope(models: &[&GoCamModel]) -> CytoscapeElements 
     }
 }
 
-pub fn model_pathways_to_cytoscope_test(models: &[&GoCamModel]) -> CytoscapeElements {
+pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
+   -> CytoscapeElements
+{
     let mut model_map = HashMap::new();
 
     for model in models.iter() {
@@ -581,7 +583,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     }
 }
 
-pub fn make_chado_data(models: &[&GoCamModel]) -> ChadoData {
+pub fn make_chado_data(models: &[GoCamModel]) -> ChadoData {
     let mut ret = BTreeMap::new();
 
     for model in models {
