@@ -255,10 +255,10 @@ fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
 }
 
 pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOverlap>) -> CytoscapeElements {
-    let mut overlap_set = HashSet::new();
+    let mut overlap_set = BTreeSet::new();
 
     for overlap in overlaps {
-        overlap_set.extend(overlap.overlapping_individual_ids.iter());
+        overlap_set.extend(overlap.overlapping_individual_ids.iter().cloned());
     }
 
     let edges: Vec<_> = model.graph().edge_references()
@@ -305,6 +305,8 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 label.clone()
             };
             let db_id = node.db_id().to_owned();
+            let is_connecting_node =
+                 overlap_set.intersection(&node.source_ids).next().is_some();
             CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
@@ -313,7 +315,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     display_label,
                     label,
                     enabler_label,
-                    is_connecting_node: overlap_set.contains(&node.individual_gocam_id),
+                    is_connecting_node,
                 }
             }
         }).collect();
