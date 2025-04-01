@@ -162,6 +162,7 @@ pub struct CytoscapeNodeData {
     pub is_connecting_node: bool,
     #[serde(rename = "type")]
     pub type_string: String,
+    pub model_ids: BTreeSet<ModelId>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
@@ -187,6 +188,26 @@ pub struct CytoscapeEdge {
 pub struct CytoscapeElements {
     pub nodes: Vec<CytoscapeNode>,
     pub edges: Vec<CytoscapeEdge>,
+}
+
+#[derive(Serialize, Debug, Clone)]
+pub struct CytoscapeModel {
+    pub id: CytoscapeId,
+    pub title: String,
+}
+
+#[derive(Serialize, Debug, Clone)]
+pub struct CytoscapeModelConnection {
+    pub id: CytoscapeId,
+    pub label: String,
+    pub source: ModelId,
+    pub target: ModelId,
+}
+
+#[derive(Serialize, Debug, Clone)]
+pub struct CytoscapeModelElements {
+    pub nodes: Vec<CytoscapeModel>,
+    pub edges: Vec<CytoscapeModelConnection>,
 }
 
 pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
@@ -226,6 +247,9 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                 return None;
             };
 
+            let mut model_ids = BTreeSet::new();
+            model_ids.insert(model.id().to_owned());
+
             Some(CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: individual.id.clone(),
@@ -235,6 +259,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     label: label.to_owned(),
                     enabler_label: "".to_owned(),
                     is_connecting_node: false,
+                    model_ids,
                 }
             })
         }).collect();
@@ -307,6 +332,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let db_id = node.db_id().to_owned();
             let is_connecting_node =
                  overlap_set.intersection(&node.source_ids).next().is_some();
+            let model_ids = node.models.iter().map(|(model_id, _)| model_id.to_owned()).collect();
             CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
@@ -316,6 +342,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     label,
                     enabler_label,
                     is_connecting_node,
+                    model_ids,
                 }
             }
         }).collect();
@@ -328,22 +355,14 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
     elements
 }
 
-pub fn model_pathways_to_cytoscope(models: &[GoCamModel]) -> CytoscapeElements {
-    let mut model_map = HashMap::new();
-
-    for model in models.iter() {
-        model_map.insert(model.id().to_owned(), model);
-    }
-
-    let overlaps = GoCamModel::find_overlaps(&models);
-
+pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> CytoscapeModelElements {
     let mut edges = vec![];
 
     let mut models_in_overlaps = HashSet::new();
 
-    for overlap in &overlaps {
-        let iter = overlap.model_ids.iter()
-            .cartesian_product(overlap.model_ids.iter());
+    for overlap in overlaps {
+        let iter = overlap.models.iter()
+            .cartesian_product(overlap.models.iter());
 
         for (first, second) in iter.into_iter() {
             if first >= second {
@@ -351,45 +370,37 @@ pub fn model_pathways_to_cytoscope(models: &[GoCamModel]) -> CytoscapeElements {
             }
             models_in_overlaps.insert(first.to_owned());
             models_in_overlaps.insert(second.to_owned());
-            let edge = CytoscapeEdge {
-                data: CytoscapeEdgeData {
-                    id: format!("{}-{}", first, second),
-                    label: overlap.node_label.to_owned(),
-                    source: first.to_owned(),
-                    target: second.to_owned(),
-                    weight: 0,
-                }
+
+            let (first_model_id, _) = first;
+            let (second_model_id, _) = second;
+
+            let edge = CytoscapeModelConnection {
+                id: format!("{}-{}", first_model_id, second_model_id),
+                label: overlap.node_label.to_owned(),
+                source: first_model_id.to_owned(),
+                target: second_model_id.to_owned(),
             };
             edges.push(edge);
         }
     }
 
     let nodes: Vec<_> = models_in_overlaps.iter()
-        .map(|model_id| {
-            let model = model_map.get(model_id).unwrap();
-
-            CytoscapeNode {
-                data: CytoscapeNodeData {
-                    id: model.id().to_owned(),
-                    label: model.title().to_owned(),
-                    db_id: "".to_owned(),
-                    display_label: "".to_owned(),
-                    type_string: "".to_owned(),
-                    enabler_label: "".to_owned(),
-                    is_connecting_node: false,
-                }
+        .map(|(model_id, model_title)| {
+            CytoscapeModel {
+                id: model_id.to_owned(),
+                title: model_title.to_owned(),
             }
         })
         .collect();
 
-    CytoscapeElements {
+    CytoscapeModelElements {
         nodes,
         edges,
     }
 }
 
 pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
-   -> CytoscapeElements
+   -> CytoscapeModelElements
 {
     let mut model_map = HashMap::new();
 
@@ -408,32 +419,22 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
         let overlap_id = overlap.id();
 
         let overlap_node =
-                CytoscapeNode {
-                    data: CytoscapeNodeData {
-                        id: overlap_id.clone(),
-                        label: overlap.node_label.to_owned(),
-                        db_id: overlap.node_id.to_owned(),
-                        display_label: "".to_owned(),
-                        type_string: "".to_owned(),
-                        enabler_label: "".to_owned(),
-                        is_connecting_node: false,
-                    }
-                };
+            CytoscapeModel {
+                id: overlap_id.clone(),
+                title: overlap.node_label.to_owned(),
+            };
 
         nodes.push(overlap_node);
 
-        for overlap_model_id in overlap.model_ids.iter() {
+        for (overlap_model_id, _) in overlap.models.iter() {
 
             models_in_overlaps.insert(overlap_model_id.to_owned());
 
-            let edge = CytoscapeEdge {
-                data: CytoscapeEdgeData {
-                    id: format!("{}-{}", overlap_model_id, overlap_id),
-                    label: overlap.node_label.to_owned(),
-                    source: overlap_model_id.to_owned(),
-                    target: overlap_id.to_owned(),
-                    weight: 0,
-                }
+            let edge = CytoscapeModelConnection {
+                id: format!("{}-{}", overlap_model_id, overlap_id),
+                label: overlap.node_label.to_owned(),
+                source: overlap_model_id.to_owned(),
+                target: overlap_id.to_owned(),
             };
             edges.push(edge);
         }
@@ -443,20 +444,13 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
         .map(|model_id| {
             let model = model_map.get(model_id).unwrap();
 
-            CytoscapeNode {
-                data: CytoscapeNodeData {
-                    id: model.id().to_owned(),
-                    label: model.title().to_owned(),
-                    db_id: "".to_owned(),
-                    display_label: "".to_owned(),
-                    type_string: "".to_owned(),
-                    enabler_label: "".to_owned(),
-                    is_connecting_node: false,
-                }
+            CytoscapeModel {
+                id: model.id().to_owned(),
+                title: model.title().to_owned(),
             }
         }));
 
-    CytoscapeElements {
+    CytoscapeModelElements{
         nodes,
         edges,
     }
