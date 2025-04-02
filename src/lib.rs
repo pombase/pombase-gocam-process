@@ -11,7 +11,9 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel, GoCamNode, GoCamNodeOverlap, GoCamNodeType, GoCamRawModel, ModelId};
+use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
+                    GoCamNode, GoCamNodeOverlap, GoCamProcess,
+                    GoCamNodeType, GoCamRawModel, ModelId};
 use regex::Regex;
 
 pub struct GoCamStats {
@@ -154,10 +156,17 @@ type CytoscapeId = String;
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct CytoscapeNodeData {
     pub id: CytoscapeId,
-    pub db_id: String,
     pub display_label: String,
+    pub node_id: String,
     pub label: String,
     pub enabler_label: String,
+    pub enabler_id: String,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub located_in: Option<GoCamComponent>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub occurs_in: Option<GoCamComponent>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub part_of_process: Option<GoCamProcess>,
     // this node is in more than one model
     pub is_connecting_node: bool,
     #[serde(rename = "type")]
@@ -253,11 +262,15 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
             Some(CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: individual.id.clone(),
-                    db_id: id.clone(),
                     type_string: "node".to_owned(),
                     display_label: label.to_owned(),
                     label: label.to_owned(),
+                    node_id: id.clone(),
                     enabler_label: "".to_owned(),
+                    enabler_id: "".to_owned(),
+                    located_in: None,
+                    occurs_in: None,
+                    part_of_process: None,
                     is_connecting_node: false,
                     model_ids,
                 }
@@ -324,23 +337,28 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 } else {
                     "".to_owned()
                 };
+            let enabler_id = node.enabler_id().to_owned();
             let display_label = if enabler_label.len() > 0 {
                 enabler_label.clone()
             } else {
                 label.clone()
             };
-            let db_id = node.db_id().to_owned();
+
             let is_connecting_node =
                  overlap_set.intersection(&node.source_ids).next().is_some();
             let model_ids = node.models.iter().map(|(model_id, _)| model_id.to_owned()).collect();
             CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
-                    db_id,
                     type_string: node.type_string().to_owned(),
                     display_label,
                     label,
+                    node_id: node.node_id.clone(),
                     enabler_label,
+                    enabler_id,
+                    located_in: node.located_in.clone(),
+                    occurs_in: node.occurs_in.clone(),
+                    part_of_process: node.part_of_process.clone(),
                     is_connecting_node,
                     model_ids,
                 }
