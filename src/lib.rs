@@ -530,7 +530,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
 
     for node in model.node_iterator() {
         let process_termids = node.part_of_process.iter()
-            .map(|i| i.id().to_owned());
+            .map(|p| p.id.clone());
         process_terms.extend(process_termids);
 
         if let Some(ref occurs_in) = node.occurs_in {
