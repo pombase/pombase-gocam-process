@@ -361,6 +361,10 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
     let mut models_in_overlaps = HashSet::new();
 
     for overlap in overlaps {
+        if !overlap.node_type.is_activity() {
+            continue;
+        }
+
         let iter = overlap.models.iter()
             .cartesian_product(overlap.models.iter());
 
@@ -416,6 +420,10 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
     let mut models_in_overlaps = HashSet::new();
 
     for overlap in &overlaps {
+        if !overlap.node_type.is_activity() {
+            continue;
+        }
+
         let overlap_id = overlap.id();
 
         let overlap_node =
