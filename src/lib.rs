@@ -569,6 +569,14 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             GoCamNodeType::Unknown => (),
             GoCamNodeType::Chemical => (),
             GoCamNodeType::UnknownMRNA => (),
+            GoCamNodeType::MRNA(mrna) => {
+                if let Some(no_suffix) = mrna.id.strip_suffix(|c: char| c.is_numeric()) {
+                    if let Some(no_suffix) = no_suffix.strip_suffix('.') {
+                        eprintln!("no_suffix: {}", no_suffix);
+                        add_gene(no_suffix);
+                    }
+                }
+            },
             GoCamNodeType::Gene(gene) => {
                 add_gene(gene.id());
             },
