@@ -332,17 +332,22 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let label = remove_suffix(&node.label, " Spom").to_owned();
             let enabler_label = node.enabler_label();
             let enabler_label =
-                if enabler_label.len() > 0 {
-                    remove_suffix(enabler_label, " Spom").to_owned()
+                if node.enabler_id() == "CHEBI:36080" {
+                    "unknown protein".to_owned()
                 } else {
-                    "".to_owned()
+                    if enabler_label.len() > 0 {
+                        remove_suffix(enabler_label, " Spom").to_owned()
+                    } else {
+                        "".to_owned()
+                    }
                 };
             let enabler_id = node.enabler_id().to_owned();
-            let display_label = if enabler_label.len() > 0 {
-                enabler_label.clone()
-            } else {
-                label.clone()
-            };
+            let display_label =
+                if enabler_label.len() > 0 {
+                    enabler_label.clone()
+                } else {
+                    label.clone()
+                };
 
             let is_connecting_node =
                  overlap_set.intersection(&node.source_ids).next().is_some();
