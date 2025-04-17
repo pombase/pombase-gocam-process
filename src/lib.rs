@@ -13,7 +13,7 @@ use petgraph::visit::EdgeRef;
 
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
-                    GoCamNodeType, GoCamRawModel, ModelId};
+                    GoCamNodeType, raw::GoCamRawModel, ModelId};
 use regex::Regex;
 
 pub struct GoCamStats {
@@ -328,7 +328,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
         }).collect();
 
     let nodes: Vec<_> = model.node_iterator()
-        .map(|node| {
+        .map(|(_, node)| {
             let label = remove_suffix(&node.label, " Spom").to_owned();
             let enabler_label = node.enabler_label();
             let enabler_label =
@@ -384,10 +384,6 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
     let mut models_in_overlaps = HashSet::new();
 
     for overlap in overlaps {
-        if !overlap.node_type.is_activity() {
-            continue;
-        }
-
         let iter = overlap.models.iter()
             .cartesian_product(overlap.models.iter());
 
@@ -435,7 +431,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
         model_map.insert(model.id().to_owned(), model);
     }
 
-    let overlaps = GoCamModel::find_overlaps(&models);
+    let overlaps = GoCamModel::find_overlapping_activities(&models);
 
     let mut edges = vec![];
     let mut nodes = vec![];
@@ -443,10 +439,6 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
     let mut models_in_overlaps = HashSet::new();
 
     for overlap in &overlaps {
-        if !overlap.node_type.is_activity() {
-            continue;
-        }
-
         let overlap_id = overlap.id();
 
         let overlap_node =
@@ -489,7 +481,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
 
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
     let node_iter = model.node_iterator();
-    node_iter.filter_map(|node| {
+    node_iter.filter_map(|(_, node)| {
         if node.enabler_label() == "protein" {
             Some(node.clone())
         } else {
@@ -551,7 +543,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
 
     let mut add_gene = |g: &str| genes.insert(g.replace("PomBase:", ""));
 
-    for node in model.node_iterator() {
+    for (_, node) in model.node_iterator() {
         let process_termids = node.part_of_process.iter()
             .map(|p| p.id.clone());
         process_terms.extend(process_termids);
