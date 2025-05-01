@@ -11,6 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
+use pombase_gocam::GoCamDirection;
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, ModelId};
@@ -211,6 +212,8 @@ pub struct CytoscapeModelConnection {
     pub label: String,
     pub source: ModelId,
     pub target: ModelId,
+    pub enabler_id: String,
+    pub has_direction: bool,
 }
 
 #[derive(Serialize, Debug, Clone)]
@@ -329,14 +332,16 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
 
     let nodes: Vec<_> = model.node_iterator()
         .map(|(_, node)| {
-            let label = remove_suffix(&node.label, " Spom").to_owned();
+            let label = remove_suffix(remove_suffix(&node.label, " Spom"),
+                                      " Dmel")
+                .to_owned();
             let enabler_label = node.enabler_label();
             let enabler_label =
                 if node.enabler_id() == "CHEBI:36080" {
                     "unknown protein".to_owned()
                 } else {
                     if enabler_label.len() > 0 {
-                        remove_suffix(enabler_label, " Spom").to_owned()
+                        remove_suffix(remove_suffix(enabler_label, " Spom"), " Dmel").to_owned()
                     } else {
                         "".to_owned()
                     }
@@ -383,7 +388,14 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
 
     let mut models_in_overlaps = HashSet::new();
 
+    eprintln!("{}", overlaps.len());
+
     for overlap in overlaps {
+        let GoCamNodeType::Activity(ref enabler) = overlap.node_type
+        else {
+            continue;
+        };
+
         let iter = overlap.models.iter()
             .cartesian_product(overlap.models.iter());
 
@@ -391,24 +403,47 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
             if first >= second {
                 continue;
             }
+
             models_in_overlaps.insert(first.to_owned());
             models_in_overlaps.insert(second.to_owned());
 
-            let (first_model_id, _) = first;
-            let (second_model_id, _) = second;
+            let (first_model_id, _, first_direction) = first.to_owned();
+            let (second_model_id, _, second_direction) = second.to_owned();
+
+            let (source, target, has_direction) =
+                if first_direction == second_direction {
+                    (first_model_id, second_model_id, false).to_owned()
+                } else {
+                    if first_direction == GoCamDirection::Incoming ||
+                        second_direction == GoCamDirection::Outgoing
+                    {
+                        (first_model_id, second_model_id, true).to_owned()
+                    } else {
+                        (second_model_id, first_model_id, true).to_owned()
+                    }
+                };
+
+            if source == "gomodel:67c10cc400002026" || target == "gomodel:67c10cc400002026" {
+
+                eprintln!("{:?}", overlap);
+            }
+
+            let enabler_id = enabler.id().to_owned();
 
             let edge = CytoscapeModelConnection {
-                id: format!("{}-{}", first_model_id, second_model_id),
+                id: format!("{}-{}", source, target),
                 label: overlap.node_label.to_owned(),
-                source: first_model_id.to_owned(),
-                target: second_model_id.to_owned(),
+                source,
+                target,
+                enabler_id,
+                has_direction,
             };
             edges.push(edge);
         }
     }
 
     let nodes: Vec<_> = models_in_overlaps.iter()
-        .map(|(model_id, model_title)| {
+        .map(|(model_id, model_title, _)| {
             CytoscapeModel {
                 id: model_id.to_owned(),
                 title: model_title.to_owned(),
@@ -449,7 +484,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
 
         nodes.push(overlap_node);
 
-        for (overlap_model_id, _) in overlap.models.iter() {
+        for (overlap_model_id, _, _) in overlap.models.iter() {
 
             models_in_overlaps.insert(overlap_model_id.to_owned());
 
@@ -458,6 +493,8 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
                 label: overlap.node_label.to_owned(),
                 source: overlap_model_id.to_owned(),
                 target: overlap_id.to_owned(),
+                enabler_id: "".to_owned(),
+                has_direction: false,
             };
             edges.push(edge);
         }
