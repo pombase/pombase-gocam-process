@@ -11,7 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::GoCamDirection;
+use pombase_gocam::{GoCamDirection, GoCamGeneIdentifier};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, ModelId};
@@ -168,6 +168,7 @@ pub struct CytoscapeNodeData {
     pub occurs_in: Option<GoCamComponent>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub part_of_process: Option<GoCamProcess>,
+    pub has_part_genes: BTreeSet<GoCamGeneIdentifier>,
     // this node is in more than one model
     pub is_connecting_node: bool,
     #[serde(rename = "type")]
@@ -274,6 +275,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     located_in: None,
                     occurs_in: None,
                     part_of_process: None,
+                    has_part_genes: BTreeSet::new(),
                     is_connecting_node: false,
                     model_ids,
                 }
@@ -356,6 +358,24 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
 
             let is_connecting_node =
                  overlap_set.intersection(&node.source_ids).next().is_some();
+            let has_part_genes =
+                if let GoCamNodeType::Activity(ref enabled_by) = node.node_type {
+                    if let GoCamEnabledBy::Complex(complex) = enabled_by {
+                        complex.has_part_genes.iter()
+                            .map(|id| {
+                                if let Some(new_id) = id.split(':').nth(1) {
+                                    new_id.to_owned()
+                                } else {
+                                    id.to_owned()
+                                }
+                            })
+                            .collect()
+                    } else {
+                        BTreeSet::new()
+                    }
+                } else {
+                    BTreeSet::new()
+                };
             let model_ids = node.models.iter().map(|(model_id, _)| model_id.to_owned()).collect();
             CytoscapeNode {
                 data: CytoscapeNodeData {
@@ -369,6 +389,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     located_in: node.located_in.clone(),
                     occurs_in: node.occurs_in.clone(),
                     part_of_process: node.part_of_process.clone(),
+                    has_part_genes,
                     is_connecting_node,
                     model_ids,
                 }
