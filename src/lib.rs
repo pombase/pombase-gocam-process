@@ -409,8 +409,6 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
 
     let mut models_in_overlaps = HashSet::new();
 
-    eprintln!("{}", overlaps.len());
-
     for overlap in overlaps {
         let GoCamNodeType::Activity(ref enabler) = overlap.node_type
         else {
@@ -443,11 +441,6 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
                         (second_model_id, first_model_id, true).to_owned()
                     }
                 };
-
-            if source == "gomodel:67c10cc400002026" || target == "gomodel:67c10cc400002026" {
-
-                eprintln!("{:?}", overlap);
-            }
 
             let enabler_id = enabler.id().to_owned();
 
