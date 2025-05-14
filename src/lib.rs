@@ -154,7 +154,7 @@ pub fn get_connected_genes(model: &GoCamModel)
 
 type CytoscapeId = String;
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CytoscapeNodeData {
     pub id: CytoscapeId,
     pub display_label: String,
@@ -164,8 +164,8 @@ pub struct CytoscapeNodeData {
     pub enabler_id: String,
     #[serde(skip_serializing_if="Option::is_none")]
     pub located_in: Option<GoCamComponent>,
-    #[serde(skip_serializing_if="Vec::is_empty")]
-    pub occurs_in: Vec<GoCamComponent>,
+    #[serde(skip_serializing_if="BTreeSet::is_empty")]
+    pub occurs_in: BTreeSet<GoCamComponent>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub part_of_process: Option<GoCamProcess>,
     pub has_part_genes: BTreeSet<GoCamGeneIdentifier>,
@@ -273,7 +273,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     enabler_label: "".to_owned(),
                     enabler_id: "".to_owned(),
                     located_in: None,
-                    occurs_in: vec![],
+                    occurs_in: BTreeSet::new(),
                     part_of_process: None,
                     has_part_genes: BTreeSet::new(),
                     is_connecting_node: false,
