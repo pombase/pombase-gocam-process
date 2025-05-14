@@ -429,16 +429,16 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
             let (first_model_id, _, first_direction) = first.to_owned();
             let (second_model_id, _, second_direction) = second.to_owned();
 
-            let (source, target, has_direction) =
+            let (source, target) =
                 if first_direction == second_direction {
-                    (first_model_id, second_model_id, false).to_owned()
+                    continue;
                 } else {
                     if first_direction == GoCamDirection::Incoming ||
                         second_direction == GoCamDirection::Outgoing
                     {
-                        (first_model_id, second_model_id, true).to_owned()
+                        (first_model_id, second_model_id).to_owned()
                     } else {
-                        (second_model_id, first_model_id, true).to_owned()
+                        (second_model_id, first_model_id).to_owned()
                     }
                 };
 
@@ -450,7 +450,7 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
                 source,
                 target,
                 enabler_id,
-                has_direction,
+                has_direction: true,
             };
             edges.push(edge);
         }
