@@ -201,13 +201,13 @@ pub struct CytoscapeElements {
     pub edges: Vec<CytoscapeEdge>,
 }
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CytoscapeModel {
     pub id: CytoscapeId,
     pub title: String,
 }
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CytoscapeModelConnection {
     pub id: CytoscapeId,
     pub label: String,
@@ -217,10 +217,10 @@ pub struct CytoscapeModelConnection {
     pub has_direction: bool,
 }
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CytoscapeModelElements {
-    pub nodes: Vec<CytoscapeModel>,
-    pub edges: Vec<CytoscapeModelConnection>,
+    pub nodes: BTreeSet<CytoscapeModel>,
+    pub edges: BTreeSet<CytoscapeModelConnection>,
 }
 
 pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
@@ -404,8 +404,10 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
     elements
 }
 
-pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> CytoscapeModelElements {
-    let mut edges = vec![];
+pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_ids_and_titles: &[(String, String)])
+   -> CytoscapeModelElements
+{
+    let mut edges = BTreeSet::new();
 
     let mut models_in_overlaps = HashSet::new();
 
@@ -452,11 +454,11 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
                 enabler_id,
                 has_direction: true,
             };
-            edges.push(edge);
+            edges.insert(edge);
         }
     }
 
-    let nodes: Vec<_> = models_in_overlaps.iter()
+    let mut nodes: BTreeSet<_> = models_in_overlaps.iter()
         .map(|(model_id, model_title, _)| {
             CytoscapeModel {
                 id: model_id.to_owned(),
@@ -464,6 +466,15 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>) -> Cytos
             }
         })
         .collect();
+
+    for (id, title) in model_ids_and_titles {
+        let cytoscape_model = CytoscapeModel {
+            id: id.clone(),
+            title: title.clone(),
+        };
+
+        nodes.insert(cytoscape_model);
+    }
 
     CytoscapeModelElements {
         nodes,
@@ -482,8 +493,8 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
 
     let overlaps = GoCamModel::find_overlaps(&models);
 
-    let mut edges = vec![];
-    let mut nodes = vec![];
+    let mut edges = BTreeSet::new();
+    let mut nodes = BTreeSet::new();
 
     let mut models_in_overlaps = HashSet::new();
 
@@ -496,7 +507,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
                 title: overlap.node_label.to_owned(),
             };
 
-        nodes.push(overlap_node);
+        nodes.insert(overlap_node);
 
         for (overlap_model_id, _, _) in overlap.models.iter() {
 
@@ -510,7 +521,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
                 enabler_id: "".to_owned(),
                 has_direction: false,
             };
-            edges.push(edge);
+            edges.insert(edge);
         }
     }
 
