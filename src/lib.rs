@@ -541,6 +541,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
     }
 }
 
+/// Return a Vec of nodes that have an unknown enabler
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
     let node_iter = model.node_iterator();
     node_iter.filter_map(|(_, node)| {
