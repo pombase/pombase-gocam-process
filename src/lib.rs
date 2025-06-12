@@ -590,6 +590,7 @@ pub struct ChadoModelData {
     pub located_in_terms: BTreeSet<String>,
     pub title: String,
     pub title_terms: BTreeSet<String>,
+    pub pathway_holes: Vec<GoCamNode>,
 }
 
 lazy_static! {
@@ -671,6 +672,8 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let contributors = model.contributors().iter()
         .map(|c| c.replace("https://orcid.org/", "")).collect();
 
+    let pathway_holes = find_holes(model);
+
     ChadoModelData {
         title,
         title_terms,
@@ -682,6 +685,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         genes,
         modified_gene_pro_terms,
         process_terms,
+        pathway_holes,
     }
 }
 
