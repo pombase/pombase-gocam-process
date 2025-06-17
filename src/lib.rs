@@ -168,6 +168,8 @@ pub struct CytoscapeNodeData {
     pub occurs_in: BTreeSet<GoCamComponent>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub part_of_process: Option<GoCamProcess>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub happens_during: Option<GoCamProcess>,
     pub has_part_genes: BTreeSet<GoCamGeneIdentifier>,
     // this node is in more than one model
     pub is_connecting_node: bool,
@@ -275,6 +277,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     located_in: None,
                     occurs_in: BTreeSet::new(),
                     part_of_process: None,
+                    happens_during: None,
                     has_part_genes: BTreeSet::new(),
                     is_connecting_node: false,
                     model_ids,
@@ -389,6 +392,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     located_in: node.located_in.clone(),
                     occurs_in: node.occurs_in.clone(),
                     part_of_process: node.part_of_process.clone(),
+                    happens_during: node.happens_during.clone(),
                     has_part_genes,
                     is_connecting_node,
                     model_ids,
