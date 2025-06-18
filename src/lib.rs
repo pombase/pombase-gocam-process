@@ -439,8 +439,10 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
                 if first_direction == second_direction {
                     continue;
                 } else {
-                    if first_direction == GoCamDirection::Incoming ||
-                        second_direction == GoCamDirection::Outgoing
+                    if (first_direction == GoCamDirection::IncomingConstitutivelyUpstream  ||
+                        first_direction == GoCamDirection::Incoming ||
+                        second_direction == GoCamDirection::Outgoing) &&
+                       second_direction != GoCamDirection::IncomingConstitutivelyUpstream
                     {
                         (first_model_id, second_model_id).to_owned()
                     } else {
