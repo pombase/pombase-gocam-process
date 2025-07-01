@@ -11,7 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamDirection, GoCamGeneIdentifier};
+use pombase_gocam::{GoCamDirection, GoCamGeneIdentifier, ModelTitle};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, ModelId};
@@ -175,6 +175,8 @@ pub struct CytoscapeNodeData {
     pub is_connecting_node: bool,
     #[serde(rename = "type")]
     pub type_string: String,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub parent: Option<String>,
     pub model_ids: BTreeSet<ModelId>,
 }
 
@@ -184,6 +186,7 @@ pub struct CytoscapeEdgeData {
     pub label: String,
     pub source: CytoscapeId,
     pub target: CytoscapeId,
+    pub ideal_edge_length: Option<u32>,
     pub weight: i32,
 }
 
@@ -199,6 +202,7 @@ pub struct CytoscapeEdge {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct CytoscapeElements {
+    pub models: BTreeSet<(ModelId, ModelTitle)>,
     pub nodes: Vec<CytoscapeNode>,
     pub edges: Vec<CytoscapeEdge>,
 }
@@ -239,6 +243,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     label: fact.property_label.clone(),
                     source: fact.subject.clone(),
                     target: fact.object.clone(),
+                    ideal_edge_length: None,
                     weight: 0,
                 }
             }
@@ -280,12 +285,14 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     happens_during: None,
                     has_part_genes: BTreeSet::new(),
                     is_connecting_node: false,
+                    parent: None,
                     model_ids,
                 }
             })
         }).collect();
 
     let elements = CytoscapeElements {
+        models: BTreeSet::new(),
         nodes,
         edges,
     };
@@ -301,6 +308,8 @@ fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
 }
 
 pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOverlap>) -> CytoscapeElements {
+    let mut models = BTreeSet::new();
+
     let mut overlap_set = BTreeSet::new();
 
     for overlap in overlaps {
@@ -324,12 +333,21 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                      object_node.individual_gocam_id.clone())
                 };
 
+            // allow longer edges between models
+            let ideal_edge_length =
+                if subject_node.models.len() == 1 && object_node.models.len() == 1 {
+                    50
+                } else {
+                    200
+                };
+
             CytoscapeEdge {
                 data: CytoscapeEdgeData {
                     id: edge.fact_gocam_id.clone(),
                     label,
                     source,
                     target,
+                    ideal_edge_length: Some(ideal_edge_length),
                     weight: 0,
                 }
             }
@@ -379,7 +397,23 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 } else {
                     BTreeSet::new()
                 };
-            let model_ids = node.models.iter().map(|(model_id, _)| model_id.to_owned()).collect();
+
+            models.extend(node.models.iter().map(|v| v.to_owned()));
+
+            let model_ids: BTreeSet<_> = node.models.iter()
+                .map(|(model_id, _)| model_id.to_owned())
+                .collect();
+
+            let parent = if model_ids.len() == 1 {
+                model_ids.first().map(String::to_owned)
+            } else {
+                if let Some(ref original_model_id) = node.original_model_id {
+                    Some(original_model_id.to_owned())
+                } else {
+                    None
+                }
+            };
+
             CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
@@ -395,12 +429,14 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     happens_during: node.happens_during.clone(),
                     has_part_genes,
                     is_connecting_node,
+                    parent,
                     model_ids,
                 }
             }
         }).collect();
 
     let elements = CytoscapeElements {
+        models,
         nodes,
         edges,
     };
