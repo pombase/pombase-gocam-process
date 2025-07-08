@@ -307,7 +307,14 @@ fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
     }
 }
 
-pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOverlap>) -> CytoscapeElements {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum GoCamCytoscapeStyle {
+    IncludeParents,
+    HideParents,
+}
+
+pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOverlap>,
+                                 style: GoCamCytoscapeStyle) -> CytoscapeElements {
     let mut models = BTreeSet::new();
 
     let mut overlap_set = BTreeSet::new();
@@ -404,14 +411,18 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 .map(|(model_id, _)| model_id.to_owned())
                 .collect();
 
-            let parent = if model_ids.len() == 1 {
-                model_ids.first().map(String::to_owned)
-            } else {
-                if let Some(ref original_model_id) = node.original_model_id {
-                    Some(original_model_id.to_owned())
+            let parent = if style == GoCamCytoscapeStyle::IncludeParents {
+                if model_ids.len() == 1 {
+                    model_ids.first().map(String::to_owned)
                 } else {
-                    None
+                    if let Some(ref original_model_id) = node.original_model_id {
+                        Some(original_model_id.to_owned())
+                    } else {
+                        None
+                    }
                 }
+            } else {
+                None
             };
 
             CytoscapeNode {
