@@ -342,10 +342,14 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
 
             // allow longer edges between models
             let ideal_edge_length =
-                if subject_node.models.len() == 1 && object_node.models.len() == 1 {
-                    50
+                if style == GoCamCytoscapeStyle::HideParents {
+                    150
                 } else {
-                    200
+                    if subject_node.original_model_id == object_node.original_model_id {
+                        70
+                    } else {
+                        350
+                    }
                 };
 
             CytoscapeEdge {
