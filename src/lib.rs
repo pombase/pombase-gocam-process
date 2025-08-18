@@ -11,7 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamDirection, GoCamGeneIdentifier, ModelTitle};
+use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, ModelTitle};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, ModelId};
@@ -162,6 +162,7 @@ pub struct CytoscapeNodeData {
     pub label: String,
     pub enabler_label: String,
     pub enabler_id: String,
+    pub enabler_part_of_complex: Option<GoCamComplex>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub located_in: Option<GoCamComponent>,
     #[serde(skip_serializing_if="BTreeSet::is_empty")]
@@ -279,6 +280,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     node_id: id.clone(),
                     enabler_label: "".to_owned(),
                     enabler_id: "".to_owned(),
+                    enabler_part_of_complex: None,
                     located_in: None,
                     occurs_in: BTreeSet::new(),
                     part_of_process: None,
@@ -429,6 +431,16 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 None
             };
 
+            let enabler_part_of_complex =
+                if let GoCamNodeType::Activity(ref enabled_by) = node.node_type &&
+                   let GoCamEnabledBy::Gene(gene) = enabled_by &&
+                   let Some(ref complex) = gene.part_of_complex
+            {
+                Some(complex.clone())
+            } else {
+                None
+            };
+
             CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
@@ -438,6 +450,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     node_id: node.node_id.clone(),
                     enabler_label,
                     enabler_id,
+                    enabler_part_of_complex,
                     located_in: node.located_in.clone(),
                     occurs_in: node.occurs_in.clone(),
                     part_of_process: node.part_of_process.clone(),
