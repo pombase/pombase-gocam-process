@@ -152,9 +152,9 @@ dependencies = [
 
 [[package]]
 name = "pombase-gocam"
-version = "0.88.0"
+version = "0.89.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6d119bdfeddbfbefe32222306e5fb99d23a2a604cb13ae14b63783a06d17ca90"
+checksum = "2a7ea9b491e390421700e22b9b11cc9fd23fcf634e25cf52f029b247b97e6baf"
 dependencies = [
  "anyhow",
  "petgraph",

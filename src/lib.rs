@@ -11,7 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, ModelTitle};
+use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, ModelTitle};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, ModelId};
@@ -202,8 +202,16 @@ pub struct CytoscapeEdge {
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct CytoscapeGeneInfo {
+    pub name: Option<String>,
+}
+
+pub type CytoscapeGeneInfoMap = BTreeMap<GoCamGeneIdentifier, GoCamGeneName>;
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct CytoscapeElements {
     pub models: BTreeSet<(ModelId, ModelTitle)>,
+    pub gene_info_map: CytoscapeGeneInfoMap,
     pub nodes: Vec<CytoscapeNode>,
     pub edges: Vec<CytoscapeEdge>,
 }
@@ -295,6 +303,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
 
     let elements = CytoscapeElements {
         models: BTreeSet::new(),
+        gene_info_map: BTreeMap::new(),
         nodes,
         edges,
     };
@@ -463,8 +472,19 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             }
         }).collect();
 
+    let gene_info_map = model.genes_enabling_activities()
+        .iter()
+        .filter_map(|(id, name)| {
+            if let Some(name) = name {
+                Some((id.to_owned(), name.to_owned()))
+            } else {
+                None
+            }
+        })
+        .collect();
     let elements = CytoscapeElements {
         models,
+        gene_info_map,
         nodes,
         edges,
     };
