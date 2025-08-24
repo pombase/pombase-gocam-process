@@ -684,7 +684,7 @@ pub struct ChadoModelData {
 }
 
 lazy_static! {
-    static ref TERM_IN_TITLE_RE: Regex = Regex::new(r"\((GO:\d\d\d\d+)\)").unwrap();
+    static ref TERM_IN_TITLE_RE: Regex = Regex::new(r"\(\s*(GO:\d\d\d\d+)\s*\)").unwrap();
 }
 
 fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
