@@ -717,22 +717,6 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         }
 
         match &node.node_type {
-            GoCamNodeType::Unknown => (),
-            GoCamNodeType::Chemical => (),
-            GoCamNodeType::UnknownMRNA => (),
-            GoCamNodeType::MRNA(mrna) => {
-                if let Some(no_suffix) = mrna.id.strip_suffix(|c: char| c.is_numeric()) {
-                    if let Some(no_suffix) = no_suffix.strip_suffix('.') {
-                        add_gene(no_suffix);
-                    }
-                }
-            },
-            GoCamNodeType::Gene(gene) => {
-                add_gene(gene.id());
-            },
-            GoCamNodeType::ModifiedProtein(modified_protein_termid) => {
-                modified_gene_pro_terms.insert(modified_protein_termid.id().to_owned());
-            },
             GoCamNodeType::Activity(enabled_by) => match enabled_by {
                 GoCamEnabledBy::Chemical(_) => (),
                 GoCamEnabledBy::Gene(gene) => {
@@ -747,7 +731,8 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
                         add_gene(&gene);
                     }
                 },
-            }
+            },
+            _ => (),
         }
     }
 
