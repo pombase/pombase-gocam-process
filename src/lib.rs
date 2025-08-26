@@ -676,6 +676,7 @@ pub struct ChadoModelData {
     pub genes: BTreeSet<String>,
     pub target_genes: BTreeSet<String>,
     pub modified_gene_pro_terms: BTreeSet<String>,
+    pub modified_target_gene_pro_terms: BTreeSet<String>,
     pub process_terms: BTreeSet<String>,
     pub occurs_in_terms: BTreeSet<String>,
     pub located_in_terms: BTreeSet<String>,
@@ -695,6 +696,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let mut genes = BTreeSet::new();
     let mut target_genes = BTreeSet::new();
     let mut modified_gene_pro_terms = BTreeSet::new();
+    let mut modified_target_gene_pro_terms = BTreeSet::new();
     let mut process_terms = BTreeSet::new();
 
     let mut add_gene = |g: &str| genes.insert(g.replace("PomBase:", ""));
@@ -733,7 +735,9 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             GoCamNodeType::Gene(gene) => {
                 add_target(gene.id());
             },
-            GoCamNodeType::ModifiedProtein(_) => (),
+            GoCamNodeType::ModifiedProtein(modified_protein_termid) => {
+                modified_target_gene_pro_terms.insert(modified_protein_termid.id().to_owned());
+            },
             GoCamNodeType::Activity(enabled_by) => match enabled_by {
                 GoCamEnabledBy::Chemical(_) => (),
                 GoCamEnabledBy::Gene(gene) => {
@@ -776,6 +780,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         genes,
         target_genes,
         modified_gene_pro_terms,
+        modified_target_gene_pro_terms,
         process_terms,
         pathway_holes,
     }
