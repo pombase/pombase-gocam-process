@@ -674,6 +674,7 @@ pub struct ChadoModelData {
     pub contributors: BTreeSet<String>,
     pub date: String,
     pub genes: BTreeSet<String>,
+    pub target_genes: BTreeSet<String>,
     pub modified_gene_pro_terms: BTreeSet<String>,
     pub process_terms: BTreeSet<String>,
     pub occurs_in_terms: BTreeSet<String>,
@@ -692,10 +693,12 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let mut occurs_in_terms = BTreeSet::new();
     let mut located_in_terms = BTreeSet::new();
     let mut genes = BTreeSet::new();
+    let mut target_genes = BTreeSet::new();
     let mut modified_gene_pro_terms = BTreeSet::new();
     let mut process_terms = BTreeSet::new();
 
     let mut add_gene = |g: &str| genes.insert(g.replace("PomBase:", ""));
+    let mut add_target = |g: &str| target_genes.insert(g.replace("PomBase:", ""));
 
     for (_, node) in model.node_iterator() {
         let process_termids = node.part_of_process.iter()
@@ -717,6 +720,20 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         }
 
         match &node.node_type {
+            GoCamNodeType::Unknown => (),
+            GoCamNodeType::Chemical => (),
+            GoCamNodeType::UnknownMRNA => (),
+            GoCamNodeType::MRNA(mrna) => {
+                if let Some(no_suffix) = mrna.id.strip_suffix(|c: char| c.is_numeric()) {
+                    if let Some(no_suffix) = no_suffix.strip_suffix('.') {
+                        add_target(no_suffix);
+                    }
+                }
+            },
+            GoCamNodeType::Gene(gene) => {
+                add_target(gene.id());
+            },
+            GoCamNodeType::ModifiedProtein(_) => (),
             GoCamNodeType::Activity(enabled_by) => match enabled_by {
                 GoCamEnabledBy::Chemical(_) => (),
                 GoCamEnabledBy::Gene(gene) => {
@@ -732,7 +749,6 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
                     }
                 },
             },
-            _ => (),
         }
     }
 
@@ -758,6 +774,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         occurs_in_terms,
         located_in_terms,
         genes,
+        target_genes,
         modified_gene_pro_terms,
         process_terms,
         pathway_holes,
