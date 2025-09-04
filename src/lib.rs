@@ -11,7 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, ModelTitle};
+use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamOutput, ModelTitle};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, ModelId};
@@ -172,6 +172,8 @@ pub struct CytoscapeNodeData {
     #[serde(skip_serializing_if="Option::is_none")]
     pub happens_during: Option<GoCamProcess>,
     pub has_part_genes: BTreeSet<GoCamGeneIdentifier>,
+    pub has_input: BTreeSet<GoCamInput>,
+    pub has_output: BTreeSet<GoCamOutput>,
     // this node is in more than one model
     pub is_connecting_node: bool,
     #[serde(rename = "type")]
@@ -294,6 +296,8 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                     part_of_process: None,
                     happens_during: None,
                     has_part_genes: BTreeSet::new(),
+                    has_input: BTreeSet::new(),
+                    has_output: BTreeSet::new(),
                     is_connecting_node: false,
                     parent: None,
                     models,
@@ -479,6 +483,8 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     part_of_process: node.part_of_process.clone(),
                     happens_during: node.happens_during.clone(),
                     has_part_genes,
+                    has_input: node.has_input.clone(),
+                    has_output: node.has_output.clone(),
                     is_connecting_node,
                     parent,
                     models: node_models.clone(),
