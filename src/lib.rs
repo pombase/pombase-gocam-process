@@ -11,14 +11,14 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamOutput, ModelTitle};
+use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamOutput, GoCamModelTitle};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
-                    GoCamNodeType, raw::GoCamRawModel, ModelId};
+                    GoCamNodeType, raw::GoCamRawModel, GoCamModelId};
 use regex::Regex;
 
 pub struct GoCamStats {
-    pub id: ModelId,
+    pub id: GoCamModelId,
     pub total_genes: usize,
     pub total_complexes: usize,
     pub max_connected_activities: usize,
@@ -179,8 +179,8 @@ pub struct CytoscapeNodeData {
     #[serde(rename = "type")]
     pub type_string: String,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub parent: Option<ModelId>,
-    pub models: BTreeSet<(ModelId, ModelTitle)>,
+    pub parent: Option<GoCamModelId>,
+    pub models: BTreeSet<(GoCamModelId, GoCamModelTitle)>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
@@ -212,7 +212,7 @@ pub type CytoscapeGeneInfoMap = BTreeMap<GoCamGeneIdentifier, GoCamGeneName>;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct CytoscapeElements {
-    pub models: BTreeSet<(ModelId, ModelTitle)>,
+    pub models: BTreeSet<(GoCamModelId, GoCamModelTitle)>,
     pub gene_info_map: CytoscapeGeneInfoMap,
     pub nodes: Vec<CytoscapeNode>,
     pub edges: Vec<CytoscapeEdge>,
@@ -228,8 +228,8 @@ pub struct CytoscapeModel {
 pub struct CytoscapeModelConnection {
     pub id: CytoscapeId,
     pub label: String,
-    pub source: ModelId,
-    pub target: ModelId,
+    pub source: GoCamModelId,
+    pub target: GoCamModelId,
     pub enabler_id: String,
     pub has_direction: bool,
 }
@@ -336,7 +336,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
 
     for overlap in overlaps {
         for individual_id in &overlap.overlapping_individual_ids {
-            let overlap_models: BTreeSet<(ModelId, ModelTitle)>  = overlap.models.iter()
+            let overlap_models: BTreeSet<(GoCamModelId, GoCamModelTitle)>  = overlap.models.iter()
                 .map(|(model_id, model_title, _)| {
                     (model_id.clone(), model_title.clone())
                 })
@@ -686,7 +686,7 @@ pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<(String, String, String
 }
 
 
-pub type ChadoData = BTreeMap<ModelId, ChadoModelData>;
+pub type ChadoData = BTreeMap<GoCamModelId, ChadoModelData>;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct ChadoModelData {
