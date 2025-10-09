@@ -835,7 +835,7 @@ mod tests {
 
         assert_eq!(holes.len(), 1);
         let first_hole = holes.first().unwrap();
-        let GoCamNodeType::Activity { enabler, inputs, outputs } = &first_hole.node_type
+        let GoCamNodeType::Activity(enabler) = &first_hole.node_type
         else {
             panic!();
         };
@@ -846,14 +846,14 @@ mod tests {
             panic!();
         }
 
-        assert_eq!(inputs.len(), 1);
-        assert_eq!(outputs.len(), 1);
+        assert_eq!(first_hole.has_input.len(), 1);
+        assert_eq!(first_hole.has_output.len(), 1);
 
-        let input = inputs.first().unwrap();
+        let input = first_hole.has_input.first().unwrap();
         assert_eq!(input.id(), "CHEBI:149473");
         assert_eq!(input.located_in.clone().unwrap().id(),
                    "GO:0005829");
-        let output = outputs.first().unwrap();
+        let output = first_hole.has_output.first().unwrap();
         assert_eq!(output.id(), "CHEBI:149473");
         assert_eq!(output.located_in.clone().unwrap().label(),
                    "mitochondrion");
