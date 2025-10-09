@@ -816,3 +816,46 @@ pub fn make_chado_data(models: &[GoCamModel]) -> ChadoData {
 
     ret
 }
+
+#[cfg(test)]
+mod tests {
+    use std::fs::File;
+
+    use pombase_gocam::{parse_gocam_model, GoCamEnabledBy, GoCamNodeType};
+
+    use crate::find_holes;
+
+    #[test]
+    fn find_holes_test() {
+        let mut source = File::open("tests/data/gomodel_67c10cc400002026.json").unwrap();
+        let model = parse_gocam_model(&mut source).unwrap();
+        assert_eq!(model.id(), "gomodel:67c10cc400002026");
+
+        let holes = find_holes(&model);
+
+        assert_eq!(holes.len(), 1);
+        let first_hole = holes.first().unwrap();
+        let GoCamNodeType::Activity { enabler, inputs, outputs } = &first_hole.node_type
+        else {
+            panic!();
+        };
+
+        if let GoCamEnabledBy::Chemical(chemical) = enabler {
+            assert_eq!(chemical.id(), "CHEBI:36080");
+        } else {
+            panic!();
+        }
+
+        assert_eq!(inputs.len(), 1);
+        assert_eq!(outputs.len(), 1);
+
+        let input = inputs.first().unwrap();
+        assert_eq!(input.id(), "CHEBI:149473");
+        assert_eq!(input.located_in.clone().unwrap().id(),
+                   "GO:0005829");
+        let output = outputs.first().unwrap();
+        assert_eq!(output.id(), "CHEBI:149473");
+        assert_eq!(output.located_in.clone().unwrap().label(),
+                   "mitochondrion");
+    }
+}

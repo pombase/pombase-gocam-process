@@ -1,0 +1,4642 @@
+{
+  "annotations": [
+    {
+      "key": "state",
+      "value": "production"
+    },
+    {
+      "key": "contributor",
+      "value": "https://orcid.org/0000-0001-6330-7526"
+    },
+    {
+      "key": "contributor",
+      "value": "https://orcid.org/0009-0003-9059-1333"
+    },
+    {
+      "key": "date",
+      "value": "2025-07-23"
+    },
+    {
+      "key": "title",
+      "value": "biotin import across plasma membrane (GO:1905135),  biotin biosynthetic process (GO:0009102),  protein maturation (GO:0051604) - biotinylated proteins"
+    },
+    {
+      "key": "providedBy",
+      "value": "http://www.pombase.org"
+    },
+    {
+      "key": "comment",
+      "value": "These pathway holes are working on the assumption that the location of biotin synthase is correct, but this seems unlikely, especially since the substrates are both cytosolic. Maybe there is aun undiscovered biotinylated protein in the mitochondrion?"
+    },
+    {
+      "key": "https://w3id.org/biolink/vocab/in_taxon",
+      "value": "NCBITaxon:4896",
+      "value-type": "IRI"
+    }
+  ],
+  "facts": [
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000332",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000329",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000328"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002069",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002070",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002066",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002065"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002105",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002106",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002107",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002108",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002104",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002036"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000377",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000378",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000271",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002036"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000292",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000293",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000289",
+      "property": "BFO:0000050",
+      "property-label": "BFO:0000050",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000287"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000337",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000328",
+      "property": "RO:0012009",
+      "property-label": "RO:0012009",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002075",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002065"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000294",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000290",
+      "property": "BFO:0000066",
+      "property-label": "BFO:0000066",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000287"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002073",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002074",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002068",
+      "property": "BFO:0000066",
+      "property-label": "BFO:0000066",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002065"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002111",
+      "property": "RO:0001025",
+      "property-label": "RO:0001025",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002104"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000272",
+      "property": "RO:0001025",
+      "property-label": "RO:0001025",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000271"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002109",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002110",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002104",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002036"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002059",
+      "property": "RO:0001025",
+      "property-label": "RO:0001025",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002056"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/680ad14200000931",
+      "property": "RO:0001025",
+      "property-label": "RO:0001025",
+      "subject": "gomodel:67c10cc400002026/680ad14200000930"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002056",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002047"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002058",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002047"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000291",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000288",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000287"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002042",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002043",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002038",
+      "property": "BFO:0000050",
+      "property-label": "BFO:0000050",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002036"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002091",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002088",
+      "property": "BFO:0000050",
+      "property-label": "BFO:0000050",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002053",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002049",
+      "property": "BFO:0000050",
+      "property-label": "BFO:0000050",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002047"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/680ad14200000928",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/680ad14200000929",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/680ad14200000926",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000287"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000301",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000302",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000287",
+      "property": "RO:0012009",
+      "property-label": "RO:0012009",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/680ad14200000933",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/680ad14200000930",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000287"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000336",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002051",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002052",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002048",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002047"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002102",
+      "property": "BFO:0000066",
+      "property-label": "BFO:0000066",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002100"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000322",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000323",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000271",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000334",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000335",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000331",
+      "property": "BFO:0000066",
+      "property-label": "BFO:0000066",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000328"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000271",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002065"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000271",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000261",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002101",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002100"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000338",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000328",
+      "property": "RO:0012009",
+      "property-label": "RO:0012009",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002060",
+      "property": "RO:0001025",
+      "property-label": "RO:0001025",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002058"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002071",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002072",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002067",
+      "property": "BFO:0000050",
+      "property-label": "BFO:0000050",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002065"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002080",
+      "property": "RO:0001025",
+      "property-label": "RO:0001025",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002075"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000303",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000304",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000287",
+      "property": "RO:0012009",
+      "property-label": "RO:0012009",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67e5e74400000333",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67e5e74400000330",
+      "property": "BFO:0000050",
+      "property-label": "BFO:0000050",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000328"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/680ad14200000926",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000287"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002054",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002055",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002050",
+      "property": "BFO:0000066",
+      "property-label": "BFO:0000066",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002047"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002090",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002087",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002086"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002058",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002100"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/680ad14200000927",
+      "property": "RO:0001025",
+      "property-label": "RO:0001025",
+      "subject": "gomodel:67c10cc400002026/680ad14200000926"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002104",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002100"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/680ad14200000932",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/680ad14200000930",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:67c10cc400002026/67e5e74400000287"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002040",
+          "value-type": "IRI"
+        },
+        {
+          "key": "evidence",
+          "value": "gomodel:67c10cc400002026/67c10cc400002041",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:67c10cc400002026/67c10cc400002037",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:67c10cc400002026/67c10cc400002036"
+    }
+  ],
+  "id": "gomodel:67c10cc400002026",
+  "individuals": [
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002036",
+      "root-type": [
+        {
+          "id": "GO:0003674",
+          "label": "molecular_function",
+          "type": "class"
+        },
+        {
+          "id": "obo:go/extensions/reacto.owl#molecular_event",
+          "label": "Molecular Event",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0004076",
+          "label": "biotin synthase activity",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002037",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPCC1235.02",
+          "label": "bio2 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002038",
+      "root-type": [
+        {
+          "id": "GO:0008150",
+          "label": "biological_process",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0009102",
+          "label": "biotin biosynthetic process",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "source",
+          "value": "PMID:10525840"
+        },
+        {
+          "key": "with",
+          "value": "SGD:S000003518"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002040",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000316",
+          "label": "genetic interaction evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000540961 | TAIR:locus:2005497 | PomBase:SPCC1235.02 | SGD:S000003518 | UniProtKB:P12996"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002041",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "PMID:10525840"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "with",
+          "value": "SGD:S000003518"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002042",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000316",
+          "label": "genetic interaction evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000540961 | PomBase:SPCC1235.02 | UniProtKB:Q5AYI7 | UniProtKB:P12996 | SGD:S000003518"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002043",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002047",
+      "root-type": [
+        {
+          "id": "GO:0003674",
+          "label": "molecular_function",
+          "type": "class"
+        },
+        {
+          "id": "obo:go/extensions/reacto.owl#molecular_event",
+          "label": "Molecular Event",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:1901604",
+          "label": "dethiobiotin transmembrane transporter activity",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002048",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPAC1B3.16c",
+          "label": "vht1 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002049",
+      "root-type": [
+        {
+          "id": "GO:0008150",
+          "label": "biological_process",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:1905136",
+          "label": "dethiobiotin import across plasma membrane",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002050",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005886",
+          "label": "plasma membrane",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "source",
+          "value": "PMID:12557275"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002051",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000315",
+          "label": "mutant phenotype evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000185192 | PomBase:SPAC1B3.16c"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002052",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "source",
+          "value": "PMID:12557275"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002053",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000315",
+          "label": "mutant phenotype evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "PMID:12557275"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002054",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000315",
+          "label": "mutant phenotype evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000185192 | PomBase:SPAC1B3.16c"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002055",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002056",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:16691",
+          "label": "dethiobiotin",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002058",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:149473",
+          "label": "(4R,5S)-dethiobiotin(1-)",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002059",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005576",
+          "label": "extracellular region",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002060",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002065",
+      "root-type": [
+        {
+          "id": "GO:0003674",
+          "label": "molecular_function",
+          "type": "class"
+        },
+        {
+          "id": "obo:go/extensions/reacto.owl#molecular_event",
+          "label": "Molecular Event",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0015225",
+          "label": "biotin transmembrane transporter activity",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002066",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPAC1B3.16c",
+          "label": "vht1 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002067",
+      "root-type": [
+        {
+          "id": "GO:0008150",
+          "label": "biological_process",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:1905135",
+          "label": "biotin import across plasma membrane",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002068",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005886",
+          "label": "plasma membrane",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "source",
+          "value": "PMID:12557275"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002069",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000315",
+          "label": "mutant phenotype evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000185192 | PomBase:SPAC1B3.16c"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002070",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "source",
+          "value": "PMID:12557275"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002071",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000315",
+          "label": "mutant phenotype evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000185192 | PomBase:SPAC1B3.16c"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002072",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "PMID:12557275"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002073",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000315",
+          "label": "mutant phenotype evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000185192 | PomBase:SPAC1B3.16c"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002074",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002075",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:15956",
+          "label": "biotin",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002080",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005576",
+          "label": "extracellular region",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002081",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002086",
+      "root-type": [
+        {
+          "id": "GO:0003674",
+          "label": "molecular_function",
+          "type": "class"
+        },
+        {
+          "id": "obo:go/extensions/reacto.owl#molecular_event",
+          "label": "Molecular Event",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0004077",
+          "label": "biotin--[biotin carboxyl-carrier protein] ligase activity",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002087",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPBC30D10.07c",
+          "label": "bpl1 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002088",
+      "root-type": [
+        {
+          "id": "GO:0008150",
+          "label": "biological_process",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0051604",
+          "label": "protein maturation",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002090",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000051"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002091",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000303",
+          "label": "author statement without traceable support used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002100",
+      "root-type": [
+        {
+          "id": "GO:0003674",
+          "label": "molecular_function",
+          "type": "class"
+        },
+        {
+          "id": "obo:go/extensions/reacto.owl#molecular_event",
+          "label": "Molecular Event",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0022857",
+          "label": "transmembrane transporter activity",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002101",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:36080",
+          "label": "protein",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:36080",
+          "label": "protein",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002102",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0031966",
+          "label": "mitochondrial membrane",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002103",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002104",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:149473",
+          "label": "(4R,5S)-dethiobiotin(1-)",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "with",
+          "value": "SGD:S000003518"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "PMID:10525840"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002105",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000316",
+          "label": "genetic interaction evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000540961 | TAIR:locus:2005497 | PomBase:SPCC1235.02 | SGD:S000003518 | UniProtKB:P12996"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002106",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "source",
+          "value": "PMID:10525840"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "SGD:S000003518"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002107",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000316",
+          "label": "genetic interaction evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000540961 | TAIR:locus:2005497 | PomBase:SPCC1235.02 | SGD:S000003518 | UniProtKB:P12996"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002108",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "PMID:10525840"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "with",
+          "value": "SGD:S000003518"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002109",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000316",
+          "label": "genetic interaction evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000540961 | TAIR:locus:2005497 | PomBase:SPCC1235.02 | SGD:S000003518 | UniProtKB:P12996"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002110",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-07"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400002111",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005739",
+          "label": "mitochondrion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-12"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400003321",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPAC56E4.04c",
+          "label": "cut6 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-12"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67c10cc400003322",
+      "root-type": [
+        {
+          "id": "GO:0008150",
+          "label": "biological_process",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:2001295",
+          "label": "malonyl-CoA biosynthetic process",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000261",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:81472",
+          "label": "Biotinyl-[protein]",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000270",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005739",
+          "label": "mitochondrion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000271",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:15956",
+          "label": "biotin",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000272",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000287",
+      "root-type": [
+        {
+          "id": "GO:0003674",
+          "label": "molecular_function",
+          "type": "class"
+        },
+        {
+          "id": "obo:go/extensions/reacto.owl#molecular_event",
+          "label": "Molecular Event",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0003989",
+          "label": "acetyl-CoA carboxylase activity",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000288",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPAC56E4.04c",
+          "label": "cut6 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000289",
+      "root-type": [
+        {
+          "id": "GO:0008150",
+          "label": "biological_process",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0006633",
+          "label": "fatty acid biosynthetic process",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000290",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000429606 | UniProtKB:O00763 | MGI:MGI:2140940 | SGD:S000004820 | RGD:621248 | UniProtKB:P11029 | UniProtKB:Q13085 | SGD:S000005299 | MGI:MGI:108451 | TAIR:locus:2013190"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000291",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000041"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "with",
+          "value": "UniPathway:UPA00655"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000292",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000501",
+          "label": "evidence used in automatic assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000429606 | UniProtKB:P11029 | RGD:621248 | WB:WBGene00004076 | TAIR:locus:2034310 | MGI:MGI:2140940 | SGD:S000004820 | SGD:S000005299 | MGI:MGI:108451 | UniProtKB:Q57YR7"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000293",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "PMID:16823372"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000294",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0007005",
+          "label": "high throughput direct assay evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000301",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000302",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000303",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000304",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000322",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000323",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000328",
+      "root-type": [
+        {
+          "id": "GO:0003674",
+          "label": "molecular_function",
+          "type": "class"
+        },
+        {
+          "id": "obo:go/extensions/reacto.owl#molecular_event",
+          "label": "Molecular Event",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0004736",
+          "label": "pyruvate carboxylase activity",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000329",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPBC17G9.11c",
+          "label": "pyr1 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000330",
+      "root-type": [
+        {
+          "id": "GO:0008150",
+          "label": "biological_process",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0006090",
+          "label": "pyruvate metabolic process",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000331",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN001821692 | FB:FBgn0027580 | MGI:MGI:97520 | RGD:3262 | SGD:S000000422 | SGD:S000003030 | UniProtKB:P11498"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000332",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "with",
+          "value": "PANTHER:PTN001821692 | RGD:3262"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000333",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "PMID:16823372"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000334",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0007005",
+          "label": "high throughput direct assay evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "with",
+          "value": "PANTHER:PTN001050931 | SGD:S000003030 | SGD:S000000422 | UniProtKB:Q5B4R8"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000335",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000336",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPBC17G9.11c",
+          "label": "pyr1 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000337",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000303161 | UniProtKB:P50747 | SGD:S000002300 | UniProtKB:P06709 | UniProtKB:C6S3D7 | RGD:1565360 | CGD:CAL0000192734 | FB:FBgn0037332 | MGI:MGI:894646 | TAIR:locus:2050291"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000338",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "PMID:10525840"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "with",
+          "value": "SGD:S000003518"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000377",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000316",
+          "label": "genetic interaction evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000540961 | TAIR:locus:2005497 | PomBase:SPCC1235.02 | SGD:S000003518 | UniProtKB:P12996"
+        },
+        {
+          "key": "date",
+          "value": "2025-03-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/67e5e74400000378",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000926",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:57288",
+          "label": "acetyl-CoA(4-)",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000927",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000429606 | UniProtKB:O00763 | MGI:MGI:2140940 | SGD:S000004820 | RGD:621248 | UniProtKB:P11029 | UniProtKB:Q13085 | SGD:S000005299 | MGI:MGI:108451 | TAIR:locus:2013190"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000928",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000429606 | UniProtKB:O00763 | MGI:MGI:2140940 | SGD:S000004820 | RGD:621248 | UniProtKB:P11029 | UniProtKB:Q13085 | SGD:S000005299 | MGI:MGI:108451 | TAIR:locus:2013190"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000929",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000930",
+      "root-type": [
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "CHEBI:57384",
+          "label": "malonyl-CoA(5-)",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000931",
+      "root-type": [
+        {
+          "id": "UBERON:0001062",
+          "label": "anatomical entity",
+          "type": "class"
+        },
+        {
+          "id": "GO:0110165",
+          "label": "cellular anatomical structure",
+          "type": "class"
+        },
+        {
+          "id": "GO:0005575",
+          "label": "cellular_component",
+          "type": "class"
+        },
+        {
+          "id": "CARO:0000000",
+          "label": "anatomical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "GO:0005829",
+          "label": "cytosol",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000429606 | UniProtKB:O00763 | MGI:MGI:2140940 | SGD:S000004820 | RGD:621248 | UniProtKB:P11029 | UniProtKB:Q13085 | SGD:S000005299 | MGI:MGI:108451 | TAIR:locus:2013190"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000932",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "source",
+          "value": "GO_REF:0000033"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0009-0003-9059-1333"
+        },
+        {
+          "key": "with",
+          "value": "PANTHER:PTN000429606 | UniProtKB:O00763 | MGI:MGI:2140940 | SGD:S000004820 | RGD:621248 | UniProtKB:P11029 | UniProtKB:Q13085 | SGD:S000005299 | MGI:MGI:108451 | TAIR:locus:2013190"
+        },
+        {
+          "key": "date",
+          "value": "2025-04-28"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "id": "gomodel:67c10cc400002026/680ad14200000933",
+      "root-type": [
+        {
+          "id": "ECO:0000000",
+          "label": "evidence",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "ECO:0000318",
+          "label": "biological aspect of ancestor evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    }
+  ]
+}
