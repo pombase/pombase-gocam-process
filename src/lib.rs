@@ -52,7 +52,7 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
         let mut inc_counts = |nx: NodeIndex| {
             let gocam_node = graph.node_weight(nx).unwrap();
             let ntype = gocam_node.type_string();
-            if let GoCamNodeType::Activity(_) = gocam_node.node_type {
+            if gocam_node.is_activity() {
                 connected_activities += 1;
             }
             match ntype {
@@ -123,7 +123,7 @@ pub fn get_connected_genes(model: &GoCamModel)
                 GoCamNodeType::Gene(ref gene) => {
                     connected_genes.insert(gene.id().to_owned());
                 },
-                GoCamNodeType::Activity(ref enabler) => {
+                GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } => {
                     seen_activities.insert(gocam_node.individual_gocam_id.clone());
                     match enabler {
                     GoCamEnabledBy::Gene(gene) => {
@@ -420,8 +420,8 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let is_connecting_node = node_models.len() > 1;
 
             let has_part_genes =
-                if let GoCamNodeType::Activity(ref enabled_by) = node.node_type {
-                    if let GoCamEnabledBy::Complex(complex) = enabled_by {
+                if let GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } = node.node_type {
+                    if let GoCamEnabledBy::Complex(complex) = enabler {
                         complex.has_part_genes.iter()
                             .map(|id| {
                                 if let Some(new_id) = id.split(':').nth(1) {
@@ -458,9 +458,17 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 None
             };
 
+            let mut has_input = BTreeSet::new();
+            let mut has_output = BTreeSet::new();
+
+            if let GoCamNodeType::Activity { enabler: _, ref inputs, ref outputs } = node.node_type {
+                has_input = inputs.clone();
+                has_output = outputs.clone();
+            }
+
             let enabler_part_of_complex =
-                if let GoCamNodeType::Activity(ref enabled_by) = node.node_type &&
-                   let GoCamEnabledBy::Gene(gene) = enabled_by &&
+                if let GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } = node.node_type &&
+                   let GoCamEnabledBy::Gene(gene) = enabler &&
                    let Some(ref complex) = gene.part_of_complex
             {
                 Some(complex.clone())
@@ -483,8 +491,8 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     part_of_process: node.part_of_process.clone(),
                     happens_during: node.happens_during.clone(),
                     has_part_genes,
-                    has_input: node.has_input.clone(),
-                    has_output: node.has_output.clone(),
+                    has_input,
+                    has_output,
                     is_connecting_node,
                     parent,
                     models: node_models.clone(),
@@ -520,7 +528,7 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
     let mut models_in_overlaps = HashSet::new();
 
     for overlap in overlaps {
-        let GoCamNodeType::Activity(ref enabler) = overlap.node_type
+        let GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } = overlap.node_type
         else {
             continue;
         };
@@ -758,7 +766,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             GoCamNodeType::ModifiedProtein(modified_protein_termid) => {
                 modified_target_gene_pro_terms.insert(modified_protein_termid.id().to_owned());
             },
-            GoCamNodeType::Activity(enabled_by) => match enabled_by {
+            GoCamNodeType::Activity { enabler, inputs: _, outputs: _ } => match enabler {
                 GoCamEnabledBy::Chemical(_) => (),
                 GoCamEnabledBy::Gene(gene) => {
                     add_gene(gene.id());
@@ -835,7 +843,7 @@ mod tests {
 
         assert_eq!(holes.len(), 1);
         let first_hole = holes.first().unwrap();
-        let GoCamNodeType::Activity(enabler) = &first_hole.node_type
+        let GoCamNodeType::Activity { enabler, inputs, outputs } = &first_hole.node_type
         else {
             panic!();
         };
@@ -846,14 +854,14 @@ mod tests {
             panic!();
         }
 
-        assert_eq!(first_hole.has_input.len(), 1);
-        assert_eq!(first_hole.has_output.len(), 1);
+        assert_eq!(inputs.len(), 1);
+        assert_eq!(outputs.len(), 1);
 
-        let input = first_hole.has_input.first().unwrap();
+        let input = inputs.first().unwrap();
         assert_eq!(input.id(), "CHEBI:149473");
         assert_eq!(input.located_in.clone().unwrap().id(),
                    "GO:0005829");
-        let output = first_hole.has_output.first().unwrap();
+        let output = outputs.first().unwrap();
         assert_eq!(output.id(), "CHEBI:149473");
         assert_eq!(output.located_in.clone().unwrap().label(),
                    "mitochondrion");
