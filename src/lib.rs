@@ -11,7 +11,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
-use pombase_gocam::{GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamOutput, GoCamModelTitle};
+use pombase_gocam::{GoCamActivity, GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamModelTitle, GoCamOutput};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamNodeOverlap, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, GoCamModelId};
@@ -123,7 +123,7 @@ pub fn get_connected_genes(model: &GoCamModel)
                 GoCamNodeType::Gene(ref gene) => {
                     connected_genes.insert(gene.id().to_owned());
                 },
-                GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } => {
+                GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) => {
                     seen_activities.insert(gocam_node.individual_gocam_id.clone());
                     match enabler {
                     GoCamEnabledBy::Gene(gene) => {
@@ -420,7 +420,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let is_connecting_node = node_models.len() > 1;
 
             let has_part_genes =
-                if let GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } = node.node_type {
+                if let GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) = node.node_type {
                     if let GoCamEnabledBy::Complex(complex) = enabler {
                         complex.has_part_genes.iter()
                             .map(|id| {
@@ -461,13 +461,13 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let mut has_input = BTreeSet::new();
             let mut has_output = BTreeSet::new();
 
-            if let GoCamNodeType::Activity { enabler: _, ref inputs, ref outputs } = node.node_type {
+            if let GoCamNodeType::Activity(GoCamActivity { enabler: _, ref inputs, ref outputs }) = node.node_type {
                 has_input = inputs.clone();
                 has_output = outputs.clone();
             }
 
             let enabler_part_of_complex =
-                if let GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } = node.node_type &&
+                if let GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) = node.node_type &&
                    let GoCamEnabledBy::Gene(gene) = enabler &&
                    let Some(ref complex) = gene.part_of_complex
             {
@@ -535,7 +535,7 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
     let mut models_in_overlaps = HashSet::new();
 
     for overlap in overlaps {
-        let GoCamNodeType::Activity { ref enabler, inputs: _, outputs: _ } = overlap.node_type
+        let GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) = overlap.node_type
         else {
             continue;
         };
@@ -775,7 +775,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             GoCamNodeType::ModifiedProtein(modified_protein_termid) => {
                 modified_target_gene_pro_terms.insert(modified_protein_termid.id().to_owned());
             },
-            GoCamNodeType::Activity { enabler, inputs: _, outputs: _ } => match enabler {
+            GoCamNodeType::Activity(GoCamActivity { enabler, inputs: _, outputs: _ }) => match enabler {
                 GoCamEnabledBy::Chemical(_) => (),
                 GoCamEnabledBy::Gene(gene) => {
                     add_gene(gene.id());
@@ -838,7 +838,7 @@ pub fn make_chado_data(models: &[GoCamModel]) -> ChadoData {
 mod tests {
     use std::fs::File;
 
-    use pombase_gocam::{parse_gocam_model, GoCamEnabledBy, GoCamNodeType};
+    use pombase_gocam::{parse_gocam_model, GoCamActivity, GoCamEnabledBy, GoCamNodeType};
 
     use crate::find_holes;
 
@@ -852,7 +852,7 @@ mod tests {
 
         assert_eq!(holes.len(), 1);
         let first_hole = holes.first().unwrap();
-        let GoCamNodeType::Activity { enabler, inputs, outputs } = &first_hole.node_type
+        let GoCamNodeType::Activity(GoCamActivity { enabler, inputs, outputs }) = &first_hole.node_type
         else {
             panic!();
         };
