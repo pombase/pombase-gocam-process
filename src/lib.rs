@@ -476,6 +476,13 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 None
             };
 
+            let located_in =
+                if let GoCamNodeType::Chemical(ref chemical) = node.node_type {
+                    chemical.located_in.clone()
+                } else {
+                    None
+                };
+
             CytoscapeNode {
                 data: CytoscapeNodeData {
                     id: node.individual_gocam_id.clone(),
@@ -486,7 +493,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     enabler_label,
                     enabler_id,
                     enabler_part_of_complex,
-                    located_in: node.located_in.clone(),
+                    located_in,
                     occurs_in: node.occurs_in.clone(),
                     part_of_process: node.part_of_process.clone(),
                     happens_during: node.happens_during.clone(),
@@ -742,16 +749,18 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             }
         }
 
-        if let Some(ref located_in) = node.located_in {
-            located_in_terms.insert(located_in.id().to_owned());
-            if let GoCamComponent::ComplexComponent(it) = located_in {
-                complex_terms.insert(it.id().to_owned());
+        if let GoCamNodeType::Chemical(ref chemical) = node.node_type {
+            if let Some(ref located_in) = chemical.located_in {
+                located_in_terms.insert(located_in.id().to_owned());
+                if let GoCamComponent::ComplexComponent(it) = located_in {
+                    complex_terms.insert(it.id().to_owned());
+                }
             }
         }
 
         match &node.node_type {
             GoCamNodeType::Unknown => (),
-            GoCamNodeType::Chemical => (),
+            GoCamNodeType::Chemical(_) => (),
             GoCamNodeType::UnknownMRNA => (),
             GoCamNodeType::MRNA(mrna) => {
                 if let Some(no_suffix) = mrna.id.strip_suffix(|c: char| c.is_numeric()) {
