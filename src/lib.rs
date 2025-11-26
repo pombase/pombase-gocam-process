@@ -11,9 +11,10 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
+use pombase_gocam::overlaps::{find_activity_overlaps, GoCamNodeOverlap};
 use pombase_gocam::{GoCamActivity, GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamModelTitle, GoCamOutput};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
-                    GoCamNode, GoCamNodeOverlap, GoCamProcess,
+                    GoCamNode, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, GoCamModelId};
 use regex::Regex;
 
@@ -535,10 +536,16 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
     let mut models_in_overlaps = HashSet::new();
 
     for overlap in overlaps {
-        let GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) = overlap.node_type
-        else {
-            continue;
-        };
+        let enabler_or_chemical_id =
+            if let GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) = overlap.node_type {
+                enabler.id().to_owned()
+            } else {
+                if let GoCamNodeType::Chemical(ref chemical) = overlap.node_type {
+                    chemical.id().to_owned()
+                } else {
+                    continue;
+                }
+            };
 
         let iter = overlap.models.iter()
             .cartesian_product(overlap.models.iter());
@@ -553,6 +560,12 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
 
             let (first_model_id, _, first_direction) = first.to_owned();
             let (second_model_id, _, second_direction) = second.to_owned();
+
+/*
+            eprintln!("{} {} {} {}",
+                      first_model_id.to_string(), first_direction.to_string(),
+                      second_model_id.to_string(), second_direction.to_string());
+*/
 
             let (source, target) =
                 if first_direction == second_direction {
@@ -569,7 +582,7 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
                     }
                 };
 
-            let enabler_id = enabler.id().to_owned();
+            let enabler_id = enabler_or_chemical_id.clone();
 
             let edge = CytoscapeModelConnection {
                 id: format!("{}-{}", source, target),
@@ -616,7 +629,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
         model_map.insert(model.id().to_owned(), model);
     }
 
-    let overlaps = GoCamModel::find_overlaps(&models);
+    let overlaps = find_activity_overlaps(&models);
 
     let mut edges = BTreeSet::new();
     let mut nodes = BTreeSet::new();
