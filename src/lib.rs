@@ -716,7 +716,7 @@ lazy_static! {
     static ref TERM_IN_TITLE_RE: Regex = Regex::new(r"\(\s*(GO:\d\d\d\d+)\s*\)").unwrap();
 }
 
-fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
+pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let mut complex_terms = BTreeSet::new();
     let mut occurs_in_terms = BTreeSet::new();
     let mut located_in_terms = BTreeSet::new();
