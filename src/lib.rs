@@ -145,7 +145,7 @@ pub fn get_connected_genes(model: &GoCamModel)
 
         for count in 0..=seen_activities.len() {
             ret.entry(count)
-               .or_insert_with(HashSet::new)
+               .or_default()
                .extend(connected_genes.iter().cloned());
         }
     }
@@ -267,12 +267,7 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
                 return None;
             }
 
-            let Some(individual_type) = individual.types.get(0)
-            else {
-                return None;
-            };
-
-            let individual_type = individual_type.to_owned();
+            let individual_type = individual.types.first()?.to_owned();
 
             let (Some(ref label), Some(ref id)) = (individual_type.label, individual_type.id)
             else {
@@ -306,14 +301,12 @@ pub fn model_to_cytoscape(model: &GoCamRawModel) -> CytoscapeElements {
             })
         }).collect();
 
-    let elements = CytoscapeElements {
+     CytoscapeElements {
         models: BTreeSet::new(),
         gene_info_map: BTreeMap::new(),
         nodes,
         edges,
-    };
-
-     elements
+    }
 }
 
 fn remove_suffix<'a>(s: &'a str, suffix: &str) -> &'a str {
@@ -369,12 +362,10 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let ideal_edge_length =
                 if style == GoCamCytoscapeStyle::HideParents {
                     150
+                } else if subject_node.original_model_id == object_node.original_model_id {
+                    70
                 } else {
-                    if subject_node.original_model_id == object_node.original_model_id {
-                        70
-                    } else {
-                        350
-                    }
+                    350
                 };
 
             CytoscapeEdge {
@@ -398,16 +389,14 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let enabler_label =
                 if node.enabler_id() == "CHEBI:36080" {
                     "unknown protein".to_owned()
+                } else if !enabler_label.is_empty() {
+                    remove_suffix(remove_suffix(enabler_label, " Spom"), " Dmel").to_owned()
                 } else {
-                    if enabler_label.len() > 0 {
-                        remove_suffix(remove_suffix(enabler_label, " Spom"), " Dmel").to_owned()
-                    } else {
-                        "".to_owned()
-                    }
+                    "".to_owned()
                 };
             let enabler_id = node.enabler_id().to_owned();
             let display_label =
-                if enabler_label.len() > 0 {
+                if !enabler_label.is_empty() {
                     enabler_label.clone()
                 } else {
                     label.clone()
@@ -422,18 +411,19 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
 
             let has_part_genes =
                 if let GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) = node.node_type {
-                    if let GoCamEnabledBy::Complex(complex) = enabler {
-                        complex.has_part_genes.iter()
-                            .map(|id| {
-                                if let Some(new_id) = id.split(':').nth(1) {
-                                    new_id.to_owned()
-                                } else {
-                                    id.to_owned()
-                                }
-                            })
-                            .collect()
-                    } else {
-                        BTreeSet::new()
+                    match enabler {
+                        GoCamEnabledBy::Complex(complex) => {
+                            complex.has_part_genes.iter()
+                                .map(|id| {
+                                    if let Some(new_id) = id.split(':').nth(1) {
+                                        new_id.to_owned()
+                                    } else {
+                                        id.to_owned()
+                                    }
+                                })
+                                .collect()
+                        }
+                        _ => BTreeSet::new(),
                     }
                 } else {
                     BTreeSet::new()
@@ -449,11 +439,8 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 if model_ids.len() == 1 {
                     model_ids.first().map(String::to_owned)
                 } else {
-                    if let Some(ref original_model_id) = node.original_model_id {
-                        Some(original_model_id.to_owned())
-                    } else {
-                        None
-                    }
+                    node.original_model_id.as_ref()
+                        .map(|original_model_id| original_model_id.to_owned())
                 }
             } else {
                 None
@@ -511,21 +498,17 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
     let gene_info_map = model.genes_enabling_activities()
         .iter()
         .filter_map(|(id, name)| {
-            if let Some(name) = name {
-                Some((id.to_owned(), name.to_owned()))
-            } else {
-                None
-            }
+            name.as_ref().map(|name| (id.to_owned(), name.to_owned()))
         })
         .collect();
-    let elements = CytoscapeElements {
+
+
+    CytoscapeElements {
         models: merged_models,
         gene_info_map,
         nodes,
         edges,
-    };
-
-    elements
+    }
 }
 
 pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_ids_and_titles: &[(String, String)])
@@ -539,12 +522,10 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
         let enabler_or_chemical_id =
             if let GoCamNodeType::Activity(GoCamActivity { ref enabler, inputs: _, outputs: _ }) = overlap.node_type {
                 enabler.id().to_owned()
+            } else if let GoCamNodeType::Chemical(ref chemical) = overlap.node_type {
+                chemical.id().to_owned()
             } else {
-                if let GoCamNodeType::Chemical(ref chemical) = overlap.node_type {
-                    chemical.id().to_owned()
-                } else {
-                    continue;
-                }
+                continue;
             };
 
         let iter = overlap.models.iter()
@@ -570,16 +551,14 @@ pub fn model_connections_to_cytoscope(overlaps: &Vec<GoCamNodeOverlap>, model_id
             let (source, target) =
                 if first_direction == second_direction {
                     continue;
+                } else if (first_direction == GoCamDirection::IncomingConstitutivelyUpstream  ||
+                    first_direction == GoCamDirection::Incoming ||
+                    second_direction == GoCamDirection::Outgoing) &&
+                   second_direction != GoCamDirection::IncomingConstitutivelyUpstream
+                {
+                    (first_model_id, second_model_id).to_owned()
                 } else {
-                    if (first_direction == GoCamDirection::IncomingConstitutivelyUpstream  ||
-                        first_direction == GoCamDirection::Incoming ||
-                        second_direction == GoCamDirection::Outgoing) &&
-                       second_direction != GoCamDirection::IncomingConstitutivelyUpstream
-                    {
-                        (first_model_id, second_model_id).to_owned()
-                    } else {
-                        (second_model_id, first_model_id).to_owned()
-                    }
+                    (second_model_id, first_model_id).to_owned()
                 };
 
             let enabler_id = enabler_or_chemical_id.clone();
@@ -629,7 +608,7 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
         model_map.insert(model.id().to_owned(), model);
     }
 
-    let overlaps = find_activity_overlaps(&models);
+    let overlaps = find_activity_overlaps(models);
 
     let mut edges = BTreeSet::new();
     let mut nodes = BTreeSet::new();
@@ -799,7 +778,7 @@ fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
                 GoCamEnabledBy::Complex(complex) => {
                     complex_terms.insert(complex.id().to_owned());
                     for gene in &complex.has_part_genes {
-                        add_gene(&gene);
+                        add_gene(gene);
                     }
                 },
             },
