@@ -7,12 +7,13 @@ extern crate serde_json;
 
 use itertools::Itertools;
 
+use petgraph::Direction;
 use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
 use pombase_gocam::overlaps::{find_activity_overlaps, GoCamNodeOverlap};
-use pombase_gocam::{GoCamActivity, GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamModelTitle, GoCamOutput};
+use pombase_gocam::{GoCamActivity, GoCamChemical, GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamModelTitle, GoCamOutput};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, GoCamModelId};
@@ -690,6 +691,24 @@ pub fn find_detached_genes(model: &GoCamRawModel) -> Vec<(String, String, String
     }
 
     gene_map.iter().map(|(k, v)| { (k.to_owned(), v.id().to_owned(), v.label().to_owned()) }).collect()
+}
+
+pub fn find_detached_chemicals(model: &GoCamModel) -> Vec<GoCamChemical> {
+    let mut results = vec![];
+
+    for (node_idx, node) in model.node_iterator() {
+        if let GoCamNodeType::Chemical(ref chemical) = node.node_type {
+            let in_iter = model.graph().edges_directed(node_idx, Direction::Incoming);
+            let out_iter = model.graph().edges_directed(node_idx, Direction::Outgoing);
+            let edge_iter = in_iter.chain(out_iter);
+
+            if edge_iter.count() == 0 {
+                results.push(chemical.clone());
+            }
+        }
+    }
+
+    results
 }
 
 
