@@ -739,13 +739,11 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let mut complex_terms = BTreeSet::new();
     let mut occurs_in_terms = BTreeSet::new();
     let mut located_in_terms = BTreeSet::new();
-    let mut genes = BTreeSet::new();
     let mut target_genes = BTreeSet::new();
     let mut modified_gene_pro_terms = BTreeSet::new();
     let mut modified_target_gene_pro_terms = BTreeSet::new();
     let mut process_terms = BTreeSet::new();
 
-    let mut add_gene = |g: &str| genes.insert(g.replace("PomBase:", ""));
     let mut add_target = |g: &str| target_genes.insert(g.replace("PomBase:", ""));
 
     for (_, node) in model.node_iterator() {
@@ -788,17 +786,12 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             },
             GoCamNodeType::Activity(GoCamActivity { enabler, inputs: _, outputs: _ }) => match enabler {
                 GoCamEnabledBy::Chemical(_) => (),
-                GoCamEnabledBy::Gene(gene) => {
-                    add_gene(gene.id());
-                },
+                GoCamEnabledBy::Gene(_) => (),
                 GoCamEnabledBy::ModifiedProtein(modified_protein_termid) => {
                     modified_gene_pro_terms.insert(modified_protein_termid.id().to_owned());
                 },
                 GoCamEnabledBy::Complex(complex) => {
                     complex_terms.insert(complex.id().to_owned());
-                    for gene in &complex.has_part_genes {
-                        add_gene(gene);
-                    }
                 },
             },
         }
@@ -816,6 +809,9 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         .map(|c| c.replace("https://orcid.org/", "")).collect();
 
     let pathway_holes = find_holes(model);
+
+    let genes = model.genes_enabling_activities().keys()
+        .map(|g| g.replace("PomBase:", "")).collect();
 
     ChadoModelData {
         title,
@@ -847,11 +843,11 @@ pub fn make_chado_data(models: &[GoCamModel]) -> ChadoData {
 
 #[cfg(test)]
 mod tests {
-    use std::fs::File;
+    use std::{collections::HashMap, fs::File};
 
     use pombase_gocam::{parse_gocam_model, GoCamActivity, GoCamEnabledBy, GoCamNodeType};
 
-    use crate::find_holes;
+    use crate::{chado_data_helper, find_holes};
 
     #[test]
     fn find_holes_test() {
@@ -886,4 +882,48 @@ mod tests {
         assert_eq!(output.located_in.clone().unwrap().label(),
                    "mitochondrion");
     }
+
+    #[test]
+    fn test_chado_data_helper() {
+        let mut source = File::open("tests/data/gomodel_66187e4700001744.json").unwrap();
+        let mut model = parse_gocam_model(&mut source).unwrap();
+
+        let mut pro_term_to_gene_map = HashMap::new();
+
+        pro_term_to_gene_map.insert("PR:000059631".to_owned(),
+                                    "PomBase:SPCC1020.02".to_owned());
+        pro_term_to_gene_map.insert("PR:000027566".to_owned(),
+                                    "PomBase:SPCC622.08c".to_owned());
+        pro_term_to_gene_map.insert("PR:000027557".to_owned(),
+                                    "PomBase:SPAC19G12.06c".to_owned());
+        pro_term_to_gene_map.insert("PR:000050512".to_owned(),
+                                    "PomBase:SPBC29A10.14".to_owned());
+
+        model.add_pro_term_to_gene_map(&pro_term_to_gene_map);
+
+        assert_eq!(model.id(), "gomodel:66187e4700001744");
+
+        let expected_genes_in_model = vec![
+            "SPAC15E1.07c".to_owned(),
+            "SPAC19G12.06c".to_owned(),
+            "SPAC23C11.16".to_owned(),
+            "SPAC664.01c".to_owned(),
+            "SPBC106.01".to_owned(),
+            "SPBC16H5.07c".to_owned(),
+            "SPBC29A10.14".to_owned(),
+            "SPBP35G2.03c".to_owned(),
+            "SPCC1020.02".to_owned(),
+            "SPCC1322.12c".to_owned(),
+            "SPCC622.08c".to_owned(),
+        ];
+
+        let chado_data = chado_data_helper(&model);
+
+        let mut chado_data_genes: Vec<_> = chado_data.genes.iter().cloned().collect();
+
+        chado_data_genes.sort();
+
+        assert_eq!(expected_genes_in_model, chado_data_genes);
+    }
+
 }

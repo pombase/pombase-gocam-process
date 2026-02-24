@@ -10,7 +10,7 @@
     },
     {
       "key": "date",
-      "value": "2024-06-20"
+      "value": "2025-07-24"
     },
     {
       "key": "title",
@@ -19,6 +19,10 @@
     {
       "key": "providedBy",
       "value": "http://www.pombase.org"
+    },
+    {
+      "key": "comment",
+      "value": "Automated change 2025-07-24: GO:0072371 replaced by GO:1990244"
     },
     {
       "key": "https://w3id.org/biolink/vocab/in_taxon",
@@ -105,6 +109,26 @@
     {
       "annotations": [
         {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-02-25"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/67b1629100003092",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:66187e4700001744/66187e4700001765"
+    },
+    {
+      "annotations": [
+        {
           "key": "evidence",
           "value": "gomodel:66187e4700001744/66187e4700002047",
           "value-type": "IRI"
@@ -181,6 +205,26 @@
       "property": "RO:0002333",
       "property-label": "RO:0002333",
       "subject": "gomodel:66187e4700001744/66187e4700001758"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2025-02-25"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/67b1629100003093",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:66187e4700001744/66187e4700001836"
     },
     {
       "annotations": [
@@ -385,26 +429,6 @@
     {
       "annotations": [
         {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
-          "key": "date",
-          "value": "2024-04-23"
-        },
-        {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        }
-      ],
-      "object": "gomodel:66187e4700001744/66187e4700001998",
-      "property": "RO:0002333",
-      "property-label": "RO:0002333",
-      "subject": "gomodel:66187e4700001744/66187e4700001997"
-    },
-    {
-      "annotations": [
-        {
           "key": "evidence",
           "value": "gomodel:66187e4700001744/66187e4700001769",
           "value-type": "IRI"
@@ -430,6 +454,26 @@
     {
       "annotations": [
         {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2024-04-23"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/66187e4700001998",
+      "property": "RO:0002333",
+      "property-label": "RO:0002333",
+      "subject": "gomodel:66187e4700001744/66187e4700001997"
+    },
+    {
+      "annotations": [
+        {
           "key": "evidence",
           "value": "gomodel:66187e4700001744/66187e4700002000",
           "value-type": "IRI"
@@ -451,6 +495,31 @@
       "property": "BFO:0000050",
       "property-label": "BFO:0000050",
       "subject": "gomodel:66187e4700001744/66187e4700001997"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:66187e4700001744/66187e4700001930",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2024-04-23"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/66187e4700001845",
+      "property": "RO:0002629",
+      "property-label": "RO:0002629",
+      "subject": "gomodel:66187e4700001744/66187e4700001773"
     },
     {
       "annotations": [
@@ -485,6 +554,26 @@
     {
       "annotations": [
         {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2024-06-20"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/666b894f00001656",
+      "property": "RO:0002234",
+      "property-label": "RO:0002234",
+      "subject": "gomodel:66187e4700001744/66187e4700001836"
+    },
+    {
+      "annotations": [
+        {
           "key": "evidence",
           "value": "gomodel:66187e4700001744/66187e4700001763",
           "value-type": "IRI"
@@ -506,51 +595,6 @@
       "property": "BFO:0000050",
       "property-label": "BFO:0000050",
       "subject": "gomodel:66187e4700001744/66187e4700001758"
-    },
-    {
-      "annotations": [
-        {
-          "key": "evidence",
-          "value": "gomodel:66187e4700001744/66187e4700001930",
-          "value-type": "IRI"
-        },
-        {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
-          "key": "date",
-          "value": "2024-04-23"
-        },
-        {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        }
-      ],
-      "object": "gomodel:66187e4700001744/66187e4700001845",
-      "property": "RO:0002629",
-      "property-label": "RO:0002629",
-      "subject": "gomodel:66187e4700001744/66187e4700001773"
-    },
-    {
-      "annotations": [
-        {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
-          "key": "date",
-          "value": "2024-06-20"
-        },
-        {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        }
-      ],
-      "object": "gomodel:66187e4700001744/666b894f00001656",
-      "property": "RO:0002234",
-      "property-label": "RO:0002234",
-      "subject": "gomodel:66187e4700001744/66187e4700001836"
     },
     {
       "annotations": [
@@ -695,6 +739,26 @@
         },
         {
           "key": "date",
+          "value": "2025-02-25"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/67b1629100003091",
+      "property": "RO:0002233",
+      "property-label": "RO:0002233",
+      "subject": "gomodel:66187e4700001744/66187e4700001765"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
           "value": "2024-04-23"
         },
         {
@@ -741,31 +805,6 @@
       "annotations": [
         {
           "key": "evidence",
-          "value": "gomodel:66187e4700001744/66187e4700001944",
-          "value-type": "IRI"
-        },
-        {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
-          "key": "date",
-          "value": "2024-04-23"
-        },
-        {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        }
-      ],
-      "object": "gomodel:66187e4700001744/66187e4700001938",
-      "property": "RO:0002629",
-      "property-label": "RO:0002629",
-      "subject": "gomodel:66187e4700001744/66187e4700001845"
-    },
-    {
-      "annotations": [
-        {
-          "key": "evidence",
           "value": "gomodel:66187e4700001744/66187e4700002048",
           "value-type": "IRI"
         },
@@ -790,6 +829,31 @@
     {
       "annotations": [
         {
+          "key": "evidence",
+          "value": "gomodel:66187e4700001744/66187e4700001944",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2024-04-23"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/66187e4700001938",
+      "property": "RO:0002629",
+      "property-label": "RO:0002629",
+      "subject": "gomodel:66187e4700001744/66187e4700001845"
+    },
+    {
+      "annotations": [
+        {
           "key": "contributor",
           "value": "https://orcid.org/0000-0001-6330-7526"
         },
@@ -806,6 +870,26 @@
       "property": "BFO:0000066",
       "property-label": "BFO:0000066",
       "subject": "gomodel:66187e4700001744/66187e4700001938"
+    },
+    {
+      "annotations": [
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2024-04-23"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/66187e4700001936",
+      "property": "BFO:0000066",
+      "property-label": "BFO:0000066",
+      "subject": "gomodel:66187e4700001744/66187e4700001933"
     },
     {
       "annotations": [
@@ -831,26 +915,6 @@
       "property": "RO:0002333",
       "property-label": "RO:0002333",
       "subject": "gomodel:66187e4700001744/66187e4700001836"
-    },
-    {
-      "annotations": [
-        {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
-          "key": "date",
-          "value": "2024-04-23"
-        },
-        {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        }
-      ],
-      "object": "gomodel:66187e4700001744/66187e4700001936",
-      "property": "BFO:0000066",
-      "property-label": "BFO:0000066",
-      "subject": "gomodel:66187e4700001744/66187e4700001933"
     },
     {
       "annotations": [
@@ -931,31 +995,6 @@
       "annotations": [
         {
           "key": "evidence",
-          "value": "gomodel:66187e4700001744/66187e4700001771",
-          "value-type": "IRI"
-        },
-        {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
-          "key": "date",
-          "value": "2024-04-23"
-        },
-        {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        }
-      ],
-      "object": "gomodel:66187e4700001744/66187e4700001768",
-      "property": "BFO:0000066",
-      "property-label": "BFO:0000066",
-      "subject": "gomodel:66187e4700001744/66187e4700001765"
-    },
-    {
-      "annotations": [
-        {
-          "key": "evidence",
           "value": "gomodel:66187e4700001744/66187e4700001942",
           "value-type": "IRI"
         },
@@ -976,6 +1015,31 @@
       "property": "RO:0002333",
       "property-label": "RO:0002333",
       "subject": "gomodel:66187e4700001744/66187e4700001938"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:66187e4700001744/66187e4700001771",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2024-04-23"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/66187e4700001768",
+      "property": "BFO:0000066",
+      "property-label": "BFO:0000066",
+      "subject": "gomodel:66187e4700001744/66187e4700001765"
     },
     {
       "annotations": [
@@ -1051,31 +1115,6 @@
       "annotations": [
         {
           "key": "evidence",
-          "value": "gomodel:66187e4700001744/663d668500001672",
-          "value-type": "IRI"
-        },
-        {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
-          "key": "date",
-          "value": "2024-05-16"
-        },
-        {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        }
-      ],
-      "object": "gomodel:66187e4700001744/663d668500001669",
-      "property": "BFO:0000050",
-      "property-label": "BFO:0000050",
-      "subject": "gomodel:66187e4700001744/663d668500001667"
-    },
-    {
-      "annotations": [
-        {
-          "key": "evidence",
           "value": "gomodel:66187e4700001744/66187e4700001764",
           "value-type": "IRI"
         },
@@ -1096,6 +1135,31 @@
       "property": "BFO:0000066",
       "property-label": "BFO:0000066",
       "subject": "gomodel:66187e4700001744/66187e4700001758"
+    },
+    {
+      "annotations": [
+        {
+          "key": "evidence",
+          "value": "gomodel:66187e4700001744/663d668500001672",
+          "value-type": "IRI"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "date",
+          "value": "2024-05-16"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        }
+      ],
+      "object": "gomodel:66187e4700001744/663d668500001669",
+      "property": "BFO:0000050",
+      "property-label": "BFO:0000050",
+      "subject": "gomodel:66187e4700001744/663d668500001667"
     }
   ],
   "id": "gomodel:66187e4700001744",
@@ -1233,11 +1297,6 @@
         {
           "id": "GO:0005575",
           "label": "cellular_component",
-          "type": "class"
-        },
-        {
-          "id": "CARO:0000000",
-          "label": "anatomical entity",
           "type": "class"
         }
       ],
@@ -1492,11 +1551,6 @@
           "id": "GO:0005575",
           "label": "cellular_component",
           "type": "class"
-        },
-        {
-          "id": "CARO:0000000",
-          "label": "anatomical entity",
-          "type": "class"
         }
       ],
       "type": [
@@ -1580,12 +1634,12 @@
     {
       "annotations": [
         {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        },
-        {
           "key": "source",
           "value": "PMID:22438582"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
         },
         {
           "key": "date",
@@ -1650,12 +1704,12 @@
     {
       "annotations": [
         {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        },
-        {
           "key": "contributor",
           "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
         },
         {
           "key": "date",
@@ -1686,16 +1740,16 @@
     {
       "annotations": [
         {
+          "key": "date",
+          "value": "2025-02-25"
+        },
+        {
           "key": "contributor",
           "value": "https://orcid.org/0000-0001-6330-7526"
         },
         {
           "key": "providedBy",
           "value": "http://www.pombase.org"
-        },
-        {
-          "key": "date",
-          "value": "2024-04-23"
         }
       ],
       "id": "gomodel:66187e4700001744/66187e4700001774",
@@ -1780,11 +1834,6 @@
         {
           "id": "GO:0005575",
           "label": "cellular_component",
-          "type": "class"
-        },
-        {
-          "id": "CARO:0000000",
-          "label": "anatomical entity",
           "type": "class"
         }
       ],
@@ -1904,12 +1953,12 @@
     {
       "annotations": [
         {
-          "key": "source",
-          "value": "PMID:33888556"
-        },
-        {
           "key": "providedBy",
           "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "PMID:33888556"
         },
         {
           "key": "date",
@@ -2070,11 +2119,6 @@
           "id": "GO:0005575",
           "label": "cellular_component",
           "type": "class"
-        },
-        {
-          "id": "CARO:0000000",
-          "label": "anatomical entity",
-          "type": "class"
         }
       ],
       "type": [
@@ -2201,12 +2245,12 @@
           "value": "2024-04-23"
         },
         {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
           "key": "with",
           "value": "PANTHER:PTN001122082 | MGI:MGI:1194921 | SGD:S000002186 | PomBase:SPBC106.01 | FB:FBgn0000063"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
         },
         {
           "key": "providedBy",
@@ -2236,8 +2280,12 @@
           "value": "https://orcid.org/0000-0001-6330-7526"
         },
         {
+          "key": "comment",
+          "value": "Automated change 2025-07-24: GO:0072371 replaced by GO:1990244"
+        },
+        {
           "key": "date",
-          "value": "2024-04-23"
+          "value": "2025-07-24"
         },
         {
           "key": "providedBy",
@@ -2259,8 +2307,8 @@
       ],
       "type": [
         {
-          "id": "GO:0072371",
-          "label": "histone H2AS121 kinase activity",
+          "id": "GO:1990244",
+          "label": "histone H2AT120 kinase activity",
           "type": "class"
         }
       ]
@@ -2505,11 +2553,6 @@
           "id": "GO:0005575",
           "label": "cellular_component",
           "type": "class"
-        },
-        {
-          "id": "CARO:0000000",
-          "label": "anatomical entity",
-          "type": "class"
         }
       ],
       "type": [
@@ -2598,12 +2641,12 @@
           "value": "2024-04-23"
         },
         {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        },
-        {
           "key": "contributor",
           "value": "https://orcid.org/0000-0001-6330-7526"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
         }
       ],
       "id": "gomodel:66187e4700001744/66187e4700001939",
@@ -2688,11 +2731,6 @@
         {
           "id": "GO:0005575",
           "label": "cellular_component",
-          "type": "class"
-        },
-        {
-          "id": "CARO:0000000",
-          "label": "anatomical entity",
           "type": "class"
         }
       ],
@@ -2884,12 +2922,12 @@
     {
       "annotations": [
         {
-          "key": "date",
-          "value": "2024-04-23"
-        },
-        {
           "key": "providedBy",
           "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2024-04-23"
         },
         {
           "key": "contributor",
@@ -2958,12 +2996,12 @@
           "value": "2024-04-23"
         },
         {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        },
-        {
           "key": "source",
           "value": "PMID:16541024"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
         }
       ],
       "id": "gomodel:66187e4700001744/66187e4700001955",
@@ -3059,12 +3097,12 @@
           "value": "2024-04-23"
         },
         {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
           "key": "source",
           "value": "PMID:14730319"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
         },
         {
           "key": "providedBy",
@@ -3098,12 +3136,12 @@
           "value": "PMID:19965387"
         },
         {
-          "key": "contributor",
-          "value": "https://orcid.org/0000-0001-6330-7526"
-        },
-        {
           "key": "providedBy",
           "value": "http://www.pombase.org"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
         }
       ],
       "id": "gomodel:66187e4700001744/66187e4700001964",
@@ -3514,12 +3552,12 @@
           "value": "PMID:33888556"
         },
         {
-          "key": "date",
-          "value": "2024-04-23"
-        },
-        {
           "key": "providedBy",
           "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2024-04-23"
         }
       ],
       "id": "gomodel:66187e4700001744/66187e4700002005",
@@ -3615,12 +3653,12 @@
           "value": "2024-04-23"
         },
         {
-          "key": "providedBy",
-          "value": "http://www.pombase.org"
-        },
-        {
           "key": "source",
           "value": "PMID:16541024"
+        },
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
         },
         {
           "key": "contributor",
@@ -3777,11 +3815,6 @@
           "id": "GO:0005575",
           "label": "cellular_component",
           "type": "class"
-        },
-        {
-          "id": "CARO:0000000",
-          "label": "anatomical entity",
-          "type": "class"
         }
       ],
       "type": [
@@ -3834,12 +3867,12 @@
           "value": "2024-05-16"
         },
         {
-          "key": "source",
-          "value": "PMID:18716626"
-        },
-        {
           "key": "providedBy",
           "value": "http://www.pombase.org"
+        },
+        {
+          "key": "source",
+          "value": "PMID:18716626"
         },
         {
           "key": "contributor",
@@ -4034,6 +4067,114 @@
         {
           "id": "ECO:0000269",
           "label": "experimental evidence used in manual assertion",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-02-25"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:66187e4700001744/67b1629100003091",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPCC1020.02",
+          "label": "spc7 Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-02-25"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:66187e4700001744/67b1629100003092",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PR:000059631",
+          "label": "Spc7/Phos-MELT Spom",
+          "type": "class"
+        }
+      ]
+    },
+    {
+      "annotations": [
+        {
+          "key": "providedBy",
+          "value": "http://www.pombase.org"
+        },
+        {
+          "key": "date",
+          "value": "2025-02-25"
+        },
+        {
+          "key": "contributor",
+          "value": "https://orcid.org/0000-0001-6330-7526"
+        }
+      ],
+      "id": "gomodel:66187e4700001744/67b1629100003093",
+      "root-type": [
+        {
+          "id": "CHEBI:33695",
+          "label": "information biomacromolecule",
+          "type": "class"
+        },
+        {
+          "id": "CHEBI:24431",
+          "label": "chemical entity",
+          "type": "class"
+        }
+      ],
+      "type": [
+        {
+          "id": "PomBase:SPCC1020.02",
+          "label": "spc7 Spom",
           "type": "class"
         }
       ]
