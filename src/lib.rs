@@ -845,14 +845,14 @@ pub fn make_chado_data(models: &[GoCamModel]) -> ChadoData {
 mod tests {
     use std::{collections::HashMap, fs::File};
 
-    use pombase_gocam::{parse_gocam_model, GoCamActivity, GoCamEnabledBy, GoCamNodeType};
+    use pombase_gocam::{parse_raw_gocam_model, GoCamActivity, GoCamEnabledBy, GoCamNodeType};
 
     use crate::{chado_data_helper, find_holes};
 
     #[test]
     fn find_holes_test() {
         let mut source = File::open("tests/data/gomodel_67c10cc400002026.json").unwrap();
-        let model = parse_gocam_model(&mut source).unwrap();
+        let model = parse_raw_gocam_model(&mut source).unwrap();
         assert_eq!(model.id(), "gomodel:67c10cc400002026");
 
         let holes = find_holes(&model);
@@ -886,7 +886,7 @@ mod tests {
     #[test]
     fn test_chado_data_helper() {
         let mut source = File::open("tests/data/gomodel_66187e4700001744.json").unwrap();
-        let mut model = parse_gocam_model(&mut source).unwrap();
+        let mut model = parse_raw_gocam_model(&mut source).unwrap();
 
         let mut pro_term_to_gene_map = HashMap::new();
 
