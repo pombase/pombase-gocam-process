@@ -369,9 +369,14 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                     350
                 };
 
+            let edge_id = format!("{}-{}-{}",
+                                  subject_node.individual_gocam_id,
+                                  edge.id,
+                                  object_node.individual_gocam_id);
+
             CytoscapeEdge {
                 data: CytoscapeEdgeData {
-                    id: edge.fact_gocam_id.clone(),
+                    id: edge_id,
                     label,
                     source,
                     target,
