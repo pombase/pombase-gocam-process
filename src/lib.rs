@@ -12,6 +12,7 @@ use petgraph::{graph::NodeIndex, Undirected};
 use petgraph::visit::Bfs;
 use petgraph::visit::EdgeRef;
 
+use pombase_gocam::gocam_py::{Activity, GoCamPyModel, UriOrCurie};
 use pombase_gocam::overlaps::{find_activity_overlaps, GoCamNodeOverlap};
 use pombase_gocam::{GoCamActivity, GoCamChemical, GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamModelTitle, GoCamOutput};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
@@ -844,6 +845,99 @@ pub fn make_chado_data(models: &[GoCamModel]) -> ChadoData {
     }
 
     ret
+}
+
+pub struct GoCamMissingEvidence {
+    pub id: UriOrCurie,
+    pub enabler_id: String,
+    pub enabler_label: Option<String>,
+    pub mf_term_id: String,
+    pub mf_term_name: Option<String>,
+    pub part_of_term_id: Option<String>,
+    pub part_of_term_name: Option<String>,
+    pub occurs_in_term_id: Option<String>,
+    pub occurs_in_term_name: Option<String>,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum GoCamMissingEvidenceType {
+    MolecularFunction,
+    BiologicalProcess,
+    CellularComponent,
+}
+
+fn make_missing_evidence_struct(model: &GoCamPyModel, activity: &Activity) -> GoCamMissingEvidence {
+    let enabler_id = activity.enabled_by.term.to_owned();
+    let enabler_object = model.get_object(&enabler_id).unwrap().to_owned();
+    let enabler_label = enabler_object.label.clone();
+    let mf_term_id = activity.molecular_function.term.clone();
+    let mf_term_name = model.get_object(&mf_term_id).unwrap().to_owned().label;
+    let (part_of_term_id, part_of_term_name) =
+        if let Some(ref part_of) = activity.part_of {
+            let part_of_term_id = part_of.term.clone();
+            let part_of_term_name =
+                model.get_object(&part_of_term_id).map(|obj| obj.label.clone().unwrap());
+            (Some(part_of_term_id), part_of_term_name)
+        } else {
+            (None, None)
+        };
+    let (occurs_in_term_id, occurs_in_term_name) =
+        if let Some(ref occurs_in) = activity.occurs_in {
+            let occurs_in_term_id = occurs_in.term.clone();
+            let occurs_in_term_name =
+                model.get_object(&occurs_in_term_id).map(|obj| obj.label.clone().unwrap());
+            (Some(occurs_in_term_id), occurs_in_term_name)
+        } else {
+            (None, None)
+        };
+    GoCamMissingEvidence {
+        id: activity.id.clone(),
+        enabler_id,
+        enabler_label,
+        mf_term_id,
+        mf_term_name,
+        part_of_term_id,
+        part_of_term_name,
+        occurs_in_term_id,
+        occurs_in_term_name,
+    }
+}
+
+pub fn find_missing_evidence(ev_type: GoCamMissingEvidenceType,
+                             model: &GoCamPyModel) -> Vec<GoCamMissingEvidence> {
+    let mut res = vec![];
+
+    for activity in &model.activities {
+        let has_missing_evidence =
+            match ev_type {
+            GoCamMissingEvidenceType::MolecularFunction => {
+            let mf = &activity.molecular_function;
+               mf.evidence.is_empty()
+
+
+            },
+            GoCamMissingEvidenceType::BiologicalProcess => {
+                if let Some(ref part_of_bp) = activity.part_of {
+                    part_of_bp.evidence.is_empty()
+                } else {
+                    false
+                }
+            },
+            GoCamMissingEvidenceType::CellularComponent => {
+                if let Some(ref occurs_in_cc) = activity.occurs_in {
+                    occurs_in_cc.evidence.is_empty()
+                } else {
+                    false
+                }
+            },
+        };
+
+        if has_missing_evidence {
+             res.push(make_missing_evidence_struct(model, activity));
+        }
+    }
+
+    res
 }
 
 #[cfg(test)]
