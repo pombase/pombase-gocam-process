@@ -911,10 +911,8 @@ pub fn find_missing_evidence(ev_type: GoCamMissingEvidenceType,
         let has_missing_evidence =
             match ev_type {
             GoCamMissingEvidenceType::MolecularFunction => {
-            let mf = &activity.molecular_function;
-               mf.evidence.is_empty()
-
-
+               let enabled_by = &activity.enabled_by;
+               enabled_by.evidence.is_empty()
             },
             GoCamMissingEvidenceType::BiologicalProcess => {
                 if let Some(ref part_of_bp) = activity.part_of {
