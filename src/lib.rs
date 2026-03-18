@@ -906,6 +906,12 @@ fn make_missing_struct(model: &GoCamPyModel, activity: &Activity) -> GoCamMissin
     }
 }
 
+fn is_unknown_enabled_by(activity: &Activity) -> bool {
+    let enabled_by = &activity.enabled_by;
+    enabled_by.term == CHEBI_PROTEIN_ID ||
+        enabled_by.term == CHEBI_INFORMATION_BIOMACROMOLECULE_ID
+}
+
 pub fn find_missing_evidence(ev_type: GoCamMissingType,
                              model: &GoCamPyModel) -> Vec<GoCamMissing> {
     let mut res = vec![];
@@ -915,23 +921,23 @@ pub fn find_missing_evidence(ev_type: GoCamMissingType,
             match ev_type {
             GoCamMissingType::MolecularFunction => {
                 let enabled_by = &activity.enabled_by;
-                enabled_by.term != CHEBI_PROTEIN_ID &&
-                    enabled_by.term != CHEBI_INFORMATION_BIOMACROMOLECULE_ID &&
-                    enabled_by.evidence.is_empty()
+                !is_unknown_enabled_by(activity) && enabled_by.evidence.is_empty()
             },
             GoCamMissingType::BiologicalProcess => {
-                if let Some(ref part_of_bp) = activity.part_of {
-                    part_of_bp.evidence.is_empty()
-                } else {
-                    false
-                }
+                !is_unknown_enabled_by(activity) &&
+                    if let Some(ref part_of_bp) = activity.part_of {
+                        part_of_bp.evidence.is_empty()
+                    } else {
+                        false
+                    }
             },
             GoCamMissingType::CellularComponent => {
-                if let Some(ref occurs_in_cc) = activity.occurs_in {
-                    occurs_in_cc.evidence.is_empty()
-                } else {
-                    false
-                }
+                !is_unknown_enabled_by(activity) &&
+                    if let Some(ref occurs_in_cc) = activity.occurs_in {
+                        occurs_in_cc.evidence.is_empty()
+                    } else {
+                        false
+                    }
             },
         };
 
