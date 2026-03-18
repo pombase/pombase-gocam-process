@@ -20,6 +20,9 @@ use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNodeType, raw::GoCamRawModel, GoCamModelId};
 use regex::Regex;
 
+const CHEBI_PROTEIN_ID: &str = "CHEBI:36080";
+const CHEBI_INFORMATION_BIOMACROMOLECULE_ID: &str = "CHEBI:33695";
+
 pub struct GoCamStats {
     pub id: GoCamModelId,
     pub total_genes: usize,
@@ -911,8 +914,10 @@ pub fn find_missing_evidence(ev_type: GoCamMissingType,
         let has_missing_evidence =
             match ev_type {
             GoCamMissingType::MolecularFunction => {
-               let enabled_by = &activity.enabled_by;
-               enabled_by.evidence.is_empty()
+                let enabled_by = &activity.enabled_by;
+                enabled_by.term != CHEBI_PROTEIN_ID &&
+                    enabled_by.term != CHEBI_INFORMATION_BIOMACROMOLECULE_ID &&
+                    enabled_by.evidence.is_empty()
             },
             GoCamMissingType::BiologicalProcess => {
                 if let Some(ref part_of_bp) = activity.part_of {
