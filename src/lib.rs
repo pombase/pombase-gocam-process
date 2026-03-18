@@ -847,7 +847,7 @@ pub fn make_chado_data(models: &[GoCamModel]) -> ChadoData {
     ret
 }
 
-pub struct GoCamMissingEvidence {
+pub struct GoCamMissing {
     pub id: UriOrCurie,
     pub enabler_id: String,
     pub enabler_label: Option<String>,
@@ -860,13 +860,13 @@ pub struct GoCamMissingEvidence {
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum GoCamMissingEvidenceType {
+pub enum GoCamMissingType {
     MolecularFunction,
     BiologicalProcess,
     CellularComponent,
 }
 
-fn make_missing_evidence_struct(model: &GoCamPyModel, activity: &Activity) -> GoCamMissingEvidence {
+fn make_missing_struct(model: &GoCamPyModel, activity: &Activity) -> GoCamMissing {
     let enabler_id = activity.enabled_by.term.to_owned();
     let enabler_object = model.get_object(&enabler_id).unwrap().to_owned();
     let enabler_label = enabler_object.label.clone();
@@ -890,7 +890,7 @@ fn make_missing_evidence_struct(model: &GoCamPyModel, activity: &Activity) -> Go
         } else {
             (None, None)
         };
-    GoCamMissingEvidence {
+    GoCamMissing {
         id: activity.id.clone(),
         enabler_id,
         enabler_label,
@@ -903,25 +903,25 @@ fn make_missing_evidence_struct(model: &GoCamPyModel, activity: &Activity) -> Go
     }
 }
 
-pub fn find_missing_evidence(ev_type: GoCamMissingEvidenceType,
-                             model: &GoCamPyModel) -> Vec<GoCamMissingEvidence> {
+pub fn find_missing_evidence(ev_type: GoCamMissingType,
+                             model: &GoCamPyModel) -> Vec<GoCamMissing> {
     let mut res = vec![];
 
     for activity in &model.activities {
         let has_missing_evidence =
             match ev_type {
-            GoCamMissingEvidenceType::MolecularFunction => {
+            GoCamMissingType::MolecularFunction => {
                let enabled_by = &activity.enabled_by;
                enabled_by.evidence.is_empty()
             },
-            GoCamMissingEvidenceType::BiologicalProcess => {
+            GoCamMissingType::BiologicalProcess => {
                 if let Some(ref part_of_bp) = activity.part_of {
                     part_of_bp.evidence.is_empty()
                 } else {
                     false
                 }
             },
-            GoCamMissingEvidenceType::CellularComponent => {
+            GoCamMissingType::CellularComponent => {
                 if let Some(ref occurs_in_cc) = activity.occurs_in {
                     occurs_in_cc.evidence.is_empty()
                 } else {
@@ -931,7 +931,33 @@ pub fn find_missing_evidence(ev_type: GoCamMissingEvidenceType,
         };
 
         if has_missing_evidence {
-             res.push(make_missing_evidence_struct(model, activity));
+             res.push(make_missing_struct(model, activity));
+        }
+    }
+
+    res
+}
+
+pub fn find_missing(ev_type: GoCamMissingType,
+                    model: &GoCamPyModel) -> Vec<GoCamMissing> {
+    let mut res = vec![];
+
+    for activity in &model.activities {
+        let has_missing =
+            match ev_type {
+                GoCamMissingType::BiologicalProcess => {
+                    activity.part_of.is_none()
+                },
+                GoCamMissingType::CellularComponent => {
+                    activity.occurs_in.is_none()
+                },
+                _ => {
+                    panic!("");
+                }
+            };
+
+        if has_missing {
+            res.push(make_missing_struct(model, activity));
         }
     }
 
