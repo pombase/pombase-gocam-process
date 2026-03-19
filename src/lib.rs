@@ -505,13 +505,12 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             }
         }).collect();
 
-    let gene_info_map = model.genes_enabling_activities()
+    let gene_info_map = model.genes_in_model()
         .iter()
         .filter_map(|(id, name)| {
             name.as_ref().map(|name| (id.to_owned(), name.to_owned()))
         })
         .collect();
-
 
     CytoscapeElements {
         models: merged_models,
