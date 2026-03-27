@@ -342,7 +342,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 .collect();
            model_map.entry(individual_id.clone())
                .or_insert_with(BTreeSet::new)
-               .extend(overlap_models.into_iter());
+               .extend(overlap_modelsg);
         }
     }
 
