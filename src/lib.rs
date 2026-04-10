@@ -27,6 +27,7 @@ pub struct GoCamStats {
     pub id: GoCamModelId,
     pub total_genes: usize,
     pub total_complexes: usize,
+    pub connected_genes: usize,
     pub max_connected_activities: usize,
     pub total_connected_activities: usize,
     pub number_of_holes: usize,
@@ -87,10 +88,20 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
 
     }
 
+    let connected_genes_by_activity_count = get_connected_genes(model);
+
+    let connected_genes =
+        if let Some(connected_genes_2) = connected_genes_by_activity_count.get(&2) {
+            connected_genes_2.len()
+        } else {
+            0
+        };
+
     GoCamStats {
         id: model.id().to_owned(),
         total_genes,
         total_complexes,
+        connected_genes,
         max_connected_activities,
         total_connected_activities,
         number_of_holes,
