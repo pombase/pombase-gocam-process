@@ -742,6 +742,7 @@ pub struct ChadoModelData {
     pub target_genes: BTreeSet<String>,
     pub modified_gene_pro_terms: BTreeSet<String>,
     pub modified_target_gene_pro_terms: BTreeSet<String>,
+    pub activity_enabling_complexes: BTreeSet<String>,
     pub process_terms: BTreeSet<String>,
     pub occurs_in_terms: BTreeSet<String>,
     pub located_in_terms: BTreeSet<String>,
@@ -761,6 +762,7 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let mut target_genes = BTreeSet::new();
     let mut modified_gene_pro_terms = BTreeSet::new();
     let mut modified_target_gene_pro_terms = BTreeSet::new();
+    let mut activity_enabling_complexes = BTreeSet::new();
     let mut process_terms = BTreeSet::new();
 
     let mut add_target = |g: &str| {
@@ -818,7 +820,8 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
                 },
                 GoCamEnabledBy::Complex(complex) => {
                     complex_terms.insert(complex.id().to_owned());
-                },
+                    activity_enabling_complexes.insert(complex.id().to_owned());
+               },
             },
         }
     }
@@ -851,6 +854,7 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
         target_genes,
         modified_gene_pro_terms,
         modified_target_gene_pro_terms,
+        activity_enabling_complexes,
         process_terms,
         pathway_holes,
     }
