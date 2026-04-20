@@ -14,7 +14,9 @@ use petgraph::visit::EdgeRef;
 
 use pombase_gocam::gocam_py::{Activity, GoCamPyModel, UriOrCurie};
 use pombase_gocam::overlaps::{find_activity_overlaps, GoCamNodeOverlap};
-use pombase_gocam::{GoCamActivity, GoCamChemical, GoCamComplex, GoCamDirection, GoCamGeneIdentifier, GoCamGeneName, GoCamInput, GoCamModelTitle, GoCamOutput};
+use pombase_gocam::{GoCamActivity, GoCamChemical, GoCamComplex, GoCamDirection,
+                    GoCamGeneDetails, GoCamGeneIdentifier, GoCamInput, GoCamModelTitle,
+                    GoCamOutput};
 use pombase_gocam::{GoCamComponent, GoCamEnabledBy, GoCamModel,
                     GoCamNode, GoCamProcess,
                     GoCamNodeType, raw::GoCamRawModel, GoCamModelId};
@@ -225,7 +227,7 @@ pub struct CytoscapeGeneInfo {
     pub name: Option<String>,
 }
 
-pub type CytoscapeGeneInfoMap = BTreeMap<GoCamGeneIdentifier, GoCamGeneName>;
+pub type CytoscapeGeneInfoMap = BTreeMap<GoCamGeneIdentifier, GoCamGeneDetails>;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct CytoscapeElements {
