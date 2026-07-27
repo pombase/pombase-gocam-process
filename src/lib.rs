@@ -473,8 +473,24 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
             let mut has_output = BTreeSet::new();
 
             if let GoCamNodeType::Activity(GoCamActivity { enabler: _, ref inputs, ref outputs }) = node.node_type {
-                has_input = inputs.clone();
-                has_output = outputs.clone();
+                has_input = inputs.iter().map(|input| {
+                    let mut input = input.to_owned();
+                    input.label = if let Some(label) = input.label.strip_suffix(" Spom") {
+                        label.to_owned()
+                    } else {
+                        input.label
+                    };
+                    input
+                }).collect();
+                has_output = outputs.iter().map(|output| {
+                    let mut output = output.to_owned();
+                    output.label = if let Some(label) = output.label.strip_suffix(" Spom") {
+                        label.to_owned()
+                    } else {
+                        output.label
+                    };
+                    output
+                }).collect();
             }
 
             let enabler_part_of_complex =
