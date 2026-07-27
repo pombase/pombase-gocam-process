@@ -1,7 +1,7 @@
 [package]
 name = "pombase-gocam-process"
 authors = ["Kim Rutherford <kmr@pombase.org>"]
-version = "0.156.0"
+version = "0.157.0"
 edition = "2024"
 rust-version = "1.85"
 
