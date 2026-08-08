@@ -24,6 +24,7 @@ use regex::Regex;
 
 const CHEBI_PROTEIN_ID: &str = "CHEBI:36080";
 const CHEBI_INFORMATION_BIOMACROMOLECULE_ID: &str = "CHEBI:33695";
+const PRO_PROTEIN_ID: &str = "PR:000000001";
 
 pub struct GoCamStats {
     pub id: GoCamModelId,
@@ -945,10 +946,15 @@ fn make_missing_struct(model: &GoCamPyModel, activity: &Activity) -> GoCamMissin
     }
 }
 
+fn is_unknown_protein_term_id(term_id: &str) -> bool {
+    term_id == CHEBI_PROTEIN_ID ||
+        term_id == CHEBI_INFORMATION_BIOMACROMOLECULE_ID ||
+        term_id == PRO_PROTEIN_ID
+}
+
 fn is_unknown_enabled_by(activity: &Activity) -> bool {
     let enabled_by = &activity.enabled_by;
-    enabled_by.term == CHEBI_PROTEIN_ID ||
-        enabled_by.term == CHEBI_INFORMATION_BIOMACROMOLECULE_ID
+    is_unknown_protein_term_id(&enabled_by.term)
 }
 
 pub fn find_missing_evidence(ev_type: GoCamMissingType,
