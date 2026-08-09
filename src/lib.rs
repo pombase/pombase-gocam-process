@@ -411,7 +411,7 @@ pub fn model_to_cytoscape_simple(model: &GoCamModel, overlaps: &Vec<GoCamNodeOve
                 .to_owned();
             let enabler_label = node.enabler_label();
             let enabler_label =
-                if node.enabler_id() == "CHEBI:36080" {
+                if is_unknown_protein_term_id(node.enabler_id()) {
                     "unknown protein".to_owned()
                 } else if !enabler_label.is_empty() {
                     remove_suffix(remove_suffix(enabler_label, " Spom"), " Dmel").to_owned()
