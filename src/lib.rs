@@ -800,25 +800,23 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             }
         }
 
-        if let GoCamNodeType::Chemical(ref chemical) = node.node_type {
-            if let Some(ref located_in) = chemical.located_in {
+        if let GoCamNodeType::Chemical(ref chemical) = node.node_type &&
+            let Some(ref located_in) = chemical.located_in {
                 located_in_terms.insert(located_in.id().to_owned());
                 if let GoCamComponent::ComplexComponent(it) = located_in {
                     complex_terms.insert(it.id().to_owned());
                 }
             }
-        }
 
         match &node.node_type {
             GoCamNodeType::Unknown => (),
             GoCamNodeType::Chemical(_) => (),
             GoCamNodeType::UnknownMRNA => (),
             GoCamNodeType::MRNA(mrna) => {
-                if let Some(no_suffix) = mrna.id.strip_suffix(|c: char| c.is_numeric()) {
-                    if let Some(no_suffix) = no_suffix.strip_suffix('.') {
+                if let Some(no_suffix) = mrna.id.strip_suffix(|c: char| c.is_numeric()) &&
+                    let Some(no_suffix) = no_suffix.strip_suffix('.') {
                         add_target(no_suffix);
                     }
-                }
             },
             GoCamNodeType::Gene(gene) => {
                 add_target(gene.id());
