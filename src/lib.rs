@@ -785,7 +785,7 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let mut process_terms = BTreeSet::new();
 
     let mut add_target = |g: &str| {
-        target_genes.insert(g.replace("PomBase:", ""))
+        target_genes.insert(g.replace("PomBase:", "").replace("FB:", ""))
     };
 
     for (_, node) in model.node_iterator() {
@@ -857,7 +857,7 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
     let pathway_holes = find_holes(model);
 
     let genes = model.genes_enabling_activities().keys()
-        .map(|g| g.replace("PomBase:", "")).collect();
+        .map(|g| g.replace("PomBase:", "").replace("FB:", "")).collect();
 
     ChadoModelData {
         title,
