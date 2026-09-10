@@ -114,8 +114,8 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
     }
 }
 
-
-pub struct TotalStats {
+#[derive(Serialize, Debug, Clone)]
+pub struct GoCamTotalStats {
     pub raw_nodes: usize,
     pub raw_edges: usize,
     pub nodes: usize,
@@ -127,7 +127,7 @@ pub struct TotalStats {
     pub total_go_term_occurrences: usize,
 }
 
-pub fn get_total_stats(paths: &[PathBuf]) -> Result<TotalStats, Box<dyn std::error::Error>> {
+pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std::error::Error>> {
     let mut raw_nodes = 0;
     let mut raw_edges = 0;
 
@@ -204,7 +204,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<TotalStats, Box<dyn std::err
         total_connected_activities += model_stats.total_connected_activities;
     }
 
-    let total_stats = TotalStats {
+    let total_stats = GoCamTotalStats {
         raw_nodes,
         raw_edges,
         nodes,
