@@ -1213,4 +1213,25 @@ mod tests {
         assert_eq!(expected_genes_in_model, chado_data_genes);
     }
 
+    #[test]
+    fn test_total_stats() {
+        use std::path::PathBuf;
+        
+        let source1 = "tests/data/gomodel_66187e4700001744.json";
+        let path1 = PathBuf::from(source1);
+        let source2 = "tests/data/gomodel_67c10cc400002026.json";
+        let path2 = PathBuf::from(source2);
+        let stats = crate::get_total_stats(&[path1, path2]).unwrap();
+
+        assert_eq!(stats.models, 2);
+        assert_eq!(stats.raw_nodes, 176);
+        assert_eq!(stats.raw_edges, 85);
+        assert_eq!(stats.nodes, 31);
+        assert_eq!(stats.edges, 32);
+        assert_eq!(stats.activities, 18);
+        assert_eq!(stats.chemicals, 8);
+        assert_eq!(stats.target_genes, 3);
+        assert_eq!(stats.total_connected_activities, 18);
+        assert_eq!(stats.total_go_term_occurrences, 64);
+    }
 }
