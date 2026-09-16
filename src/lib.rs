@@ -126,6 +126,7 @@ pub struct GoCamTotalStats {
     pub target_genes: usize,
     pub total_connected_activities: usize,
     pub total_go_term_occurrences: usize,
+    pub distinct_go_term_occurrences: usize,
 }
 
 pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std::error::Error>> {
@@ -143,6 +144,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
     let mut total_connected_activities = 0;
 
     let mut total_go_term_occurrences = 0;
+    let mut distinct_go_terms: HashSet<String> = HashSet::new();
 
     for path in paths {
         let mut source = File::open(path).unwrap();
@@ -156,7 +158,8 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
         for (_, node) in model.node_iterator() {
             nodes += 1;
 
-            if node.happens_during.is_some() {
+            if let Some(ref happens_during) = node.happens_during {
+                distinct_go_terms.insert(happens_during.id().to_owned());
                 total_go_term_occurrences += 1;
             }
 
@@ -164,19 +167,26 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
                 GoCamNodeType::Activity(GoCamActivity { enabler: ref _enabler, ref inputs, ref outputs }) => {
                     activities += 1;
                     total_go_term_occurrences += node.occurs_in.len();
+                    for occurs_in in &node.occurs_in {
+                        distinct_go_terms.insert(occurs_in.id().to_owned());
+                    }
 
                     if let Some(ref process) = node.part_of_process {
                         total_go_term_occurrences += 1;
-                        if process.part_of_parent.is_some() {
+                        distinct_go_terms.insert(process.id().to_owned());
+                        if let Some(ref part_of_parent) = process.part_of_parent {
+                            distinct_go_terms.insert(part_of_parent.id().to_owned());
                             total_go_term_occurrences += 1;
                         }
                     }
 
                     if node.node_id != "GO:0003674" {
+                        distinct_go_terms.insert(node.node_id.to_owned());
                         total_go_term_occurrences += 1;
                     }
                     for input in inputs.iter() {
-                        if input.located_in.is_some() {
+                        if let Some(ref located_in) = input.located_in {
+                            distinct_go_terms.insert(located_in.id().to_owned());
                             total_go_term_occurrences += 1;
                         }
                         if input.is_gene() {
@@ -184,7 +194,8 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
                         }
                     }
                     for output in outputs.iter() {
-                        if output.located_in.is_some() {
+                        if let Some(ref located_in) = output.located_in {
+                            distinct_go_terms.insert(located_in.id().to_owned());
                             total_go_term_occurrences += 1;
                         }
                         if output.is_gene() {
@@ -194,7 +205,8 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
                 },
                 GoCamNodeType::Chemical(ref chemical) => {
                     chemicals += 1;
-                    if chemical.located_in.is_some() {
+                    if let Some(ref located_in) = chemical.located_in {
+                        distinct_go_terms.insert(located_in.id().to_owned());
                         total_go_term_occurrences += 1;
                     }
                 },
@@ -220,6 +232,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
         target_genes,
         total_connected_activities,
         total_go_term_occurrences,
+        distinct_go_term_occurrences: distinct_go_terms.len(),
     };
 
     Ok(total_stats)
@@ -1237,5 +1250,6 @@ mod tests {
         assert_eq!(stats.target_genes, 3);
         assert_eq!(stats.total_connected_activities, 18);
         assert_eq!(stats.total_go_term_occurrences, 64);
+        assert_eq!(stats.distinct_go_term_occurrences, 27);
     }
 }
