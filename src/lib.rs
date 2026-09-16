@@ -156,10 +156,6 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
         for (_, node) in model.node_iterator() {
             nodes += 1;
 
-            if node.has_process() {
-                total_go_term_occurrences += 1;
-            }
-
             if node.happens_during.is_some() {
                 total_go_term_occurrences += 1;
             }
@@ -168,6 +164,14 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
                 GoCamNodeType::Activity(GoCamActivity { enabler: ref _enabler, ref inputs, ref outputs }) => {
                     activities += 1;
                     total_go_term_occurrences += node.occurs_in.len();
+
+                    if let Some(ref process) = node.part_of_process {
+                        total_go_term_occurrences += 1;
+                        if process.part_of_parent.is_some() {
+                            total_go_term_occurrences += 1;
+                        }
+                    }
+
                     if node.node_id != "GO:0003674" {
                         total_go_term_occurrences += 1;
                     }
@@ -1216,7 +1220,7 @@ mod tests {
     #[test]
     fn test_total_stats() {
         use std::path::PathBuf;
-        
+
         let source1 = "tests/data/gomodel_66187e4700001744.json";
         let path1 = PathBuf::from(source1);
         let source2 = "tests/data/gomodel_67c10cc400002026.json";
