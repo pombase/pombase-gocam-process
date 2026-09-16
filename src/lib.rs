@@ -116,6 +116,7 @@ pub fn get_stats(model: &GoCamModel) -> GoCamStats {
 
 #[derive(Serialize, Debug, Clone)]
 pub struct GoCamTotalStats {
+    pub models: usize,
     pub raw_nodes: usize,
     pub raw_edges: usize,
     pub nodes: usize,
@@ -205,6 +206,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
     }
 
     let total_stats = GoCamTotalStats {
+        models: paths.len(),
         raw_nodes,
         raw_edges,
         nodes,
