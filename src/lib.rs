@@ -126,7 +126,7 @@ pub struct GoCamTotalStats {
     pub target_genes: usize,
     pub total_connected_activities: usize,
     pub total_go_term_occurrences: usize,
-    pub distinct_go_term_occurrences: usize,
+    pub distinct_go_terms: usize,
 }
 
 pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std::error::Error>> {
@@ -232,7 +232,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
         target_genes,
         total_connected_activities,
         total_go_term_occurrences,
-        distinct_go_term_occurrences: distinct_go_terms.len(),
+        distinct_go_terms: distinct_go_terms.len(),
     };
 
     Ok(total_stats)
@@ -1250,6 +1250,6 @@ mod tests {
         assert_eq!(stats.target_genes, 3);
         assert_eq!(stats.total_connected_activities, 18);
         assert_eq!(stats.total_go_term_occurrences, 64);
-        assert_eq!(stats.distinct_go_term_occurrences, 27);
+        assert_eq!(stats.distinct_go_terms, 27);
     }
 }
