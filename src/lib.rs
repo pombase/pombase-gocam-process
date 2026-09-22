@@ -168,7 +168,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
             }
 
             match node.node_type {
-                GoCamNodeType::Activity(GoCamActivity { enabler: ref _enabler, ref inputs, ref outputs }) => {
+                GoCamNodeType::Activity(GoCamActivity { ref enabler, ref inputs, ref outputs }) => {
                     activities += 1;
                     total_go_term_occurrences += node.occurs_in.len();
                     for occurs_in in &node.occurs_in {
@@ -205,6 +205,11 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
                         if output.is_gene() {
                             target_genes += 1;
                         }
+                    }
+
+                    if let GoCamEnabledBy::Complex(complex) = enabler && complex.id.starts_with("GO:") {
+                        distinct_go_terms.insert(complex.id.clone());
+                        total_go_term_occurrences += 1;
                     }
                 },
                 GoCamNodeType::Chemical(ref chemical) => {
