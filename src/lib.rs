@@ -140,7 +140,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
     let mut activities = 0;
     let mut chemicals = 0;
 
-    let mut genes_enabling_activities = 0;
+    let mut genes_enabling_activities = HashSet::new();
     let mut target_genes = 0;
 
     let mut total_connected_activities = 0;
@@ -157,7 +157,9 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
 
         let model = GoCamModel::new_from_raw(raw_model);
 
-        genes_enabling_activities += model.genes_enabling_activities().len();
+        for enabling_gene in model.genes_enabling_activities().keys() {
+            genes_enabling_activities.insert(enabling_gene.clone());
+        }
 
         for (_, node) in model.node_iterator() {
             nodes += 1;
@@ -238,7 +240,7 @@ pub fn get_total_stats(paths: &[PathBuf]) -> Result<GoCamTotalStats, Box<dyn std
         edges,
         activities,
         chemicals,
-        genes_enabling_activities,
+        genes_enabling_activities: genes_enabling_activities.len(),
         target_genes,
         total_connected_activities,
         total_go_term_occurrences,
