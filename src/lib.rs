@@ -840,7 +840,8 @@ pub fn model_pathways_to_cytoscope_test(models: &[GoCamModel])
 pub fn find_holes(model: &GoCamModel) -> Vec<GoCamNode> {
     let node_iter = model.node_iterator();
     node_iter.filter_map(|(_, node)| {
-        if node.enabler_label() == "unknown" {
+        if let GoCamNodeType::Activity(ref activity) = node.node_type &&
+           matches!(activity.enabler, GoCamEnabledBy::UnknownProtein) {
             Some(node.clone())
         } else {
             None
@@ -948,7 +949,7 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
             }
 
         match &node.node_type {
-            GoCamNodeType::Unknown => (),
+            GoCamNodeType::UnknownProtein => (),
             GoCamNodeType::Chemical(_) => (),
             GoCamNodeType::UnknownMRNA => (),
             GoCamNodeType::MRNA(mrna) => {
@@ -978,7 +979,7 @@ pub fn chado_data_helper(model: &GoCamModel) -> ChadoModelData {
                     complex_terms.insert(complex.id().to_owned());
                     activity_enabling_complexes.insert(complex.id().to_owned());
                },
-               GoCamEnabledBy::Unknown => (),
+               GoCamEnabledBy::UnknownProtein => (),
             },
         }
     }
@@ -1181,7 +1182,7 @@ mod tests {
             panic!();
         };
 
-        assert!(matches!(enabler, GoCamEnabledBy::Unknown));
+        assert!(matches!(enabler, GoCamEnabledBy::UnknownProtein));
 
         assert_eq!(inputs.len(), 1);
         assert_eq!(outputs.len(), 1);
